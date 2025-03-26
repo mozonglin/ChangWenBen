@@ -1,0 +1,639 @@
+{
+  "id": 4,
+  "conv_uid": "1da2202e-0979-11f0-acf4-bc2411cbc733",
+  "template_name": "report",
+  "template_introduce": null,
+  "charts": [
+    {
+      "chart_uid": "6583d50e-0979-11f0-b328-bc2411cbc733",
+      "chart_name": "促销活动期间菜品销量与库存变化分析",
+      "chart_type": "BarChart",
+      "chart_desc": "为了更深入地了解促销活动期间的关键指标波动，我们需要关注菜品的销售份数和销售额的变化趋势。通过对比促销活动前后的数据，可以识别出异常波动。同时，结合库存数据，分析净入库量和净出库量的变化，以评估库存管理的效率。",
+      "chart_sql": "SELECT T1.菜品名称 AS dish_name, SUM(T1.销售份数) AS total_sales, SUM(T2.净入库数量) AS total_in, SUM(T2.净出库数量) AS total_out FROM 档口菜品毛利分析 AS T1 JOIN 门店仓库品项收发存汇总表 AS T2 ON T1.菜品名称 = T2.品项名称 GROUP BY T1.菜品名称",
+      "column_name": [
+        "dish_name",
+        "total_sales",
+        "total_in",
+        "total_out"
+      ],
+      "values": [
+        {
+          "name": "冬瓜",
+          "type": "total_sales",
+          "value": 218
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "total_sales",
+          "value": 6
+        },
+        {
+          "name": "基围虾",
+          "type": "total_sales",
+          "value": 9
+        },
+        {
+          "name": "多宝鱼",
+          "type": "total_sales",
+          "value": 10
+        },
+        {
+          "name": "大白菜",
+          "type": "total_sales",
+          "value": 358
+        },
+        {
+          "name": "太阳卷",
+          "type": "total_sales",
+          "value": 24
+        },
+        {
+          "name": "娃娃菜",
+          "type": "total_sales",
+          "value": 78
+        },
+        {
+          "name": "小白菜",
+          "type": "total_sales",
+          "value": 38
+        },
+        {
+          "name": "小米辣",
+          "type": "total_sales",
+          "value": 15
+        },
+        {
+          "name": "山海关",
+          "type": "total_sales",
+          "value": 5
+        },
+        {
+          "name": "望山楂",
+          "type": "total_sales",
+          "value": 12
+        },
+        {
+          "name": "木耳",
+          "type": "total_sales",
+          "value": 82
+        },
+        {
+          "name": "极品羊肉",
+          "type": "total_sales",
+          "value": 432
+        },
+        {
+          "name": "油麦菜",
+          "type": "total_sales",
+          "value": 31
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "total_sales",
+          "value": 35
+        },
+        {
+          "name": "牛小排",
+          "type": "total_sales",
+          "value": 34
+        },
+        {
+          "name": "牛骨髓",
+          "type": "total_sales",
+          "value": 116
+        },
+        {
+          "name": "白玉菇",
+          "type": "total_sales",
+          "value": 4
+        },
+        {
+          "name": "百岁山",
+          "type": "total_sales",
+          "value": 116
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "total_sales",
+          "value": 20
+        },
+        {
+          "name": "石斑鱼",
+          "type": "total_sales",
+          "value": 50
+        },
+        {
+          "name": "粉丝",
+          "type": "total_sales",
+          "value": 75
+        },
+        {
+          "name": "糖蒜",
+          "type": "total_sales",
+          "value": 565
+        },
+        {
+          "name": "羊上脑",
+          "type": "total_sales",
+          "value": 350
+        },
+        {
+          "name": "羊宝",
+          "type": "total_sales",
+          "value": 96
+        },
+        {
+          "name": "羊尾",
+          "type": "total_sales",
+          "value": 96
+        },
+        {
+          "name": "羊磨档",
+          "type": "total_sales",
+          "value": 28
+        },
+        {
+          "name": "美美肥",
+          "type": "total_sales",
+          "value": 188
+        },
+        {
+          "name": "苦菊",
+          "type": "total_sales",
+          "value": 2
+        },
+        {
+          "name": "茼蒿",
+          "type": "total_sales",
+          "value": 76
+        },
+        {
+          "name": "菠菜",
+          "type": "total_sales",
+          "value": 48
+        },
+        {
+          "name": "雪花和牛",
+          "type": "total_sales",
+          "value": 2
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "total_sales",
+          "value": 70
+        },
+        {
+          "name": "雪花纯生",
+          "type": "total_sales",
+          "value": 158
+        },
+        {
+          "name": "雪花花脸",
+          "type": "total_sales",
+          "value": 50
+        },
+        {
+          "name": "青口贝",
+          "type": "total_sales",
+          "value": 2
+        },
+        {
+          "name": "香菇",
+          "type": "total_sales",
+          "value": 16
+        },
+        {
+          "name": "香菜",
+          "type": "total_sales",
+          "value": 8
+        },
+        {
+          "name": "魔芋结",
+          "type": "total_sales",
+          "value": 62
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "total_sales",
+          "value": 51
+        },
+        {
+          "name": "黑鱼",
+          "type": "total_sales",
+          "value": 23
+        },
+        {
+          "name": "冬瓜",
+          "type": "total_in",
+          "value": 131.5
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "基围虾",
+          "type": "total_in",
+          "value": 9.2
+        },
+        {
+          "name": "多宝鱼",
+          "type": "total_in",
+          "value": 3.6
+        },
+        {
+          "name": "大白菜",
+          "type": "total_in",
+          "value": 36.4
+        },
+        {
+          "name": "太阳卷",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "娃娃菜",
+          "type": "total_in",
+          "value": 61
+        },
+        {
+          "name": "小白菜",
+          "type": "total_in",
+          "value": 91.8
+        },
+        {
+          "name": "小米辣",
+          "type": "total_in",
+          "value": 3
+        },
+        {
+          "name": "山海关",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "望山楂",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "木耳",
+          "type": "total_in",
+          "value": 10
+        },
+        {
+          "name": "极品羊肉",
+          "type": "total_in",
+          "value": 101.8
+        },
+        {
+          "name": "油麦菜",
+          "type": "total_in",
+          "value": 28.1
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "牛小排",
+          "type": "total_in",
+          "value": 30.15
+        },
+        {
+          "name": "牛骨髓",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "白玉菇",
+          "type": "total_in",
+          "value": 90
+        },
+        {
+          "name": "百岁山",
+          "type": "total_in",
+          "value": 120
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "石斑鱼",
+          "type": "total_in",
+          "value": 88.9
+        },
+        {
+          "name": "粉丝",
+          "type": "total_in",
+          "value": 10
+        },
+        {
+          "name": "糖蒜",
+          "type": "total_in",
+          "value": 270
+        },
+        {
+          "name": "羊上脑",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "羊宝",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "羊尾",
+          "type": "total_in",
+          "value": 21.7
+        },
+        {
+          "name": "羊磨档",
+          "type": "total_in",
+          "value": 96
+        },
+        {
+          "name": "美美肥",
+          "type": "total_in",
+          "value": 132.28
+        },
+        {
+          "name": "苦菊",
+          "type": "total_in",
+          "value": 38.7
+        },
+        {
+          "name": "茼蒿",
+          "type": "total_in",
+          "value": 55.5
+        },
+        {
+          "name": "菠菜",
+          "type": "total_in",
+          "value": 132.1
+        },
+        {
+          "name": "雪花和牛",
+          "type": "total_in",
+          "value": 24.4
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "total_in",
+          "value": 26
+        },
+        {
+          "name": "雪花纯生",
+          "type": "total_in",
+          "value": 144
+        },
+        {
+          "name": "雪花花脸",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "青口贝",
+          "type": "total_in",
+          "value": 0
+        },
+        {
+          "name": "香菇",
+          "type": "total_in",
+          "value": 14.7
+        },
+        {
+          "name": "香菜",
+          "type": "total_in",
+          "value": 87.94999999999999
+        },
+        {
+          "name": "魔芋结",
+          "type": "total_in",
+          "value": 140
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "total_in",
+          "value": 15
+        },
+        {
+          "name": "黑鱼",
+          "type": "total_in",
+          "value": 81.3
+        },
+        {
+          "name": "冬瓜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "total_out",
+          "value": 6
+        },
+        {
+          "name": "基围虾",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "多宝鱼",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "大白菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "太阳卷",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "娃娃菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "小白菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "小米辣",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "山海关",
+          "type": "total_out",
+          "value": 5
+        },
+        {
+          "name": "望山楂",
+          "type": "total_out",
+          "value": 12
+        },
+        {
+          "name": "木耳",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "极品羊肉",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "油麦菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "牛小排",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "牛骨髓",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "白玉菇",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "百岁山",
+          "type": "total_out",
+          "value": 134
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "石斑鱼",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "粉丝",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "糖蒜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "羊上脑",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "羊宝",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "羊尾",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "羊磨档",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "美美肥",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "苦菊",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "茼蒿",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "菠菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "雪花和牛",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "雪花纯生",
+          "type": "total_out",
+          "value": 186
+        },
+        {
+          "name": "雪花花脸",
+          "type": "total_out",
+          "value": 50
+        },
+        {
+          "name": "青口贝",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "香菇",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "香菜",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "魔芋结",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "total_out",
+          "value": 0
+        },
+        {
+          "name": "黑鱼",
+          "type": "total_out",
+          "value": 0
+        }
+      ],
+      "style": null
+    }
+  ]
+}

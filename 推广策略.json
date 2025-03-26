@@ -1,0 +1,7595 @@
+{
+  "id": 3,
+  "conv_uid": "f94afde0-096e-11f0-acf4-bc2411cbc733",
+  "template_name": "report",
+  "template_introduce": null,
+  "charts": [
+    {
+      "chart_uid": "1447d488-096f-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品销售及促销效果分析",
+      "chart_type": "BarChart",
+      "chart_desc": "分析历史菜品营销数据，通过菜品名称、销售份数、折前销售额、折后销售额四个维度，了解菜品的销售情况和促销效果，为制定全渠道推广策略提供数据支持。",
+      "chart_sql": "SELECT `菜品名称` AS dish_name, `销售份数` AS sales_count, `折前销售额` AS pre_discount_sales, `折后销售额` AS after_discount_sales FROM 档口菜品毛利分析",
+      "column_name": [
+        "dish_name",
+        "sales_count",
+        "pre_discount_sales",
+        "after_discount_sales"
+      ],
+      "values": [
+        {
+          "name": "精品凉菜临时品项",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "白茶",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "sales_count",
+          "value": 3
+        },
+        {
+          "name": "菠菜面",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "炒红果",
+          "type": "sales_count",
+          "value": 26
+        },
+        {
+          "name": "打包盒",
+          "type": "sales_count",
+          "value": 88
+        },
+        {
+          "name": "大餐盒",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "sales_count",
+          "value": 22
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "sales_count",
+          "value": 152
+        },
+        {
+          "name": "粉丝",
+          "type": "sales_count",
+          "value": 75
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "sales_count",
+          "value": 31
+        },
+        {
+          "name": "海鲜汁",
+          "type": "sales_count",
+          "value": 40
+        },
+        {
+          "name": "杭白菊",
+          "type": "sales_count",
+          "value": 18
+        },
+        {
+          "name": "阖家团圆",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "sales_count",
+          "value": 255
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "sales_count",
+          "value": 3
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "sales_count",
+          "value": 16
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "金骏眉",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "精品果盘",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "sales_count",
+          "value": 96
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "sales_count",
+          "value": 380
+        },
+        {
+          "name": "烤烧饼",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "烤肾头",
+          "type": "sales_count",
+          "value": 35
+        },
+        {
+          "name": "烤羊宝",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "sales_count",
+          "value": 191
+        },
+        {
+          "name": "烤羊腿",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "宽粉",
+          "type": "sales_count",
+          "value": 36
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "sales_count",
+          "value": 76
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "米饭",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "秘制酱料",
+          "type": "sales_count",
+          "value": 2300
+        },
+        {
+          "name": "魔芋结",
+          "type": "sales_count",
+          "value": 62
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "木耳",
+          "type": "sales_count",
+          "value": 82
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "sales_count",
+          "value": 78
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "泡菜根",
+          "type": "sales_count",
+          "value": 23
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "sales_count",
+          "value": 35
+        },
+        {
+          "name": "扑克牌",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "普洱",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "起菜",
+          "type": "sales_count",
+          "value": 166
+        },
+        {
+          "name": "起凉菜",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "sales_count",
+          "value": 1477
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "sales_count",
+          "value": 8
+        },
+        {
+          "name": "生蒜",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "手擀面",
+          "type": "sales_count",
+          "value": 57
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "sales_count",
+          "value": 75
+        },
+        {
+          "name": "涮肾头",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "sales_count",
+          "value": 25
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "sales_count",
+          "value": 28
+        },
+        {
+          "name": "酥鱼",
+          "type": "sales_count",
+          "value": 9
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "sales_count",
+          "value": 78
+        },
+        {
+          "name": "太阳卷",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "糖蒜",
+          "type": "sales_count",
+          "value": 565
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "sales_count",
+          "value": 8
+        },
+        {
+          "name": "铁观音",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "sales_count",
+          "value": 8
+        },
+        {
+          "name": "响铃卷",
+          "type": "sales_count",
+          "value": 8
+        },
+        {
+          "name": "小米辣",
+          "type": "sales_count",
+          "value": 15
+        },
+        {
+          "name": "小酥肉",
+          "type": "sales_count",
+          "value": 30
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "sales_count",
+          "value": 20
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "sales_count",
+          "value": 22
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "sales_count",
+          "value": 64
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "sales_count",
+          "value": 21
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "sales_count",
+          "value": 153
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "sales_count",
+          "value": 15
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "sales_count",
+          "value": 34
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "sales_count",
+          "value": 435
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "炸河虾",
+          "type": "sales_count",
+          "value": 32
+        },
+        {
+          "name": "炸烧饼",
+          "type": "sales_count",
+          "value": 29
+        },
+        {
+          "name": "长寿面",
+          "type": "sales_count",
+          "value": 11
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "sales_count",
+          "value": 1364
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "sales_count",
+          "value": 56
+        },
+        {
+          "name": "自制酸奶",
+          "type": "sales_count",
+          "value": 241
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "sales_count",
+          "value": 29
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "sales_count",
+          "value": 13
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "多宝鱼",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "海青虾",
+          "type": "sales_count",
+          "value": 46
+        },
+        {
+          "name": "黑鱼",
+          "type": "sales_count",
+          "value": 23
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "基围虾",
+          "type": "sales_count",
+          "value": 9
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "烤扇贝",
+          "type": "sales_count",
+          "value": 20
+        },
+        {
+          "name": "烤生蚝",
+          "type": "sales_count",
+          "value": 91
+        },
+        {
+          "name": "青口贝",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "sales_count",
+          "value": 3
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "sales_count",
+          "value": 13
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "sales_count",
+          "value": 37
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "石斑鱼",
+          "type": "sales_count",
+          "value": 50
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "鲜鱿",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "sales_count",
+          "value": 21
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "章子岛海参",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "sales_count",
+          "value": 32
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "百岁山",
+          "type": "sales_count",
+          "value": 116
+        },
+        {
+          "name": "餐巾纸",
+          "type": "sales_count",
+          "value": 355
+        },
+        {
+          "name": "炖梨汁",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "sales_count",
+          "value": 3
+        },
+        {
+          "name": "毛巾",
+          "type": "sales_count",
+          "value": 1498
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "sales_count",
+          "value": 24
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "sales_count",
+          "value": 154
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "sales_count",
+          "value": 41
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "sales_count",
+          "value": 82
+        },
+        {
+          "name": "山海关",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "听装可乐",
+          "type": "sales_count",
+          "value": 58
+        },
+        {
+          "name": "听装王老吉",
+          "type": "sales_count",
+          "value": 20
+        },
+        {
+          "name": "听装雪碧",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "望山楂",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "sales_count",
+          "value": 65
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "sales_count",
+          "value": 5
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "sales_count",
+          "value": 41
+        },
+        {
+          "name": "雪花纯生",
+          "type": "sales_count",
+          "value": 158
+        },
+        {
+          "name": "雪花花脸",
+          "type": "sales_count",
+          "value": 50
+        },
+        {
+          "name": "一次性筷子",
+          "type": "sales_count",
+          "value": 2344
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "玉溪",
+          "type": "sales_count",
+          "value": 3
+        },
+        {
+          "name": "百香果汁",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "sales_count",
+          "value": 67
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "酱香肘花",
+          "type": "sales_count",
+          "value": 19
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "sales_count",
+          "value": 55
+        },
+        {
+          "name": "老醋花生米",
+          "type": "sales_count",
+          "value": 44
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "sales_count",
+          "value": 15
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "sales_count",
+          "value": 75
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "水爆肚",
+          "type": "sales_count",
+          "value": 84
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "sales_count",
+          "value": 27
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "sales_count",
+          "value": 21
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "sales_count",
+          "value": 20
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "sales_count",
+          "value": 16
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "sales_count",
+          "value": 116
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "sales_count",
+          "value": 117
+        },
+        {
+          "name": "油炸果仁",
+          "type": "sales_count",
+          "value": 26
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "1美美肥",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "1羊上脑",
+          "type": "sales_count",
+          "value": 2
+        },
+        {
+          "name": "大片羊肉",
+          "type": "sales_count",
+          "value": 55
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "sales_count",
+          "value": 94
+        },
+        {
+          "name": "羔羊肉",
+          "type": "sales_count",
+          "value": 56
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "sales_count",
+          "value": 868
+        },
+        {
+          "name": "黄喉",
+          "type": "sales_count",
+          "value": 68
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "sales_count",
+          "value": 97
+        },
+        {
+          "name": "极品羊肉",
+          "type": "sales_count",
+          "value": 216
+        },
+        {
+          "name": "精品肥牛",
+          "type": "sales_count",
+          "value": 133
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "sales_count",
+          "value": 13
+        },
+        {
+          "name": "美美肥",
+          "type": "sales_count",
+          "value": 94
+        },
+        {
+          "name": "牛骨髓",
+          "type": "sales_count",
+          "value": 58
+        },
+        {
+          "name": "牛小排",
+          "type": "sales_count",
+          "value": 17
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "sales_count",
+          "value": 36
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "sales_count",
+          "value": 24
+        },
+        {
+          "name": "手打虾滑",
+          "type": "sales_count",
+          "value": 23
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "sales_count",
+          "value": 153
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "sales_count",
+          "value": 83
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "sales_count",
+          "value": 867
+        },
+        {
+          "name": "丸美组合",
+          "type": "sales_count",
+          "value": 45
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "sales_count",
+          "value": 6
+        },
+        {
+          "name": "午餐肉",
+          "type": "sales_count",
+          "value": 31
+        },
+        {
+          "name": "鲜百叶",
+          "type": "sales_count",
+          "value": 75
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "sales_count",
+          "value": 37
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "sales_count",
+          "value": 17
+        },
+        {
+          "name": "雪花和牛",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "sales_count",
+          "value": 35
+        },
+        {
+          "name": "鸭胗花",
+          "type": "sales_count",
+          "value": 10
+        },
+        {
+          "name": "羊宝",
+          "type": "sales_count",
+          "value": 48
+        },
+        {
+          "name": "羊钙骨",
+          "type": "sales_count",
+          "value": 44
+        },
+        {
+          "name": "羊和尚头",
+          "type": "sales_count",
+          "value": 223
+        },
+        {
+          "name": "羊腱肉",
+          "type": "sales_count",
+          "value": 22
+        },
+        {
+          "name": "羊磨档",
+          "type": "sales_count",
+          "value": 14
+        },
+        {
+          "name": "羊肉组合",
+          "type": "sales_count",
+          "value": 141
+        },
+        {
+          "name": "羊上脑",
+          "type": "sales_count",
+          "value": 175
+        },
+        {
+          "name": "羊尾",
+          "type": "sales_count",
+          "value": 32
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "sales_count",
+          "value": 75
+        },
+        {
+          "name": "羊子盖",
+          "type": "sales_count",
+          "value": 261
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "sales_count",
+          "value": 82
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "sales_count",
+          "value": 54
+        },
+        {
+          "name": "烤羊腰",
+          "type": "sales_count",
+          "value": 57
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "sales_count",
+          "value": 68
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "sales_count",
+          "value": 70
+        },
+        {
+          "name": "白玉菇",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "菠菜",
+          "type": "sales_count",
+          "value": 24
+        },
+        {
+          "name": "大白菜",
+          "type": "sales_count",
+          "value": 179
+        },
+        {
+          "name": "地瓜片",
+          "type": "sales_count",
+          "value": 7
+        },
+        {
+          "name": "冬瓜",
+          "type": "sales_count",
+          "value": 109
+        },
+        {
+          "name": "冻豆腐",
+          "type": "sales_count",
+          "value": 157
+        },
+        {
+          "name": "海带根",
+          "type": "sales_count",
+          "value": 24
+        },
+        {
+          "name": "金针菇",
+          "type": "sales_count",
+          "value": 66
+        },
+        {
+          "name": "靓点快菜",
+          "type": "sales_count",
+          "value": 12
+        },
+        {
+          "name": "苦菊",
+          "type": "sales_count",
+          "value": 1
+        },
+        {
+          "name": "宽粉",
+          "type": "sales_count",
+          "value": 9
+        },
+        {
+          "name": "莲藕",
+          "type": "sales_count",
+          "value": 20
+        },
+        {
+          "name": "萝卜片",
+          "type": "sales_count",
+          "value": 29
+        },
+        {
+          "name": "山药片",
+          "type": "sales_count",
+          "value": 40
+        },
+        {
+          "name": "生菜",
+          "type": "sales_count",
+          "value": 53
+        },
+        {
+          "name": "酸菜",
+          "type": "sales_count",
+          "value": 28
+        },
+        {
+          "name": "笋尖",
+          "type": "sales_count",
+          "value": 15
+        },
+        {
+          "name": "茼蒿",
+          "type": "sales_count",
+          "value": 76
+        },
+        {
+          "name": "土豆片",
+          "type": "sales_count",
+          "value": 29
+        },
+        {
+          "name": "娃娃菜",
+          "type": "sales_count",
+          "value": 39
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "sales_count",
+          "value": 51
+        },
+        {
+          "name": "香菜",
+          "type": "sales_count",
+          "value": 4
+        },
+        {
+          "name": "香菇",
+          "type": "sales_count",
+          "value": 8
+        },
+        {
+          "name": "小白菜",
+          "type": "sales_count",
+          "value": 38
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "sales_count",
+          "value": 32
+        },
+        {
+          "name": "鸭血",
+          "type": "sales_count",
+          "value": 38
+        },
+        {
+          "name": "养生竹荪",
+          "type": "sales_count",
+          "value": 24
+        },
+        {
+          "name": "油豆皮",
+          "type": "sales_count",
+          "value": 48
+        },
+        {
+          "name": "油麦菜",
+          "type": "sales_count",
+          "value": 31
+        },
+        {
+          "name": "炸豆皮",
+          "type": "sales_count",
+          "value": 38
+        },
+        {
+          "name": "精品凉菜临时品项",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "pre_discount_sales",
+          "value": 42
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "pre_discount_sales",
+          "value": 640
+        },
+        {
+          "name": "白茶",
+          "type": "pre_discount_sales",
+          "value": 76
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "pre_discount_sales",
+          "value": 24
+        },
+        {
+          "name": "菠菜面",
+          "type": "pre_discount_sales",
+          "value": 30
+        },
+        {
+          "name": "炒红果",
+          "type": "pre_discount_sales",
+          "value": 572
+        },
+        {
+          "name": "打包盒",
+          "type": "pre_discount_sales",
+          "value": 88
+        },
+        {
+          "name": "大餐盒",
+          "type": "pre_discount_sales",
+          "value": 2
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "pre_discount_sales",
+          "value": 431.28
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "pre_discount_sales",
+          "value": 3040
+        },
+        {
+          "name": "粉丝",
+          "type": "pre_discount_sales",
+          "value": 798.39
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "pre_discount_sales",
+          "value": 1178
+        },
+        {
+          "name": "海鲜汁",
+          "type": "pre_discount_sales",
+          "value": 200
+        },
+        {
+          "name": "杭白菊",
+          "type": "pre_discount_sales",
+          "value": 504
+        },
+        {
+          "name": "阖家团圆",
+          "type": "pre_discount_sales",
+          "value": 96
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "pre_discount_sales",
+          "value": 216
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "pre_discount_sales",
+          "value": 5021.63
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "pre_discount_sales",
+          "value": 76
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "pre_discount_sales",
+          "value": 114
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "pre_discount_sales",
+          "value": 72
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "pre_discount_sales",
+          "value": 392
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "pre_discount_sales",
+          "value": 768
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "pre_discount_sales",
+          "value": 16
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "pre_discount_sales",
+          "value": 44
+        },
+        {
+          "name": "金骏眉",
+          "type": "pre_discount_sales",
+          "value": 380
+        },
+        {
+          "name": "精品果盘",
+          "type": "pre_discount_sales",
+          "value": 290
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "pre_discount_sales",
+          "value": 3648
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "pre_discount_sales",
+          "value": 8218.25
+        },
+        {
+          "name": "烤烧饼",
+          "type": "pre_discount_sales",
+          "value": 24
+        },
+        {
+          "name": "烤肾头",
+          "type": "pre_discount_sales",
+          "value": 770
+        },
+        {
+          "name": "烤羊宝",
+          "type": "pre_discount_sales",
+          "value": 300
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "pre_discount_sales",
+          "value": 1146
+        },
+        {
+          "name": "烤羊腿",
+          "type": "pre_discount_sales",
+          "value": 288
+        },
+        {
+          "name": "宽粉",
+          "type": "pre_discount_sales",
+          "value": 576
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "pre_discount_sales",
+          "value": 1216
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "pre_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "米饭",
+          "type": "pre_discount_sales",
+          "value": 4
+        },
+        {
+          "name": "秘制酱料",
+          "type": "pre_discount_sales",
+          "value": 13249.82
+        },
+        {
+          "name": "魔芋结",
+          "type": "pre_discount_sales",
+          "value": 768.59
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "pre_discount_sales",
+          "value": 392
+        },
+        {
+          "name": "木耳",
+          "type": "pre_discount_sales",
+          "value": 867.66
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "pre_discount_sales",
+          "value": 624
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "pre_discount_sales",
+          "value": 76
+        },
+        {
+          "name": "泡菜根",
+          "type": "pre_discount_sales",
+          "value": 414
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "pre_discount_sales",
+          "value": 744.4
+        },
+        {
+          "name": "扑克牌",
+          "type": "pre_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "普洱",
+          "type": "pre_discount_sales",
+          "value": 266
+        },
+        {
+          "name": "起菜",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "起凉菜",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "pre_discount_sales",
+          "value": 88
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "pre_discount_sales",
+          "value": 22452.66
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "pre_discount_sales",
+          "value": 56
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "pre_discount_sales",
+          "value": 8
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "pre_discount_sales",
+          "value": 16
+        },
+        {
+          "name": "生蒜",
+          "type": "pre_discount_sales",
+          "value": 4
+        },
+        {
+          "name": "手擀面",
+          "type": "pre_discount_sales",
+          "value": 556.89
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "pre_discount_sales",
+          "value": 2850
+        },
+        {
+          "name": "涮肾头",
+          "type": "pre_discount_sales",
+          "value": 390
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "pre_discount_sales",
+          "value": 250
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "pre_discount_sales",
+          "value": 100
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "pre_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "pre_discount_sales",
+          "value": 616
+        },
+        {
+          "name": "酥鱼",
+          "type": "pre_discount_sales",
+          "value": 252
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "pre_discount_sales",
+          "value": 390
+        },
+        {
+          "name": "太阳卷",
+          "type": "pre_discount_sales",
+          "value": 576
+        },
+        {
+          "name": "糖蒜",
+          "type": "pre_discount_sales",
+          "value": 1130
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "pre_discount_sales",
+          "value": 128
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "pre_discount_sales",
+          "value": 784
+        },
+        {
+          "name": "铁观音",
+          "type": "pre_discount_sales",
+          "value": 38
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "pre_discount_sales",
+          "value": 58
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "pre_discount_sales",
+          "value": 40
+        },
+        {
+          "name": "响铃卷",
+          "type": "pre_discount_sales",
+          "value": 144
+        },
+        {
+          "name": "小米辣",
+          "type": "pre_discount_sales",
+          "value": 120
+        },
+        {
+          "name": "小酥肉",
+          "type": "pre_discount_sales",
+          "value": 1140
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "pre_discount_sales",
+          "value": 760
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "pre_discount_sales",
+          "value": 130
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "pre_discount_sales",
+          "value": 76
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "pre_discount_sales",
+          "value": 176
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "pre_discount_sales",
+          "value": 1152
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "pre_discount_sales",
+          "value": 180
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "pre_discount_sales",
+          "value": 546.04
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "pre_discount_sales",
+          "value": 7344
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "pre_discount_sales",
+          "value": 270
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "pre_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "pre_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "pre_discount_sales",
+          "value": 190
+        },
+        {
+          "name": "炸河虾",
+          "type": "pre_discount_sales",
+          "value": 1344
+        },
+        {
+          "name": "炸烧饼",
+          "type": "pre_discount_sales",
+          "value": 87
+        },
+        {
+          "name": "长寿面",
+          "type": "pre_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "pre_discount_sales",
+          "value": 2594.58
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "pre_discount_sales",
+          "value": 190
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "pre_discount_sales",
+          "value": 273.79
+        },
+        {
+          "name": "自制酸奶",
+          "type": "pre_discount_sales",
+          "value": 2792
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "pre_discount_sales",
+          "value": 6
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "pre_discount_sales",
+          "value": 812
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "pre_discount_sales",
+          "value": 624
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "pre_discount_sales",
+          "value": 792
+        },
+        {
+          "name": "多宝鱼",
+          "type": "pre_discount_sales",
+          "value": 980
+        },
+        {
+          "name": "海青虾",
+          "type": "pre_discount_sales",
+          "value": 2668
+        },
+        {
+          "name": "黑鱼",
+          "type": "pre_discount_sales",
+          "value": 2944
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "pre_discount_sales",
+          "value": 392
+        },
+        {
+          "name": "基围虾",
+          "type": "pre_discount_sales",
+          "value": 2052
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "pre_discount_sales",
+          "value": 140
+        },
+        {
+          "name": "烤扇贝",
+          "type": "pre_discount_sales",
+          "value": 400
+        },
+        {
+          "name": "烤生蚝",
+          "type": "pre_discount_sales",
+          "value": 2002
+        },
+        {
+          "name": "青口贝",
+          "type": "pre_discount_sales",
+          "value": 58
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "pre_discount_sales",
+          "value": 380
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "pre_discount_sales",
+          "value": 752
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "pre_discount_sales",
+          "value": 384
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "pre_discount_sales",
+          "value": 1794
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "pre_discount_sales",
+          "value": 814
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "pre_discount_sales",
+          "value": 5432
+        },
+        {
+          "name": "石斑鱼",
+          "type": "pre_discount_sales",
+          "value": 6400
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "鲜鱿",
+          "type": "pre_discount_sales",
+          "value": 406
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "pre_discount_sales",
+          "value": 1218
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "pre_discount_sales",
+          "value": 752
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "pre_discount_sales",
+          "value": 1280
+        },
+        {
+          "name": "章子岛海参",
+          "type": "pre_discount_sales",
+          "value": 1536
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "pre_discount_sales",
+          "value": 90
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "pre_discount_sales",
+          "value": 384
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "pre_discount_sales",
+          "value": 18
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "pre_discount_sales",
+          "value": 58
+        },
+        {
+          "name": "百岁山",
+          "type": "pre_discount_sales",
+          "value": 696
+        },
+        {
+          "name": "餐巾纸",
+          "type": "pre_discount_sales",
+          "value": 710
+        },
+        {
+          "name": "炖梨汁",
+          "type": "pre_discount_sales",
+          "value": 126
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "pre_discount_sales",
+          "value": 72
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "pre_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "pre_discount_sales",
+          "value": 84
+        },
+        {
+          "name": "毛巾",
+          "type": "pre_discount_sales",
+          "value": 2996
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "pre_discount_sales",
+          "value": 112
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "pre_discount_sales",
+          "value": 260.16
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "pre_discount_sales",
+          "value": 2310
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "pre_discount_sales",
+          "value": 328
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "pre_discount_sales",
+          "value": 656
+        },
+        {
+          "name": "山海关",
+          "type": "pre_discount_sales",
+          "value": 40
+        },
+        {
+          "name": "听装可乐",
+          "type": "pre_discount_sales",
+          "value": 348
+        },
+        {
+          "name": "听装王老吉",
+          "type": "pre_discount_sales",
+          "value": 160
+        },
+        {
+          "name": "听装雪碧",
+          "type": "pre_discount_sales",
+          "value": 36
+        },
+        {
+          "name": "望山楂",
+          "type": "pre_discount_sales",
+          "value": 144
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "pre_discount_sales",
+          "value": 975
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "pre_discount_sales",
+          "value": 158
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "pre_discount_sales",
+          "value": 145
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "pre_discount_sales",
+          "value": 738
+        },
+        {
+          "name": "雪花纯生",
+          "type": "pre_discount_sales",
+          "value": 2054
+        },
+        {
+          "name": "雪花花脸",
+          "type": "pre_discount_sales",
+          "value": 1100
+        },
+        {
+          "name": "一次性筷子",
+          "type": "pre_discount_sales",
+          "value": 2252.33
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "pre_discount_sales",
+          "value": 60
+        },
+        {
+          "name": "玉溪",
+          "type": "pre_discount_sales",
+          "value": 96
+        },
+        {
+          "name": "百香果汁",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "pre_discount_sales",
+          "value": 1876
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "pre_discount_sales",
+          "value": 672
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "pre_discount_sales",
+          "value": 288
+        },
+        {
+          "name": "酱香肘花",
+          "type": "pre_discount_sales",
+          "value": 722
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "pre_discount_sales",
+          "value": 1006
+        },
+        {
+          "name": "老醋花生米",
+          "type": "pre_discount_sales",
+          "value": 759.89
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "pre_discount_sales",
+          "value": 570
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "pre_discount_sales",
+          "value": 1350
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "pre_discount_sales",
+          "value": 308
+        },
+        {
+          "name": "水爆肚",
+          "type": "pre_discount_sales",
+          "value": 4872
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "pre_discount_sales",
+          "value": 594
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "pre_discount_sales",
+          "value": 1428
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "pre_discount_sales",
+          "value": 520
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_sales",
+          "value": 768
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "pre_discount_sales",
+          "value": 264
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "pre_discount_sales",
+          "value": 1936.52
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "pre_discount_sales",
+          "value": 2106
+        },
+        {
+          "name": "油炸果仁",
+          "type": "pre_discount_sales",
+          "value": 416
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "pre_discount_sales",
+          "value": 27
+        },
+        {
+          "name": "1美美肥",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "1羊上脑",
+          "type": "pre_discount_sales",
+          "value": 86
+        },
+        {
+          "name": "大片羊肉",
+          "type": "pre_discount_sales",
+          "value": 1685.28
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "pre_discount_sales",
+          "value": 7332
+        },
+        {
+          "name": "羔羊肉",
+          "type": "pre_discount_sales",
+          "value": 2576
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "pre_discount_sales",
+          "value": 10416
+        },
+        {
+          "name": "黄喉",
+          "type": "pre_discount_sales",
+          "value": 3332
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "pre_discount_sales",
+          "value": 7577.95
+        },
+        {
+          "name": "极品羊肉",
+          "type": "pre_discount_sales",
+          "value": 9964.14
+        },
+        {
+          "name": "精品肥牛",
+          "type": "pre_discount_sales",
+          "value": 5054
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "pre_discount_sales",
+          "value": 494
+        },
+        {
+          "name": "美美肥",
+          "type": "pre_discount_sales",
+          "value": 4003.37
+        },
+        {
+          "name": "牛骨髓",
+          "type": "pre_discount_sales",
+          "value": 2842
+        },
+        {
+          "name": "牛小排",
+          "type": "pre_discount_sales",
+          "value": 3196
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "pre_discount_sales",
+          "value": 1764
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "pre_discount_sales",
+          "value": 1152
+        },
+        {
+          "name": "手打虾滑",
+          "type": "pre_discount_sales",
+          "value": 1104
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "pre_discount_sales",
+          "value": 7344
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "pre_discount_sales",
+          "value": 2546.78
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "pre_discount_sales",
+          "value": 5208
+        },
+        {
+          "name": "丸美组合",
+          "type": "pre_discount_sales",
+          "value": 3060
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_sales",
+          "value": 288
+        },
+        {
+          "name": "午餐肉",
+          "type": "pre_discount_sales",
+          "value": 868
+        },
+        {
+          "name": "鲜百叶",
+          "type": "pre_discount_sales",
+          "value": 4350
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "pre_discount_sales",
+          "value": 2146
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "pre_discount_sales",
+          "value": 476
+        },
+        {
+          "name": "雪花和牛",
+          "type": "pre_discount_sales",
+          "value": 388
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "pre_discount_sales",
+          "value": 5880
+        },
+        {
+          "name": "鸭胗花",
+          "type": "pre_discount_sales",
+          "value": 380
+        },
+        {
+          "name": "羊宝",
+          "type": "pre_discount_sales",
+          "value": 2352
+        },
+        {
+          "name": "羊钙骨",
+          "type": "pre_discount_sales",
+          "value": 2112
+        },
+        {
+          "name": "羊和尚头",
+          "type": "pre_discount_sales",
+          "value": 10927
+        },
+        {
+          "name": "羊腱肉",
+          "type": "pre_discount_sales",
+          "value": 858
+        },
+        {
+          "name": "羊磨档",
+          "type": "pre_discount_sales",
+          "value": 546
+        },
+        {
+          "name": "羊肉组合",
+          "type": "pre_discount_sales",
+          "value": 18048
+        },
+        {
+          "name": "羊上脑",
+          "type": "pre_discount_sales",
+          "value": 7473.62
+        },
+        {
+          "name": "羊尾",
+          "type": "pre_discount_sales",
+          "value": 896
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "pre_discount_sales",
+          "value": 3091.43
+        },
+        {
+          "name": "羊子盖",
+          "type": "pre_discount_sales",
+          "value": 12528
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "pre_discount_sales",
+          "value": 5576
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "pre_discount_sales",
+          "value": 652
+        },
+        {
+          "name": "烤羊腰",
+          "type": "pre_discount_sales",
+          "value": 1254
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "pre_discount_sales",
+          "value": 206
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "pre_discount_sales",
+          "value": 1820
+        },
+        {
+          "name": "白玉菇",
+          "type": "pre_discount_sales",
+          "value": 72
+        },
+        {
+          "name": "菠菜",
+          "type": "pre_discount_sales",
+          "value": 384
+        },
+        {
+          "name": "大白菜",
+          "type": "pre_discount_sales",
+          "value": 1490.36
+        },
+        {
+          "name": "地瓜片",
+          "type": "pre_discount_sales",
+          "value": 84
+        },
+        {
+          "name": "冬瓜",
+          "type": "pre_discount_sales",
+          "value": 1151.12
+        },
+        {
+          "name": "冻豆腐",
+          "type": "pre_discount_sales",
+          "value": 1756.89
+        },
+        {
+          "name": "海带根",
+          "type": "pre_discount_sales",
+          "value": 261.82
+        },
+        {
+          "name": "金针菇",
+          "type": "pre_discount_sales",
+          "value": 844.77
+        },
+        {
+          "name": "靓点快菜",
+          "type": "pre_discount_sales",
+          "value": 192
+        },
+        {
+          "name": "苦菊",
+          "type": "pre_discount_sales",
+          "value": 12
+        },
+        {
+          "name": "宽粉",
+          "type": "pre_discount_sales",
+          "value": 144
+        },
+        {
+          "name": "莲藕",
+          "type": "pre_discount_sales",
+          "value": 240
+        },
+        {
+          "name": "萝卜片",
+          "type": "pre_discount_sales",
+          "value": 232
+        },
+        {
+          "name": "山药片",
+          "type": "pre_discount_sales",
+          "value": 720
+        },
+        {
+          "name": "生菜",
+          "type": "pre_discount_sales",
+          "value": 848
+        },
+        {
+          "name": "酸菜",
+          "type": "pre_discount_sales",
+          "value": 336
+        },
+        {
+          "name": "笋尖",
+          "type": "pre_discount_sales",
+          "value": 420
+        },
+        {
+          "name": "茼蒿",
+          "type": "pre_discount_sales",
+          "value": 1216
+        },
+        {
+          "name": "土豆片",
+          "type": "pre_discount_sales",
+          "value": 232
+        },
+        {
+          "name": "娃娃菜",
+          "type": "pre_discount_sales",
+          "value": 468
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "pre_discount_sales",
+          "value": 510
+        },
+        {
+          "name": "香菜",
+          "type": "pre_discount_sales",
+          "value": 72
+        },
+        {
+          "name": "香菇",
+          "type": "pre_discount_sales",
+          "value": 144
+        },
+        {
+          "name": "小白菜",
+          "type": "pre_discount_sales",
+          "value": 355.07
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "pre_discount_sales",
+          "value": 576
+        },
+        {
+          "name": "鸭血",
+          "type": "pre_discount_sales",
+          "value": 429.82
+        },
+        {
+          "name": "养生竹荪",
+          "type": "pre_discount_sales",
+          "value": 1392
+        },
+        {
+          "name": "油豆皮",
+          "type": "pre_discount_sales",
+          "value": 549.82
+        },
+        {
+          "name": "油麦菜",
+          "type": "pre_discount_sales",
+          "value": 372
+        },
+        {
+          "name": "炸豆皮",
+          "type": "pre_discount_sales",
+          "value": 380.04
+        },
+        {
+          "name": "精品凉菜临时品项",
+          "type": "after_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "after_discount_sales",
+          "value": 32.73
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "after_discount_sales",
+          "value": 521.05
+        },
+        {
+          "name": "白茶",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "after_discount_sales",
+          "value": 20.34
+        },
+        {
+          "name": "菠菜面",
+          "type": "after_discount_sales",
+          "value": 28.94
+        },
+        {
+          "name": "炒红果",
+          "type": "after_discount_sales",
+          "value": 516.82
+        },
+        {
+          "name": "打包盒",
+          "type": "after_discount_sales",
+          "value": 83.6
+        },
+        {
+          "name": "大餐盒",
+          "type": "after_discount_sales",
+          "value": 2
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "after_discount_sales",
+          "value": 426.16
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "after_discount_sales",
+          "value": 2858.73
+        },
+        {
+          "name": "粉丝",
+          "type": "after_discount_sales",
+          "value": 765.33
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "after_discount_sales",
+          "value": 1098.8
+        },
+        {
+          "name": "海鲜汁",
+          "type": "after_discount_sales",
+          "value": 193.56
+        },
+        {
+          "name": "杭白菊",
+          "type": "after_discount_sales",
+          "value": 468.07
+        },
+        {
+          "name": "阖家团圆",
+          "type": "after_discount_sales",
+          "value": 96
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "after_discount_sales",
+          "value": 173.93
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "after_discount_sales",
+          "value": 4826.73
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "after_discount_sales",
+          "value": 76
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "after_discount_sales",
+          "value": 114
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "after_discount_sales",
+          "value": 63.88
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "after_discount_sales",
+          "value": 372.71
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "after_discount_sales",
+          "value": 699.41
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "after_discount_sales",
+          "value": 16
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "after_discount_sales",
+          "value": 39.74
+        },
+        {
+          "name": "金骏眉",
+          "type": "after_discount_sales",
+          "value": 330.51
+        },
+        {
+          "name": "精品果盘",
+          "type": "after_discount_sales",
+          "value": 274.5
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "after_discount_sales",
+          "value": 3420.64
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "after_discount_sales",
+          "value": 7597.78
+        },
+        {
+          "name": "烤烧饼",
+          "type": "after_discount_sales",
+          "value": 18.6
+        },
+        {
+          "name": "烤肾头",
+          "type": "after_discount_sales",
+          "value": 753.29
+        },
+        {
+          "name": "烤羊宝",
+          "type": "after_discount_sales",
+          "value": 280.41
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "after_discount_sales",
+          "value": 1065.82
+        },
+        {
+          "name": "烤羊腿",
+          "type": "after_discount_sales",
+          "value": 288
+        },
+        {
+          "name": "宽粉",
+          "type": "after_discount_sales",
+          "value": 543.12
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "after_discount_sales",
+          "value": 1098.85
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "after_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "米饭",
+          "type": "after_discount_sales",
+          "value": 3.76
+        },
+        {
+          "name": "秘制酱料",
+          "type": "after_discount_sales",
+          "value": 12342.76
+        },
+        {
+          "name": "魔芋结",
+          "type": "after_discount_sales",
+          "value": 751.82
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "after_discount_sales",
+          "value": 355.32
+        },
+        {
+          "name": "木耳",
+          "type": "after_discount_sales",
+          "value": 849.92
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "after_discount_sales",
+          "value": 582.79
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "after_discount_sales",
+          "value": 57.16
+        },
+        {
+          "name": "泡菜根",
+          "type": "after_discount_sales",
+          "value": 399.54
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "after_discount_sales",
+          "value": 722.36
+        },
+        {
+          "name": "扑克牌",
+          "type": "after_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "普洱",
+          "type": "after_discount_sales",
+          "value": 217.28
+        },
+        {
+          "name": "起菜",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "起凉菜",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "after_discount_sales",
+          "value": 20884.25
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "after_discount_sales",
+          "value": 49.65
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "after_discount_sales",
+          "value": 6.84
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "after_discount_sales",
+          "value": 15.54
+        },
+        {
+          "name": "生蒜",
+          "type": "after_discount_sales",
+          "value": 4
+        },
+        {
+          "name": "手擀面",
+          "type": "after_discount_sales",
+          "value": 539.65
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "after_discount_sales",
+          "value": 2599.95
+        },
+        {
+          "name": "涮肾头",
+          "type": "after_discount_sales",
+          "value": 390
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "after_discount_sales",
+          "value": 223.52
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "after_discount_sales",
+          "value": 98.62
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "after_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "after_discount_sales",
+          "value": 548.67
+        },
+        {
+          "name": "酥鱼",
+          "type": "after_discount_sales",
+          "value": 237.25
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "after_discount_sales",
+          "value": 373.56
+        },
+        {
+          "name": "太阳卷",
+          "type": "after_discount_sales",
+          "value": 538.63
+        },
+        {
+          "name": "糖蒜",
+          "type": "after_discount_sales",
+          "value": 1062.46
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "after_discount_sales",
+          "value": 103.26
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "after_discount_sales",
+          "value": 784
+        },
+        {
+          "name": "铁观音",
+          "type": "after_discount_sales",
+          "value": 38
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "after_discount_sales",
+          "value": 45.2
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "after_discount_sales",
+          "value": 38
+        },
+        {
+          "name": "响铃卷",
+          "type": "after_discount_sales",
+          "value": 107.83
+        },
+        {
+          "name": "小米辣",
+          "type": "after_discount_sales",
+          "value": 108.7
+        },
+        {
+          "name": "小酥肉",
+          "type": "after_discount_sales",
+          "value": 1066.13
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "after_discount_sales",
+          "value": 684.48
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "after_discount_sales",
+          "value": 96.57
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "after_discount_sales",
+          "value": 71.8
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "after_discount_sales",
+          "value": 171.78
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "after_discount_sales",
+          "value": 1080.17
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "after_discount_sales",
+          "value": 169.03
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "after_discount_sales",
+          "value": 515.36
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "after_discount_sales",
+          "value": 6844.25
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "after_discount_sales",
+          "value": 254.95
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "after_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "after_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "after_discount_sales",
+          "value": 190
+        },
+        {
+          "name": "炸河虾",
+          "type": "after_discount_sales",
+          "value": 1295.59
+        },
+        {
+          "name": "炸烧饼",
+          "type": "after_discount_sales",
+          "value": 84.33
+        },
+        {
+          "name": "长寿面",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "after_discount_sales",
+          "value": 2390.94
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "after_discount_sales",
+          "value": 179.49
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "after_discount_sales",
+          "value": 272.87
+        },
+        {
+          "name": "自制酸奶",
+          "type": "after_discount_sales",
+          "value": 2190.8
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "after_discount_sales",
+          "value": 5.32
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "after_discount_sales",
+          "value": 769.44
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "after_discount_sales",
+          "value": 536.58
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "after_discount_sales",
+          "value": 792
+        },
+        {
+          "name": "多宝鱼",
+          "type": "after_discount_sales",
+          "value": 911.91
+        },
+        {
+          "name": "海青虾",
+          "type": "after_discount_sales",
+          "value": 2551.77
+        },
+        {
+          "name": "黑鱼",
+          "type": "after_discount_sales",
+          "value": 2609.11
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "after_discount_sales",
+          "value": 359.33
+        },
+        {
+          "name": "基围虾",
+          "type": "after_discount_sales",
+          "value": 1938.47
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "after_discount_sales",
+          "value": 137.69
+        },
+        {
+          "name": "烤扇贝",
+          "type": "after_discount_sales",
+          "value": 370.84
+        },
+        {
+          "name": "烤生蚝",
+          "type": "after_discount_sales",
+          "value": 1931.35
+        },
+        {
+          "name": "青口贝",
+          "type": "after_discount_sales",
+          "value": 49.25
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "after_discount_sales",
+          "value": 364.75
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "after_discount_sales",
+          "value": 729.73
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "after_discount_sales",
+          "value": 336.16
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "after_discount_sales",
+          "value": 1716.27
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "after_discount_sales",
+          "value": 761.08
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "after_discount_sales",
+          "value": 5244.87
+        },
+        {
+          "name": "石斑鱼",
+          "type": "after_discount_sales",
+          "value": 6213.75
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_sales",
+          "value": 41.03
+        },
+        {
+          "name": "鲜鱿",
+          "type": "after_discount_sales",
+          "value": 391.82
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "after_discount_sales",
+          "value": 1106.77
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "after_discount_sales",
+          "value": 682.18
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "after_discount_sales",
+          "value": 1255.22
+        },
+        {
+          "name": "章子岛海参",
+          "type": "after_discount_sales",
+          "value": 1468.83
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "after_discount_sales",
+          "value": 83.73
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "after_discount_sales",
+          "value": 358.73
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "after_discount_sales",
+          "value": 18
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "after_discount_sales",
+          "value": 0
+        },
+        {
+          "name": "百岁山",
+          "type": "after_discount_sales",
+          "value": 673.38
+        },
+        {
+          "name": "餐巾纸",
+          "type": "after_discount_sales",
+          "value": 661.08
+        },
+        {
+          "name": "炖梨汁",
+          "type": "after_discount_sales",
+          "value": 114.09
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "after_discount_sales",
+          "value": 72
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "after_discount_sales",
+          "value": 28
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "after_discount_sales",
+          "value": 74.54
+        },
+        {
+          "name": "毛巾",
+          "type": "after_discount_sales",
+          "value": 2788.45
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "after_discount_sales",
+          "value": 112
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "after_discount_sales",
+          "value": 260
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "after_discount_sales",
+          "value": 2115.56
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "after_discount_sales",
+          "value": 192.65
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "after_discount_sales",
+          "value": 564.67
+        },
+        {
+          "name": "山海关",
+          "type": "after_discount_sales",
+          "value": 31.05
+        },
+        {
+          "name": "听装可乐",
+          "type": "after_discount_sales",
+          "value": 319.45
+        },
+        {
+          "name": "听装王老吉",
+          "type": "after_discount_sales",
+          "value": 151.03
+        },
+        {
+          "name": "听装雪碧",
+          "type": "after_discount_sales",
+          "value": 33.29
+        },
+        {
+          "name": "望山楂",
+          "type": "after_discount_sales",
+          "value": 140.26
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "after_discount_sales",
+          "value": 890
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "after_discount_sales",
+          "value": 158
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "after_discount_sales",
+          "value": 145
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "after_discount_sales",
+          "value": 594
+        },
+        {
+          "name": "雪花纯生",
+          "type": "after_discount_sales",
+          "value": 1793.17
+        },
+        {
+          "name": "雪花花脸",
+          "type": "after_discount_sales",
+          "value": 1068.56
+        },
+        {
+          "name": "一次性筷子",
+          "type": "after_discount_sales",
+          "value": 2089.32
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "after_discount_sales",
+          "value": 30
+        },
+        {
+          "name": "玉溪",
+          "type": "after_discount_sales",
+          "value": 88.6
+        },
+        {
+          "name": "百香果汁",
+          "type": "after_discount_sales",
+          "value": 43.99
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "after_discount_sales",
+          "value": 1730.7
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "after_discount_sales",
+          "value": 498.72
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "after_discount_sales",
+          "value": 282.55
+        },
+        {
+          "name": "酱香肘花",
+          "type": "after_discount_sales",
+          "value": 643.98
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "after_discount_sales",
+          "value": 936.11
+        },
+        {
+          "name": "老醋花生米",
+          "type": "after_discount_sales",
+          "value": 734.9
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "after_discount_sales",
+          "value": 511.66
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "after_discount_sales",
+          "value": 1292.51
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "after_discount_sales",
+          "value": 300.66
+        },
+        {
+          "name": "水爆肚",
+          "type": "after_discount_sales",
+          "value": 4645.28
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "after_discount_sales",
+          "value": 554.93
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "after_discount_sales",
+          "value": 1293.55
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "after_discount_sales",
+          "value": 488.31
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_sales",
+          "value": 674.54
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "after_discount_sales",
+          "value": 257.94
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "after_discount_sales",
+          "value": 1850.05
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "after_discount_sales",
+          "value": 1996.63
+        },
+        {
+          "name": "油炸果仁",
+          "type": "after_discount_sales",
+          "value": 399.5
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "after_discount_sales",
+          "value": 27
+        },
+        {
+          "name": "1美美肥",
+          "type": "after_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "1羊上脑",
+          "type": "after_discount_sales",
+          "value": 86
+        },
+        {
+          "name": "大片羊肉",
+          "type": "after_discount_sales",
+          "value": 1571.83
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "after_discount_sales",
+          "value": 6963.58
+        },
+        {
+          "name": "羔羊肉",
+          "type": "after_discount_sales",
+          "value": 2381.51
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "after_discount_sales",
+          "value": 9913.72
+        },
+        {
+          "name": "黄喉",
+          "type": "after_discount_sales",
+          "value": 3093.62
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "after_discount_sales",
+          "value": 7217.6
+        },
+        {
+          "name": "极品羊肉",
+          "type": "after_discount_sales",
+          "value": 9249.73
+        },
+        {
+          "name": "精品肥牛",
+          "type": "after_discount_sales",
+          "value": 4673.51
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "after_discount_sales",
+          "value": 460.25
+        },
+        {
+          "name": "美美肥",
+          "type": "after_discount_sales",
+          "value": 3718.79
+        },
+        {
+          "name": "牛骨髓",
+          "type": "after_discount_sales",
+          "value": 2631.64
+        },
+        {
+          "name": "牛小排",
+          "type": "after_discount_sales",
+          "value": 2357.02
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "after_discount_sales",
+          "value": 1646.37
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "after_discount_sales",
+          "value": 1110.38
+        },
+        {
+          "name": "手打虾滑",
+          "type": "after_discount_sales",
+          "value": 1058.6
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "after_discount_sales",
+          "value": 6735.44
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "after_discount_sales",
+          "value": 2499.54
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "after_discount_sales",
+          "value": 4774.67
+        },
+        {
+          "name": "丸美组合",
+          "type": "after_discount_sales",
+          "value": 2875
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_sales",
+          "value": 267.99
+        },
+        {
+          "name": "午餐肉",
+          "type": "after_discount_sales",
+          "value": 798.25
+        },
+        {
+          "name": "鲜百叶",
+          "type": "after_discount_sales",
+          "value": 4067.07
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "after_discount_sales",
+          "value": 2018.15
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "after_discount_sales",
+          "value": 457.37
+        },
+        {
+          "name": "雪花和牛",
+          "type": "after_discount_sales",
+          "value": 388
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "after_discount_sales",
+          "value": 5498.64
+        },
+        {
+          "name": "鸭胗花",
+          "type": "after_discount_sales",
+          "value": 380
+        },
+        {
+          "name": "羊宝",
+          "type": "after_discount_sales",
+          "value": 2100.31
+        },
+        {
+          "name": "羊钙骨",
+          "type": "after_discount_sales",
+          "value": 2063.42
+        },
+        {
+          "name": "羊和尚头",
+          "type": "after_discount_sales",
+          "value": 10237.93
+        },
+        {
+          "name": "羊腱肉",
+          "type": "after_discount_sales",
+          "value": 769.96
+        },
+        {
+          "name": "羊磨档",
+          "type": "after_discount_sales",
+          "value": 508.35
+        },
+        {
+          "name": "羊肉组合",
+          "type": "after_discount_sales",
+          "value": 16940.47
+        },
+        {
+          "name": "羊上脑",
+          "type": "after_discount_sales",
+          "value": 6819.96
+        },
+        {
+          "name": "羊尾",
+          "type": "after_discount_sales",
+          "value": 816.82
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "after_discount_sales",
+          "value": 2974.04
+        },
+        {
+          "name": "羊子盖",
+          "type": "after_discount_sales",
+          "value": 11720.22
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "after_discount_sales",
+          "value": 5298.28
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "after_discount_sales",
+          "value": 626.08
+        },
+        {
+          "name": "烤羊腰",
+          "type": "after_discount_sales",
+          "value": 1199.77
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "after_discount_sales",
+          "value": 195.97
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "after_discount_sales",
+          "value": 1724.66
+        },
+        {
+          "name": "白玉菇",
+          "type": "after_discount_sales",
+          "value": 71.08
+        },
+        {
+          "name": "菠菜",
+          "type": "after_discount_sales",
+          "value": 359.78
+        },
+        {
+          "name": "大白菜",
+          "type": "after_discount_sales",
+          "value": 1401.32
+        },
+        {
+          "name": "地瓜片",
+          "type": "after_discount_sales",
+          "value": 77.43
+        },
+        {
+          "name": "冬瓜",
+          "type": "after_discount_sales",
+          "value": 1071.57
+        },
+        {
+          "name": "冻豆腐",
+          "type": "after_discount_sales",
+          "value": 1639.33
+        },
+        {
+          "name": "海带根",
+          "type": "after_discount_sales",
+          "value": 252.21
+        },
+        {
+          "name": "金针菇",
+          "type": "after_discount_sales",
+          "value": 798.57
+        },
+        {
+          "name": "靓点快菜",
+          "type": "after_discount_sales",
+          "value": 179.85
+        },
+        {
+          "name": "苦菊",
+          "type": "after_discount_sales",
+          "value": 12
+        },
+        {
+          "name": "宽粉",
+          "type": "after_discount_sales",
+          "value": 138.16
+        },
+        {
+          "name": "莲藕",
+          "type": "after_discount_sales",
+          "value": 231.49
+        },
+        {
+          "name": "萝卜片",
+          "type": "after_discount_sales",
+          "value": 210.4
+        },
+        {
+          "name": "山药片",
+          "type": "after_discount_sales",
+          "value": 669.51
+        },
+        {
+          "name": "生菜",
+          "type": "after_discount_sales",
+          "value": 751.15
+        },
+        {
+          "name": "酸菜",
+          "type": "after_discount_sales",
+          "value": 314.42
+        },
+        {
+          "name": "笋尖",
+          "type": "after_discount_sales",
+          "value": 389.3
+        },
+        {
+          "name": "茼蒿",
+          "type": "after_discount_sales",
+          "value": 1119.59
+        },
+        {
+          "name": "土豆片",
+          "type": "after_discount_sales",
+          "value": 219.31
+        },
+        {
+          "name": "娃娃菜",
+          "type": "after_discount_sales",
+          "value": 433.09
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "after_discount_sales",
+          "value": 481.46
+        },
+        {
+          "name": "香菜",
+          "type": "after_discount_sales",
+          "value": 69
+        },
+        {
+          "name": "香菇",
+          "type": "after_discount_sales",
+          "value": 135.33
+        },
+        {
+          "name": "小白菜",
+          "type": "after_discount_sales",
+          "value": 351.29
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "after_discount_sales",
+          "value": 522.76
+        },
+        {
+          "name": "鸭血",
+          "type": "after_discount_sales",
+          "value": 384.88
+        },
+        {
+          "name": "养生竹荪",
+          "type": "after_discount_sales",
+          "value": 1304.02
+        },
+        {
+          "name": "油豆皮",
+          "type": "after_discount_sales",
+          "value": 516.63
+        },
+        {
+          "name": "油麦菜",
+          "type": "after_discount_sales",
+          "value": 362.89
+        },
+        {
+          "name": "炸豆皮",
+          "type": "after_discount_sales",
+          "value": 378.6
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "14482d34-096f-11f0-b328-bc2411cbc733",
+      "chart_name": "不同仓库菜品销售情况分析",
+      "chart_type": "LineChart",
+      "chart_desc": "通过分析不同仓库的菜品销售情况，了解各仓库的销售热点和销售趋势，为线下渠道的推广策略提供数据支持。",
+      "chart_sql": "SELECT `仓库名称` AS warehouse_name, `折前销售额` AS pre_discount_sales, `折后销售额` AS after_discount_sales FROM 档口菜品毛利分析 GROUP BY `仓库名称`",
+      "column_name": [
+        "warehouse_name",
+        "pre_discount_sales",
+        "after_discount_sales"
+      ],
+      "values": [
+        {
+          "name": "凉菜房",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "厨房",
+          "type": "pre_discount_sales",
+          "value": 812
+        },
+        {
+          "name": "没设置供给仓库",
+          "type": "pre_discount_sales",
+          "value": 48
+        },
+        {
+          "name": "烧烤房",
+          "type": "pre_discount_sales",
+          "value": 652
+        },
+        {
+          "name": "肉房",
+          "type": "pre_discount_sales",
+          "value": 27
+        },
+        {
+          "name": "蔬菜房",
+          "type": "pre_discount_sales",
+          "value": 1820
+        },
+        {
+          "name": "酒水吧台",
+          "type": "pre_discount_sales",
+          "value": 90
+        },
+        {
+          "name": "凉菜房",
+          "type": "after_discount_sales",
+          "value": 43.99
+        },
+        {
+          "name": "厨房",
+          "type": "after_discount_sales",
+          "value": 769.44
+        },
+        {
+          "name": "没设置供给仓库",
+          "type": "after_discount_sales",
+          "value": 10
+        },
+        {
+          "name": "烧烤房",
+          "type": "after_discount_sales",
+          "value": 626.08
+        },
+        {
+          "name": "肉房",
+          "type": "after_discount_sales",
+          "value": 27
+        },
+        {
+          "name": "蔬菜房",
+          "type": "after_discount_sales",
+          "value": 1724.66
+        },
+        {
+          "name": "酒水吧台",
+          "type": "after_discount_sales",
+          "value": 83.73
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "1449ad9e-096f-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品成本与盈利情况分析",
+      "chart_type": "Table",
+      "chart_desc": "通过分析菜品的理论成本额和理论毛利，了解菜品的成本和盈利情况，为制定合理的推广价格策略提供数据支持。",
+      "chart_sql": "SELECT `菜品名称` AS dish_name, `非税理论成本额` AS cost, `折前理论毛利` AS pre_discount_profit, `折后理论毛利` AS after_discount_profit FROM 档口菜品毛利分析",
+      "column_name": [
+        "dish_name",
+        "cost",
+        "pre_discount_profit",
+        "after_discount_profit"
+      ],
+      "values": [
+        {
+          "name": "精品凉菜临时品项",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "白茶",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "菠菜面",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "炒红果",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "打包盒",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "大餐盒",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "粉丝",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "海鲜汁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "杭白菊",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "阖家团圆",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "金骏眉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "精品果盘",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤烧饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤肾头",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤羊宝",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤羊腿",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "宽粉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "米饭",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "秘制酱料",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "魔芋结",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "木耳",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "泡菜根",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "扑克牌",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "普洱",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "起菜",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "起凉菜",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "生蒜",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "手擀面",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "涮肾头",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "酥鱼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "太阳卷",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "糖蒜",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "铁观音",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "响铃卷",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "小米辣",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "小酥肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "炸河虾",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "炸烧饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "长寿面",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "自制酸奶",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "cost",
+          "value": 206.46
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "cost",
+          "value": 104
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "cost",
+          "value": 302.51
+        },
+        {
+          "name": "多宝鱼",
+          "type": "cost",
+          "value": 300
+        },
+        {
+          "name": "海青虾",
+          "type": "cost",
+          "value": 726.94
+        },
+        {
+          "name": "黑鱼",
+          "type": "cost",
+          "value": 830.56
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "cost",
+          "value": 87.99
+        },
+        {
+          "name": "基围虾",
+          "type": "cost",
+          "value": 599.98
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "cost",
+          "value": 22.88
+        },
+        {
+          "name": "烤扇贝",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "烤生蚝",
+          "type": "cost",
+          "value": 637
+        },
+        {
+          "name": "青口贝",
+          "type": "cost",
+          "value": 30.1
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "cost",
+          "value": 45.75
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "cost",
+          "value": 324
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "cost",
+          "value": 162
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "cost",
+          "value": 702
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "cost",
+          "value": 259
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "cost",
+          "value": 1960.13
+        },
+        {
+          "name": "石斑鱼",
+          "type": "cost",
+          "value": 1897.49
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "鲜鱿",
+          "type": "cost",
+          "value": 117.9
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "cost",
+          "value": 94.5
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "cost",
+          "value": 180
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "cost",
+          "value": 300
+        },
+        {
+          "name": "章子岛海参",
+          "type": "cost",
+          "value": 349.2
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "cost",
+          "value": 34.5
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "cost",
+          "value": 130.66
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "cost",
+          "value": 30.83
+        },
+        {
+          "name": "百岁山",
+          "type": "cost",
+          "value": 193.34
+        },
+        {
+          "name": "餐巾纸",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "炖梨汁",
+          "type": "cost",
+          "value": 66.66
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "cost",
+          "value": 38.33
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "cost",
+          "value": 11.75
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "cost",
+          "value": 35.25
+        },
+        {
+          "name": "毛巾",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "cost",
+          "value": 144
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "cost",
+          "value": 840
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "cost",
+          "value": 129.83
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "cost",
+          "value": 259.67
+        },
+        {
+          "name": "山海关",
+          "type": "cost",
+          "value": 15
+        },
+        {
+          "name": "听装可乐",
+          "type": "cost",
+          "value": 116
+        },
+        {
+          "name": "听装王老吉",
+          "type": "cost",
+          "value": 48
+        },
+        {
+          "name": "听装雪碧",
+          "type": "cost",
+          "value": 12
+        },
+        {
+          "name": "望山楂",
+          "type": "cost",
+          "value": 75
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "cost",
+          "value": 455
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "cost",
+          "value": 71.08
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "cost",
+          "value": 75
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "cost",
+          "value": 328
+        },
+        {
+          "name": "雪花纯生",
+          "type": "cost",
+          "value": 1106
+        },
+        {
+          "name": "雪花花脸",
+          "type": "cost",
+          "value": 533.34
+        },
+        {
+          "name": "一次性筷子",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "玉溪",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "百香果汁",
+          "type": "cost",
+          "value": 14
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "cost",
+          "value": 184.25
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "cost",
+          "value": 26
+        },
+        {
+          "name": "酱香肘花",
+          "type": "cost",
+          "value": 237.23
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "cost",
+          "value": 222.75
+        },
+        {
+          "name": "老醋花生米",
+          "type": "cost",
+          "value": 141.43
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "cost",
+          "value": 129.13
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "cost",
+          "value": 233.39
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "水爆肚",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "cost",
+          "value": 216
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "cost",
+          "value": 147.93
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "cost",
+          "value": 240
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "cost",
+          "value": 49.7
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "cost",
+          "value": 229.9
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "油炸果仁",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "cost",
+          "value": 34.49
+        },
+        {
+          "name": "1美美肥",
+          "type": "cost",
+          "value": 41.49
+        },
+        {
+          "name": "1羊上脑",
+          "type": "cost",
+          "value": 76
+        },
+        {
+          "name": "大片羊肉",
+          "type": "cost",
+          "value": 973.36
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "cost",
+          "value": 2067.94
+        },
+        {
+          "name": "羔羊肉",
+          "type": "cost",
+          "value": 806.4
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "cost",
+          "value": 3072.27
+        },
+        {
+          "name": "黄喉",
+          "type": "cost",
+          "value": 632.4
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "cost",
+          "value": 1915.57
+        },
+        {
+          "name": "极品羊肉",
+          "type": "cost",
+          "value": 3110.4
+        },
+        {
+          "name": "精品肥牛",
+          "type": "cost",
+          "value": 1834.78
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "cost",
+          "value": 66.86
+        },
+        {
+          "name": "美美肥",
+          "type": "cost",
+          "value": 1560.17
+        },
+        {
+          "name": "牛骨髓",
+          "type": "cost",
+          "value": 696
+        },
+        {
+          "name": "牛小排",
+          "type": "cost",
+          "value": 1406.72
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "cost",
+          "value": 594
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "cost",
+          "value": 264
+        },
+        {
+          "name": "手打虾滑",
+          "type": "cost",
+          "value": 248.4
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "cost",
+          "value": 1652.4
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "cost",
+          "value": 1175.11
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "cost",
+          "value": 1534.37
+        },
+        {
+          "name": "丸美组合",
+          "type": "cost",
+          "value": 842.33
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "午餐肉",
+          "type": "cost",
+          "value": 145.31
+        },
+        {
+          "name": "鲜百叶",
+          "type": "cost",
+          "value": 1350
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "cost",
+          "value": 666
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "cost",
+          "value": 226.66
+        },
+        {
+          "name": "雪花和牛",
+          "type": "cost",
+          "value": 211.5
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "cost",
+          "value": 1925
+        },
+        {
+          "name": "鸭胗花",
+          "type": "cost",
+          "value": 72.49
+        },
+        {
+          "name": "羊宝",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "羊钙骨",
+          "type": "cost",
+          "value": 680.56
+        },
+        {
+          "name": "羊和尚头",
+          "type": "cost",
+          "value": 2762.57
+        },
+        {
+          "name": "羊腱肉",
+          "type": "cost",
+          "value": 376.2
+        },
+        {
+          "name": "羊磨档",
+          "type": "cost",
+          "value": 239.4
+        },
+        {
+          "name": "羊肉组合",
+          "type": "cost",
+          "value": 4848.97
+        },
+        {
+          "name": "羊上脑",
+          "type": "cost",
+          "value": 2992.5
+        },
+        {
+          "name": "羊尾",
+          "type": "cost",
+          "value": 172.8
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "cost",
+          "value": 1158.99
+        },
+        {
+          "name": "羊子盖",
+          "type": "cost",
+          "value": 3233.32
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "cost",
+          "value": 1525.2
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "cost",
+          "value": 205.2
+        },
+        {
+          "name": "烤羊腰",
+          "type": "cost",
+          "value": 306.24
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "cost",
+          "value": 20.06
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "cost",
+          "value": 181.46
+        },
+        {
+          "name": "白玉菇",
+          "type": "cost",
+          "value": 17.87
+        },
+        {
+          "name": "菠菜",
+          "type": "cost",
+          "value": 62.22
+        },
+        {
+          "name": "大白菜",
+          "type": "cost",
+          "value": 100.24
+        },
+        {
+          "name": "地瓜片",
+          "type": "cost",
+          "value": 12.55
+        },
+        {
+          "name": "冬瓜",
+          "type": "cost",
+          "value": 125.67
+        },
+        {
+          "name": "冻豆腐",
+          "type": "cost",
+          "value": 219.27
+        },
+        {
+          "name": "海带根",
+          "type": "cost",
+          "value": 44.4
+        },
+        {
+          "name": "金针菇",
+          "type": "cost",
+          "value": 106.38
+        },
+        {
+          "name": "靓点快菜",
+          "type": "cost",
+          "value": 24.18
+        },
+        {
+          "name": "苦菊",
+          "type": "cost",
+          "value": 1.48
+        },
+        {
+          "name": "宽粉",
+          "type": "cost",
+          "value": 0
+        },
+        {
+          "name": "莲藕",
+          "type": "cost",
+          "value": 57.85
+        },
+        {
+          "name": "萝卜片",
+          "type": "cost",
+          "value": 25.82
+        },
+        {
+          "name": "山药片",
+          "type": "cost",
+          "value": 140.1
+        },
+        {
+          "name": "生菜",
+          "type": "cost",
+          "value": 86.77
+        },
+        {
+          "name": "酸菜",
+          "type": "cost",
+          "value": 73.73
+        },
+        {
+          "name": "笋尖",
+          "type": "cost",
+          "value": 82.5
+        },
+        {
+          "name": "茼蒿",
+          "type": "cost",
+          "value": 182.36
+        },
+        {
+          "name": "土豆片",
+          "type": "cost",
+          "value": 29.71
+        },
+        {
+          "name": "娃娃菜",
+          "type": "cost",
+          "value": 156
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "cost",
+          "value": 71.23
+        },
+        {
+          "name": "香菜",
+          "type": "cost",
+          "value": 13.6
+        },
+        {
+          "name": "香菇",
+          "type": "cost",
+          "value": 21.53
+        },
+        {
+          "name": "小白菜",
+          "type": "cost",
+          "value": 95.47
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "cost",
+          "value": 29.79
+        },
+        {
+          "name": "鸭血",
+          "type": "cost",
+          "value": 45.6
+        },
+        {
+          "name": "养生竹荪",
+          "type": "cost",
+          "value": 276
+        },
+        {
+          "name": "油豆皮",
+          "type": "cost",
+          "value": 51.84
+        },
+        {
+          "name": "油麦菜",
+          "type": "cost",
+          "value": 77.54
+        },
+        {
+          "name": "炸豆皮",
+          "type": "cost",
+          "value": 34.2
+        },
+        {
+          "name": "精品凉菜临时品项",
+          "type": "pre_discount_profit",
+          "value": 48
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "pre_discount_profit",
+          "value": 42
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "pre_discount_profit",
+          "value": 640
+        },
+        {
+          "name": "白茶",
+          "type": "pre_discount_profit",
+          "value": 76
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "pre_discount_profit",
+          "value": 24
+        },
+        {
+          "name": "菠菜面",
+          "type": "pre_discount_profit",
+          "value": 30
+        },
+        {
+          "name": "炒红果",
+          "type": "pre_discount_profit",
+          "value": 572
+        },
+        {
+          "name": "打包盒",
+          "type": "pre_discount_profit",
+          "value": 88
+        },
+        {
+          "name": "大餐盒",
+          "type": "pre_discount_profit",
+          "value": 2
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "pre_discount_profit",
+          "value": 431.28
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "pre_discount_profit",
+          "value": 3040
+        },
+        {
+          "name": "粉丝",
+          "type": "pre_discount_profit",
+          "value": 798.39
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "pre_discount_profit",
+          "value": 1178
+        },
+        {
+          "name": "海鲜汁",
+          "type": "pre_discount_profit",
+          "value": 200
+        },
+        {
+          "name": "杭白菊",
+          "type": "pre_discount_profit",
+          "value": 504
+        },
+        {
+          "name": "阖家团圆",
+          "type": "pre_discount_profit",
+          "value": 96
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "pre_discount_profit",
+          "value": 216
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "pre_discount_profit",
+          "value": 5021.63
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "pre_discount_profit",
+          "value": 76
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "pre_discount_profit",
+          "value": 114
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "pre_discount_profit",
+          "value": 72
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "pre_discount_profit",
+          "value": 392
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "pre_discount_profit",
+          "value": 768
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "pre_discount_profit",
+          "value": 16
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "pre_discount_profit",
+          "value": 44
+        },
+        {
+          "name": "金骏眉",
+          "type": "pre_discount_profit",
+          "value": 380
+        },
+        {
+          "name": "精品果盘",
+          "type": "pre_discount_profit",
+          "value": 290
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "pre_discount_profit",
+          "value": 3648
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "pre_discount_profit",
+          "value": 8218.25
+        },
+        {
+          "name": "烤烧饼",
+          "type": "pre_discount_profit",
+          "value": 24
+        },
+        {
+          "name": "烤肾头",
+          "type": "pre_discount_profit",
+          "value": 770
+        },
+        {
+          "name": "烤羊宝",
+          "type": "pre_discount_profit",
+          "value": 300
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "pre_discount_profit",
+          "value": 1146
+        },
+        {
+          "name": "烤羊腿",
+          "type": "pre_discount_profit",
+          "value": 288
+        },
+        {
+          "name": "宽粉",
+          "type": "pre_discount_profit",
+          "value": 576
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "pre_discount_profit",
+          "value": 1216
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "pre_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "米饭",
+          "type": "pre_discount_profit",
+          "value": 4
+        },
+        {
+          "name": "秘制酱料",
+          "type": "pre_discount_profit",
+          "value": 13249.82
+        },
+        {
+          "name": "魔芋结",
+          "type": "pre_discount_profit",
+          "value": 768.59
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "pre_discount_profit",
+          "value": 392
+        },
+        {
+          "name": "木耳",
+          "type": "pre_discount_profit",
+          "value": 867.66
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "pre_discount_profit",
+          "value": 624
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "pre_discount_profit",
+          "value": 76
+        },
+        {
+          "name": "泡菜根",
+          "type": "pre_discount_profit",
+          "value": 414
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "pre_discount_profit",
+          "value": 744.4
+        },
+        {
+          "name": "扑克牌",
+          "type": "pre_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "普洱",
+          "type": "pre_discount_profit",
+          "value": 266
+        },
+        {
+          "name": "起菜",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "起凉菜",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "pre_discount_profit",
+          "value": 88
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "pre_discount_profit",
+          "value": 22452.66
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "pre_discount_profit",
+          "value": 56
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "pre_discount_profit",
+          "value": 8
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "pre_discount_profit",
+          "value": 16
+        },
+        {
+          "name": "生蒜",
+          "type": "pre_discount_profit",
+          "value": 4
+        },
+        {
+          "name": "手擀面",
+          "type": "pre_discount_profit",
+          "value": 556.89
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "pre_discount_profit",
+          "value": 2850
+        },
+        {
+          "name": "涮肾头",
+          "type": "pre_discount_profit",
+          "value": 390
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "pre_discount_profit",
+          "value": 250
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "pre_discount_profit",
+          "value": 100
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "pre_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "pre_discount_profit",
+          "value": 616
+        },
+        {
+          "name": "酥鱼",
+          "type": "pre_discount_profit",
+          "value": 252
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "pre_discount_profit",
+          "value": 390
+        },
+        {
+          "name": "太阳卷",
+          "type": "pre_discount_profit",
+          "value": 576
+        },
+        {
+          "name": "糖蒜",
+          "type": "pre_discount_profit",
+          "value": 1130
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "pre_discount_profit",
+          "value": 128
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "pre_discount_profit",
+          "value": 784
+        },
+        {
+          "name": "铁观音",
+          "type": "pre_discount_profit",
+          "value": 38
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "pre_discount_profit",
+          "value": 58
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "pre_discount_profit",
+          "value": 40
+        },
+        {
+          "name": "响铃卷",
+          "type": "pre_discount_profit",
+          "value": 144
+        },
+        {
+          "name": "小米辣",
+          "type": "pre_discount_profit",
+          "value": 120
+        },
+        {
+          "name": "小酥肉",
+          "type": "pre_discount_profit",
+          "value": 1140
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "pre_discount_profit",
+          "value": 760
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "pre_discount_profit",
+          "value": 130
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "pre_discount_profit",
+          "value": 76
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "pre_discount_profit",
+          "value": 176
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "pre_discount_profit",
+          "value": 1152
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "pre_discount_profit",
+          "value": 180
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "pre_discount_profit",
+          "value": 546.04
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "pre_discount_profit",
+          "value": 7344
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "pre_discount_profit",
+          "value": 270
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "pre_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "pre_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "pre_discount_profit",
+          "value": 190
+        },
+        {
+          "name": "炸河虾",
+          "type": "pre_discount_profit",
+          "value": 1344
+        },
+        {
+          "name": "炸烧饼",
+          "type": "pre_discount_profit",
+          "value": 87
+        },
+        {
+          "name": "长寿面",
+          "type": "pre_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "pre_discount_profit",
+          "value": 2594.58
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "pre_discount_profit",
+          "value": 190
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "pre_discount_profit",
+          "value": 273.79
+        },
+        {
+          "name": "自制酸奶",
+          "type": "pre_discount_profit",
+          "value": 2792
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "pre_discount_profit",
+          "value": 6
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "pre_discount_profit",
+          "value": 605.54
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "pre_discount_profit",
+          "value": 520
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "pre_discount_profit",
+          "value": 489.49
+        },
+        {
+          "name": "多宝鱼",
+          "type": "pre_discount_profit",
+          "value": 680
+        },
+        {
+          "name": "海青虾",
+          "type": "pre_discount_profit",
+          "value": 1941.06
+        },
+        {
+          "name": "黑鱼",
+          "type": "pre_discount_profit",
+          "value": 2113.44
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "pre_discount_profit",
+          "value": 304.01
+        },
+        {
+          "name": "基围虾",
+          "type": "pre_discount_profit",
+          "value": 1452.02
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "pre_discount_profit",
+          "value": 117.12
+        },
+        {
+          "name": "烤扇贝",
+          "type": "pre_discount_profit",
+          "value": 400
+        },
+        {
+          "name": "烤生蚝",
+          "type": "pre_discount_profit",
+          "value": 1365
+        },
+        {
+          "name": "青口贝",
+          "type": "pre_discount_profit",
+          "value": 27.9
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "pre_discount_profit",
+          "value": 334.25
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "pre_discount_profit",
+          "value": 428
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "pre_discount_profit",
+          "value": 222
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "pre_discount_profit",
+          "value": 1092
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "pre_discount_profit",
+          "value": 555
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "pre_discount_profit",
+          "value": 3471.87
+        },
+        {
+          "name": "石斑鱼",
+          "type": "pre_discount_profit",
+          "value": 4502.51
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_profit",
+          "value": 48
+        },
+        {
+          "name": "鲜鱿",
+          "type": "pre_discount_profit",
+          "value": 288.1
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "pre_discount_profit",
+          "value": 1123.5
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "pre_discount_profit",
+          "value": 572
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "pre_discount_profit",
+          "value": 980
+        },
+        {
+          "name": "章子岛海参",
+          "type": "pre_discount_profit",
+          "value": 1186.8
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "pre_discount_profit",
+          "value": 55.5
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "pre_discount_profit",
+          "value": 253.34
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "pre_discount_profit",
+          "value": 18
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "pre_discount_profit",
+          "value": 27.17
+        },
+        {
+          "name": "百岁山",
+          "type": "pre_discount_profit",
+          "value": 502.66
+        },
+        {
+          "name": "餐巾纸",
+          "type": "pre_discount_profit",
+          "value": 710
+        },
+        {
+          "name": "炖梨汁",
+          "type": "pre_discount_profit",
+          "value": 59.34
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "pre_discount_profit",
+          "value": 33.67
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "pre_discount_profit",
+          "value": 16.25
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "pre_discount_profit",
+          "value": 48.75
+        },
+        {
+          "name": "毛巾",
+          "type": "pre_discount_profit",
+          "value": 2996
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "pre_discount_profit",
+          "value": 112
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "pre_discount_profit",
+          "value": 116.16
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "pre_discount_profit",
+          "value": 1470
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "pre_discount_profit",
+          "value": 198.17
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "pre_discount_profit",
+          "value": 396.33
+        },
+        {
+          "name": "山海关",
+          "type": "pre_discount_profit",
+          "value": 25
+        },
+        {
+          "name": "听装可乐",
+          "type": "pre_discount_profit",
+          "value": 232
+        },
+        {
+          "name": "听装王老吉",
+          "type": "pre_discount_profit",
+          "value": 112
+        },
+        {
+          "name": "听装雪碧",
+          "type": "pre_discount_profit",
+          "value": 24
+        },
+        {
+          "name": "望山楂",
+          "type": "pre_discount_profit",
+          "value": 69
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "pre_discount_profit",
+          "value": 520
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "pre_discount_profit",
+          "value": 86.92
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "pre_discount_profit",
+          "value": 70
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "pre_discount_profit",
+          "value": 410
+        },
+        {
+          "name": "雪花纯生",
+          "type": "pre_discount_profit",
+          "value": 948
+        },
+        {
+          "name": "雪花花脸",
+          "type": "pre_discount_profit",
+          "value": 566.66
+        },
+        {
+          "name": "一次性筷子",
+          "type": "pre_discount_profit",
+          "value": 2252.33
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "pre_discount_profit",
+          "value": 60
+        },
+        {
+          "name": "玉溪",
+          "type": "pre_discount_profit",
+          "value": 96
+        },
+        {
+          "name": "百香果汁",
+          "type": "pre_discount_profit",
+          "value": 34
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "pre_discount_profit",
+          "value": 1691.75
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "pre_discount_profit",
+          "value": 672
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "pre_discount_profit",
+          "value": 262
+        },
+        {
+          "name": "酱香肘花",
+          "type": "pre_discount_profit",
+          "value": 484.77
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "pre_discount_profit",
+          "value": 783.25
+        },
+        {
+          "name": "老醋花生米",
+          "type": "pre_discount_profit",
+          "value": 618.46
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "pre_discount_profit",
+          "value": 440.87
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "pre_discount_profit",
+          "value": 1116.61
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "pre_discount_profit",
+          "value": 308
+        },
+        {
+          "name": "水爆肚",
+          "type": "pre_discount_profit",
+          "value": 4872
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "pre_discount_profit",
+          "value": 378
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "pre_discount_profit",
+          "value": 1280.07
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "pre_discount_profit",
+          "value": 520
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_profit",
+          "value": 528
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "pre_discount_profit",
+          "value": 214.3
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "pre_discount_profit",
+          "value": 1706.62
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "pre_discount_profit",
+          "value": 2106
+        },
+        {
+          "name": "油炸果仁",
+          "type": "pre_discount_profit",
+          "value": 416
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "pre_discount_profit",
+          "value": -7.49
+        },
+        {
+          "name": "1美美肥",
+          "type": "pre_discount_profit",
+          "value": 6.51
+        },
+        {
+          "name": "1羊上脑",
+          "type": "pre_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "大片羊肉",
+          "type": "pre_discount_profit",
+          "value": 711.92
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "pre_discount_profit",
+          "value": 5264.06
+        },
+        {
+          "name": "羔羊肉",
+          "type": "pre_discount_profit",
+          "value": 1769.6
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "pre_discount_profit",
+          "value": 7343.73
+        },
+        {
+          "name": "黄喉",
+          "type": "pre_discount_profit",
+          "value": 2699.6
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "pre_discount_profit",
+          "value": 5662.38
+        },
+        {
+          "name": "极品羊肉",
+          "type": "pre_discount_profit",
+          "value": 6853.74
+        },
+        {
+          "name": "精品肥牛",
+          "type": "pre_discount_profit",
+          "value": 3219.22
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "pre_discount_profit",
+          "value": 427.14
+        },
+        {
+          "name": "美美肥",
+          "type": "pre_discount_profit",
+          "value": 2443.2
+        },
+        {
+          "name": "牛骨髓",
+          "type": "pre_discount_profit",
+          "value": 2146
+        },
+        {
+          "name": "牛小排",
+          "type": "pre_discount_profit",
+          "value": 1789.28
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "pre_discount_profit",
+          "value": 1170
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "pre_discount_profit",
+          "value": 888
+        },
+        {
+          "name": "手打虾滑",
+          "type": "pre_discount_profit",
+          "value": 855.6
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "pre_discount_profit",
+          "value": 5691.6
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "pre_discount_profit",
+          "value": 1371.67
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "pre_discount_profit",
+          "value": 3673.63
+        },
+        {
+          "name": "丸美组合",
+          "type": "pre_discount_profit",
+          "value": 2217.67
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "pre_discount_profit",
+          "value": 288
+        },
+        {
+          "name": "午餐肉",
+          "type": "pre_discount_profit",
+          "value": 722.69
+        },
+        {
+          "name": "鲜百叶",
+          "type": "pre_discount_profit",
+          "value": 3000
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "pre_discount_profit",
+          "value": 1480
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "pre_discount_profit",
+          "value": 249.34
+        },
+        {
+          "name": "雪花和牛",
+          "type": "pre_discount_profit",
+          "value": 176.5
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "pre_discount_profit",
+          "value": 3955
+        },
+        {
+          "name": "鸭胗花",
+          "type": "pre_discount_profit",
+          "value": 307.51
+        },
+        {
+          "name": "羊宝",
+          "type": "pre_discount_profit",
+          "value": 2352
+        },
+        {
+          "name": "羊钙骨",
+          "type": "pre_discount_profit",
+          "value": 1431.44
+        },
+        {
+          "name": "羊和尚头",
+          "type": "pre_discount_profit",
+          "value": 8164.43
+        },
+        {
+          "name": "羊腱肉",
+          "type": "pre_discount_profit",
+          "value": 481.8
+        },
+        {
+          "name": "羊磨档",
+          "type": "pre_discount_profit",
+          "value": 306.6
+        },
+        {
+          "name": "羊肉组合",
+          "type": "pre_discount_profit",
+          "value": 13199.03
+        },
+        {
+          "name": "羊上脑",
+          "type": "pre_discount_profit",
+          "value": 4481.12
+        },
+        {
+          "name": "羊尾",
+          "type": "pre_discount_profit",
+          "value": 723.2
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "pre_discount_profit",
+          "value": 1932.44
+        },
+        {
+          "name": "羊子盖",
+          "type": "pre_discount_profit",
+          "value": 9294.68
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "pre_discount_profit",
+          "value": 4050.8
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "pre_discount_profit",
+          "value": 446.8
+        },
+        {
+          "name": "烤羊腰",
+          "type": "pre_discount_profit",
+          "value": 947.76
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "pre_discount_profit",
+          "value": 185.94
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "pre_discount_profit",
+          "value": 1638.54
+        },
+        {
+          "name": "白玉菇",
+          "type": "pre_discount_profit",
+          "value": 54.13
+        },
+        {
+          "name": "菠菜",
+          "type": "pre_discount_profit",
+          "value": 321.78
+        },
+        {
+          "name": "大白菜",
+          "type": "pre_discount_profit",
+          "value": 1390.12
+        },
+        {
+          "name": "地瓜片",
+          "type": "pre_discount_profit",
+          "value": 71.45
+        },
+        {
+          "name": "冬瓜",
+          "type": "pre_discount_profit",
+          "value": 1025.45
+        },
+        {
+          "name": "冻豆腐",
+          "type": "pre_discount_profit",
+          "value": 1537.62
+        },
+        {
+          "name": "海带根",
+          "type": "pre_discount_profit",
+          "value": 217.42
+        },
+        {
+          "name": "金针菇",
+          "type": "pre_discount_profit",
+          "value": 738.39
+        },
+        {
+          "name": "靓点快菜",
+          "type": "pre_discount_profit",
+          "value": 167.82
+        },
+        {
+          "name": "苦菊",
+          "type": "pre_discount_profit",
+          "value": 10.52
+        },
+        {
+          "name": "宽粉",
+          "type": "pre_discount_profit",
+          "value": 144
+        },
+        {
+          "name": "莲藕",
+          "type": "pre_discount_profit",
+          "value": 182.15
+        },
+        {
+          "name": "萝卜片",
+          "type": "pre_discount_profit",
+          "value": 206.18
+        },
+        {
+          "name": "山药片",
+          "type": "pre_discount_profit",
+          "value": 579.9
+        },
+        {
+          "name": "生菜",
+          "type": "pre_discount_profit",
+          "value": 761.23
+        },
+        {
+          "name": "酸菜",
+          "type": "pre_discount_profit",
+          "value": 262.27
+        },
+        {
+          "name": "笋尖",
+          "type": "pre_discount_profit",
+          "value": 337.5
+        },
+        {
+          "name": "茼蒿",
+          "type": "pre_discount_profit",
+          "value": 1033.64
+        },
+        {
+          "name": "土豆片",
+          "type": "pre_discount_profit",
+          "value": 202.29
+        },
+        {
+          "name": "娃娃菜",
+          "type": "pre_discount_profit",
+          "value": 312
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "pre_discount_profit",
+          "value": 438.77
+        },
+        {
+          "name": "香菜",
+          "type": "pre_discount_profit",
+          "value": 58.4
+        },
+        {
+          "name": "香菇",
+          "type": "pre_discount_profit",
+          "value": 122.47
+        },
+        {
+          "name": "小白菜",
+          "type": "pre_discount_profit",
+          "value": 259.6
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "pre_discount_profit",
+          "value": 546.21
+        },
+        {
+          "name": "鸭血",
+          "type": "pre_discount_profit",
+          "value": 384.22
+        },
+        {
+          "name": "养生竹荪",
+          "type": "pre_discount_profit",
+          "value": 1116
+        },
+        {
+          "name": "油豆皮",
+          "type": "pre_discount_profit",
+          "value": 497.98
+        },
+        {
+          "name": "油麦菜",
+          "type": "pre_discount_profit",
+          "value": 294.46
+        },
+        {
+          "name": "炸豆皮",
+          "type": "pre_discount_profit",
+          "value": 345.84
+        },
+        {
+          "name": "精品凉菜临时品项",
+          "type": "after_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "after_discount_profit",
+          "value": 32.73
+        },
+        {
+          "name": "精品热菜临时品项",
+          "type": "after_discount_profit",
+          "value": 521.05
+        },
+        {
+          "name": "白茶",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "爆款大片羊肉",
+          "type": "after_discount_profit",
+          "value": 20.34
+        },
+        {
+          "name": "菠菜面",
+          "type": "after_discount_profit",
+          "value": 28.94
+        },
+        {
+          "name": "炒红果",
+          "type": "after_discount_profit",
+          "value": 516.82
+        },
+        {
+          "name": "打包盒",
+          "type": "after_discount_profit",
+          "value": 83.6
+        },
+        {
+          "name": "大餐盒",
+          "type": "after_discount_profit",
+          "value": 2
+        },
+        {
+          "name": "冻羊肉卷",
+          "type": "after_discount_profit",
+          "value": 426.16
+        },
+        {
+          "name": "番茄锅底（小）",
+          "type": "after_discount_profit",
+          "value": 2858.73
+        },
+        {
+          "name": "粉丝",
+          "type": "after_discount_profit",
+          "value": 765.33
+        },
+        {
+          "name": "宫廷豌豆黄",
+          "type": "after_discount_profit",
+          "value": 1098.8
+        },
+        {
+          "name": "海鲜汁",
+          "type": "after_discount_profit",
+          "value": 193.56
+        },
+        {
+          "name": "杭白菊",
+          "type": "after_discount_profit",
+          "value": 468.07
+        },
+        {
+          "name": "阖家团圆",
+          "type": "after_discount_profit",
+          "value": 96
+        },
+        {
+          "name": "黑芝麻红糖饼",
+          "type": "after_discount_profit",
+          "value": 173.93
+        },
+        {
+          "name": "红油锅底（小锅）",
+          "type": "after_discount_profit",
+          "value": 4826.73
+        },
+        {
+          "name": "呼伦贝尔羔羊肉2份",
+          "type": "after_discount_profit",
+          "value": 76
+        },
+        {
+          "name": "呼伦贝尔羔羊肉",
+          "type": "after_discount_profit",
+          "value": 114
+        },
+        {
+          "name": "黄瓜蘸酱",
+          "type": "after_discount_profit",
+          "value": 63.88
+        },
+        {
+          "name": "黄金蛋饺",
+          "type": "after_discount_profit",
+          "value": 372.71
+        },
+        {
+          "name": "黄米炸糕",
+          "type": "after_discount_profit",
+          "value": 699.41
+        },
+        {
+          "name": "姜丝可乐",
+          "type": "after_discount_profit",
+          "value": 16
+        },
+        {
+          "name": "酱油炒饭",
+          "type": "after_discount_profit",
+          "value": 39.74
+        },
+        {
+          "name": "金骏眉",
+          "type": "after_discount_profit",
+          "value": 330.51
+        },
+        {
+          "name": "精品果盘",
+          "type": "after_discount_profit",
+          "value": 274.5
+        },
+        {
+          "name": "菌类拼盘",
+          "type": "after_discount_profit",
+          "value": 3420.64
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "after_discount_profit",
+          "value": 7597.78
+        },
+        {
+          "name": "烤烧饼",
+          "type": "after_discount_profit",
+          "value": 18.6
+        },
+        {
+          "name": "烤肾头",
+          "type": "after_discount_profit",
+          "value": 753.29
+        },
+        {
+          "name": "烤羊宝",
+          "type": "after_discount_profit",
+          "value": 280.41
+        },
+        {
+          "name": "烤羊肉筋",
+          "type": "after_discount_profit",
+          "value": 1065.82
+        },
+        {
+          "name": "烤羊腿",
+          "type": "after_discount_profit",
+          "value": 288
+        },
+        {
+          "name": "宽粉",
+          "type": "after_discount_profit",
+          "value": 543.12
+        },
+        {
+          "name": "麻酱糖饼",
+          "type": "after_discount_profit",
+          "value": 1098.85
+        },
+        {
+          "name": "美宁午餐肉",
+          "type": "after_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "米饭",
+          "type": "after_discount_profit",
+          "value": 3.76
+        },
+        {
+          "name": "秘制酱料",
+          "type": "after_discount_profit",
+          "value": 12342.76
+        },
+        {
+          "name": "魔芋结",
+          "type": "after_discount_profit",
+          "value": 751.82
+        },
+        {
+          "name": "茉莉花茶",
+          "type": "after_discount_profit",
+          "value": 355.32
+        },
+        {
+          "name": "木耳",
+          "type": "after_discount_profit",
+          "value": 849.92
+        },
+        {
+          "name": "牛肉大葱馅饼",
+          "type": "after_discount_profit",
+          "value": 582.79
+        },
+        {
+          "name": "牛肉胡萝卜水饺",
+          "type": "after_discount_profit",
+          "value": 57.16
+        },
+        {
+          "name": "泡菜根",
+          "type": "after_discount_profit",
+          "value": 399.54
+        },
+        {
+          "name": "泡椒鱼皮",
+          "type": "after_discount_profit",
+          "value": 722.36
+        },
+        {
+          "name": "扑克牌",
+          "type": "after_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "普洱",
+          "type": "after_discount_profit",
+          "value": 217.28
+        },
+        {
+          "name": "起菜",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "起凉菜",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "清炒虾仁",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "after_discount_profit",
+          "value": 20884.25
+        },
+        {
+          "name": "烧饼夹牛肉",
+          "type": "after_discount_profit",
+          "value": 49.65
+        },
+        {
+          "name": "烧饼夹肘子肉",
+          "type": "after_discount_profit",
+          "value": 6.84
+        },
+        {
+          "name": "生鸡蛋",
+          "type": "after_discount_profit",
+          "value": 15.54
+        },
+        {
+          "name": "生蒜",
+          "type": "after_discount_profit",
+          "value": 4
+        },
+        {
+          "name": "手擀面",
+          "type": "after_discount_profit",
+          "value": 539.65
+        },
+        {
+          "name": "蔬菜组合",
+          "type": "after_discount_profit",
+          "value": 2599.95
+        },
+        {
+          "name": "涮肾头",
+          "type": "after_discount_profit",
+          "value": 390
+        },
+        {
+          "name": "双料麻酱海鲜汁",
+          "type": "after_discount_profit",
+          "value": 223.52
+        },
+        {
+          "name": "双料麻酱蒜泥",
+          "type": "after_discount_profit",
+          "value": 98.62
+        },
+        {
+          "name": "双料蒜泥海鲜汁",
+          "type": "after_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "after_discount_profit",
+          "value": 548.67
+        },
+        {
+          "name": "酥鱼",
+          "type": "after_discount_profit",
+          "value": 237.25
+        },
+        {
+          "name": "蒜泥调料",
+          "type": "after_discount_profit",
+          "value": 373.56
+        },
+        {
+          "name": "太阳卷",
+          "type": "after_discount_profit",
+          "value": 538.63
+        },
+        {
+          "name": "糖蒜",
+          "type": "after_discount_profit",
+          "value": 1062.46
+        },
+        {
+          "name": "特色蒙古奶茶（大套）",
+          "type": "after_discount_profit",
+          "value": 103.26
+        },
+        {
+          "name": "特色蒙古奶茶（小套）",
+          "type": "after_discount_profit",
+          "value": 784
+        },
+        {
+          "name": "铁观音",
+          "type": "after_discount_profit",
+          "value": 38
+        },
+        {
+          "name": "温拌羊肾",
+          "type": "after_discount_profit",
+          "value": 45.2
+        },
+        {
+          "name": "鲜炸辣椒油",
+          "type": "after_discount_profit",
+          "value": 38
+        },
+        {
+          "name": "响铃卷",
+          "type": "after_discount_profit",
+          "value": 107.83
+        },
+        {
+          "name": "小米辣",
+          "type": "after_discount_profit",
+          "value": 108.7
+        },
+        {
+          "name": "小酥肉",
+          "type": "after_discount_profit",
+          "value": 1066.13
+        },
+        {
+          "name": "盐焗鸡",
+          "type": "after_discount_profit",
+          "value": 684.48
+        },
+        {
+          "name": "扬州炒饭",
+          "type": "after_discount_profit",
+          "value": 96.57
+        },
+        {
+          "name": "羊肉大葱水饺",
+          "type": "after_discount_profit",
+          "value": 71.8
+        },
+        {
+          "name": "羊肉大葱馅饼",
+          "type": "after_discount_profit",
+          "value": 171.78
+        },
+        {
+          "name": "营养三色鲜杂面",
+          "type": "after_discount_profit",
+          "value": 1080.17
+        },
+        {
+          "name": "油炸豆皮",
+          "type": "after_discount_profit",
+          "value": 169.03
+        },
+        {
+          "name": "有机大拌菜",
+          "type": "after_discount_profit",
+          "value": 515.36
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "after_discount_profit",
+          "value": 6844.25
+        },
+        {
+          "name": "鱼豆腐",
+          "type": "after_discount_profit",
+          "value": 254.95
+        },
+        {
+          "name": "鱼骨煲粥",
+          "type": "after_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "鱼骨椒盐",
+          "type": "after_discount_profit",
+          "value": 28
+        },
+        {
+          "name": "赠送果盘10人以上",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘2-4人小份",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送果盘6-8人",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送沙窝萝卜10人",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "赠送酸奶",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "扎蒙花疙瘩汤",
+          "type": "after_discount_profit",
+          "value": 190
+        },
+        {
+          "name": "炸河虾",
+          "type": "after_discount_profit",
+          "value": 1295.59
+        },
+        {
+          "name": "炸烧饼",
+          "type": "after_discount_profit",
+          "value": 84.33
+        },
+        {
+          "name": "长寿面",
+          "type": "after_discount_profit",
+          "value": 0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "after_discount_profit",
+          "value": 2390.94
+        },
+        {
+          "name": "猪肉三鲜水饺",
+          "type": "after_discount_profit",
+          "value": 179.49
+        },
+        {
+          "name": "自制酸梅汤",
+          "type": "after_discount_profit",
+          "value": 272.87
+        },
+        {
+          "name": "自制酸奶",
+          "type": "after_discount_profit",
+          "value": 2190.8
+        },
+        {
+          "name": "自助酸梅汤",
+          "type": "after_discount_profit",
+          "value": 5.32
+        },
+        {
+          "name": "8头鲍鱼仔",
+          "type": "after_discount_profit",
+          "value": 562.98
+        },
+        {
+          "name": "巴沙鱼",
+          "type": "after_discount_profit",
+          "value": 432.58
+        },
+        {
+          "name": "刺身拼盘",
+          "type": "after_discount_profit",
+          "value": 489.49
+        },
+        {
+          "name": "多宝鱼",
+          "type": "after_discount_profit",
+          "value": 611.91
+        },
+        {
+          "name": "海青虾",
+          "type": "after_discount_profit",
+          "value": 1824.83
+        },
+        {
+          "name": "黑鱼",
+          "type": "after_discount_profit",
+          "value": 1778.55
+        },
+        {
+          "name": "红焖羊排(2斤）",
+          "type": "after_discount_profit",
+          "value": 271.34
+        },
+        {
+          "name": "基围虾",
+          "type": "after_discount_profit",
+          "value": 1338.49
+        },
+        {
+          "name": "经典墨鱼丸",
+          "type": "after_discount_profit",
+          "value": 114.81
+        },
+        {
+          "name": "烤扇贝",
+          "type": "after_discount_profit",
+          "value": 370.84
+        },
+        {
+          "name": "烤生蚝",
+          "type": "after_discount_profit",
+          "value": 1294.35
+        },
+        {
+          "name": "青口贝",
+          "type": "after_discount_profit",
+          "value": 19.15
+        },
+        {
+          "name": "撒尿牛肉丸",
+          "type": "after_discount_profit",
+          "value": 319
+        },
+        {
+          "name": "三文鱼刺身大份（可涮）",
+          "type": "after_discount_profit",
+          "value": 405.73
+        },
+        {
+          "name": "三文鱼刺身（小份）（可涮）",
+          "type": "after_discount_profit",
+          "value": 174.16
+        },
+        {
+          "name": "三文鱼拼北极贝刺身",
+          "type": "after_discount_profit",
+          "value": 1014.27
+        },
+        {
+          "name": "生蚝（生吃 涮）",
+          "type": "after_discount_profit",
+          "value": 502.08
+        },
+        {
+          "name": "生猛海鲜大拼盘",
+          "type": "after_discount_profit",
+          "value": 3284.74
+        },
+        {
+          "name": "石斑鱼",
+          "type": "after_discount_profit",
+          "value": 4316.26
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_profit",
+          "value": 41.03
+        },
+        {
+          "name": "鲜鱿",
+          "type": "after_discount_profit",
+          "value": 273.92
+        },
+        {
+          "name": "蟹腿肉",
+          "type": "after_discount_profit",
+          "value": 1012.27
+        },
+        {
+          "name": "羊蝎子锅（大）",
+          "type": "after_discount_profit",
+          "value": 502.18
+        },
+        {
+          "name": "羊蝎子锅（中）",
+          "type": "after_discount_profit",
+          "value": 955.22
+        },
+        {
+          "name": "章子岛海参",
+          "type": "after_discount_profit",
+          "value": 1119.63
+        },
+        {
+          "name": "1.25L果粒橙",
+          "type": "after_discount_profit",
+          "value": 49.23
+        },
+        {
+          "name": "1.25L可乐",
+          "type": "after_discount_profit",
+          "value": 228.07
+        },
+        {
+          "name": "艾迪达姆小瓶",
+          "type": "after_discount_profit",
+          "value": 18
+        },
+        {
+          "name": "艾帝达姆大星（大瓶）750ml",
+          "type": "after_discount_profit",
+          "value": -30.83
+        },
+        {
+          "name": "百岁山",
+          "type": "after_discount_profit",
+          "value": 480.04
+        },
+        {
+          "name": "餐巾纸",
+          "type": "after_discount_profit",
+          "value": 661.08
+        },
+        {
+          "name": "炖梨汁",
+          "type": "after_discount_profit",
+          "value": 47.43
+        },
+        {
+          "name": "炖山楂汁",
+          "type": "after_discount_profit",
+          "value": 33.67
+        },
+        {
+          "name": "黄桃汁nfc",
+          "type": "after_discount_profit",
+          "value": 16.25
+        },
+        {
+          "name": "芒果汁儿nfc",
+          "type": "after_discount_profit",
+          "value": 39.29
+        },
+        {
+          "name": "毛巾",
+          "type": "after_discount_profit",
+          "value": 2788.45
+        },
+        {
+          "name": "南京煊赫门",
+          "type": "after_discount_profit",
+          "value": 112
+        },
+        {
+          "name": "牛栏山46度 500ml",
+          "type": "after_discount_profit",
+          "value": 116
+        },
+        {
+          "name": "农夫山泉大桶",
+          "type": "after_discount_profit",
+          "value": 1275.56
+        },
+        {
+          "name": "屈臣氏苏打水香草",
+          "type": "after_discount_profit",
+          "value": 62.82
+        },
+        {
+          "name": "屈臣氏苏打水原味",
+          "type": "after_discount_profit",
+          "value": 305
+        },
+        {
+          "name": "山海关",
+          "type": "after_discount_profit",
+          "value": 16.05
+        },
+        {
+          "name": "听装可乐",
+          "type": "after_discount_profit",
+          "value": 203.45
+        },
+        {
+          "name": "听装王老吉",
+          "type": "after_discount_profit",
+          "value": 103.03
+        },
+        {
+          "name": "听装雪碧",
+          "type": "after_discount_profit",
+          "value": 21.29
+        },
+        {
+          "name": "望山楂",
+          "type": "after_discount_profit",
+          "value": 65.26
+        },
+        {
+          "name": "喜力星银啤酒",
+          "type": "after_discount_profit",
+          "value": 435
+        },
+        {
+          "name": "小糊涂仙52°250ml",
+          "type": "after_discount_profit",
+          "value": 86.92
+        },
+        {
+          "name": "小郎酒（100ml）",
+          "type": "after_discount_profit",
+          "value": 70
+        },
+        {
+          "name": "雪花 匠心营造",
+          "type": "after_discount_profit",
+          "value": 266
+        },
+        {
+          "name": "雪花纯生",
+          "type": "after_discount_profit",
+          "value": 687.17
+        },
+        {
+          "name": "雪花花脸",
+          "type": "after_discount_profit",
+          "value": 535.22
+        },
+        {
+          "name": "一次性筷子",
+          "type": "after_discount_profit",
+          "value": 2089.32
+        },
+        {
+          "name": "勇闯天涯",
+          "type": "after_discount_profit",
+          "value": 30
+        },
+        {
+          "name": "玉溪",
+          "type": "after_discount_profit",
+          "value": 88.6
+        },
+        {
+          "name": "百香果汁",
+          "type": "after_discount_profit",
+          "value": 29.99
+        },
+        {
+          "name": "菜心蛰皮",
+          "type": "after_discount_profit",
+          "value": 1546.45
+        },
+        {
+          "name": "花生核桃饮",
+          "type": "after_discount_profit",
+          "value": 498.72
+        },
+        {
+          "name": "黄金玉米饮",
+          "type": "after_discount_profit",
+          "value": 256.55
+        },
+        {
+          "name": "酱香肘花",
+          "type": "after_discount_profit",
+          "value": 406.75
+        },
+        {
+          "name": "芥油芥菜丝",
+          "type": "after_discount_profit",
+          "value": 713.36
+        },
+        {
+          "name": "老醋花生米",
+          "type": "after_discount_profit",
+          "value": 593.47
+        },
+        {
+          "name": "老醋蛰头",
+          "type": "after_discount_profit",
+          "value": 382.53
+        },
+        {
+          "name": "拍黄瓜",
+          "type": "after_discount_profit",
+          "value": 1059.12
+        },
+        {
+          "name": "爽口萝卜皮",
+          "type": "after_discount_profit",
+          "value": 300.66
+        },
+        {
+          "name": "水爆肚",
+          "type": "after_discount_profit",
+          "value": 4645.28
+        },
+        {
+          "name": "糖醋萝卜苗",
+          "type": "after_discount_profit",
+          "value": 338.93
+        },
+        {
+          "name": "未先生酱拼",
+          "type": "after_discount_profit",
+          "value": 1145.62
+        },
+        {
+          "name": "五彩大拉皮",
+          "type": "after_discount_profit",
+          "value": 488.31
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_profit",
+          "value": 434.54
+        },
+        {
+          "name": "西红柿拌白糖",
+          "type": "after_discount_profit",
+          "value": 208.24
+        },
+        {
+          "name": "香椿苗豆腐丝",
+          "type": "after_discount_profit",
+          "value": 1620.15
+        },
+        {
+          "name": "盐焗果仁",
+          "type": "after_discount_profit",
+          "value": 1996.63
+        },
+        {
+          "name": "油炸果仁",
+          "type": "after_discount_profit",
+          "value": 399.5
+        },
+        {
+          "name": "1精品肥牛",
+          "type": "after_discount_profit",
+          "value": -7.49
+        },
+        {
+          "name": "1美美肥",
+          "type": "after_discount_profit",
+          "value": 6.51
+        },
+        {
+          "name": "1羊上脑",
+          "type": "after_discount_profit",
+          "value": 10
+        },
+        {
+          "name": "大片羊肉",
+          "type": "after_discount_profit",
+          "value": 598.47
+        },
+        {
+          "name": "肥牛上脑",
+          "type": "after_discount_profit",
+          "value": 4895.64
+        },
+        {
+          "name": "羔羊肉",
+          "type": "after_discount_profit",
+          "value": 1575.11
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "after_discount_profit",
+          "value": 6841.45
+        },
+        {
+          "name": "黄喉",
+          "type": "after_discount_profit",
+          "value": 2461.22
+        },
+        {
+          "name": "极品牛眼肉",
+          "type": "after_discount_profit",
+          "value": 5302.03
+        },
+        {
+          "name": "极品羊肉",
+          "type": "after_discount_profit",
+          "value": 6139.33
+        },
+        {
+          "name": "精品肥牛",
+          "type": "after_discount_profit",
+          "value": 2838.73
+        },
+        {
+          "name": "精品乌鸡卷",
+          "type": "after_discount_profit",
+          "value": 393.39
+        },
+        {
+          "name": "美美肥",
+          "type": "after_discount_profit",
+          "value": 2158.62
+        },
+        {
+          "name": "牛骨髓",
+          "type": "after_discount_profit",
+          "value": 1935.64
+        },
+        {
+          "name": "牛小排",
+          "type": "after_discount_profit",
+          "value": 950.3
+        },
+        {
+          "name": "手锤鲜牛肉",
+          "type": "after_discount_profit",
+          "value": 1052.37
+        },
+        {
+          "name": "手打牛肉丸",
+          "type": "after_discount_profit",
+          "value": 846.38
+        },
+        {
+          "name": "手打虾滑",
+          "type": "after_discount_profit",
+          "value": 810.2
+        },
+        {
+          "name": "手打鲜虾丸",
+          "type": "after_discount_profit",
+          "value": 5083.04
+        },
+        {
+          "name": "手打香菜羊肉丸",
+          "type": "after_discount_profit",
+          "value": 1324.43
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "after_discount_profit",
+          "value": 3240.3
+        },
+        {
+          "name": "丸美组合",
+          "type": "after_discount_profit",
+          "value": 2032.67
+        },
+        {
+          "name": "五香酱牛肉",
+          "type": "after_discount_profit",
+          "value": 267.99
+        },
+        {
+          "name": "午餐肉",
+          "type": "after_discount_profit",
+          "value": 652.94
+        },
+        {
+          "name": "鲜百叶",
+          "type": "after_discount_profit",
+          "value": 2717.07
+        },
+        {
+          "name": "鲜毛肚",
+          "type": "after_discount_profit",
+          "value": 1352.15
+        },
+        {
+          "name": "鲜鸭肠",
+          "type": "after_discount_profit",
+          "value": 230.71
+        },
+        {
+          "name": "雪花和牛",
+          "type": "after_discount_profit",
+          "value": 176.5
+        },
+        {
+          "name": "雪花牛肉",
+          "type": "after_discount_profit",
+          "value": 3573.64
+        },
+        {
+          "name": "鸭胗花",
+          "type": "after_discount_profit",
+          "value": 307.51
+        },
+        {
+          "name": "羊宝",
+          "type": "after_discount_profit",
+          "value": 2100.31
+        },
+        {
+          "name": "羊钙骨",
+          "type": "after_discount_profit",
+          "value": 1382.86
+        },
+        {
+          "name": "羊和尚头",
+          "type": "after_discount_profit",
+          "value": 7475.36
+        },
+        {
+          "name": "羊腱肉",
+          "type": "after_discount_profit",
+          "value": 393.76
+        },
+        {
+          "name": "羊磨档",
+          "type": "after_discount_profit",
+          "value": 268.95
+        },
+        {
+          "name": "羊肉组合",
+          "type": "after_discount_profit",
+          "value": 12091.5
+        },
+        {
+          "name": "羊上脑",
+          "type": "after_discount_profit",
+          "value": 3827.46
+        },
+        {
+          "name": "羊尾",
+          "type": "after_discount_profit",
+          "value": 644.02
+        },
+        {
+          "name": "羊腰窝肉",
+          "type": "after_discount_profit",
+          "value": 1815.05
+        },
+        {
+          "name": "羊子盖",
+          "type": "after_discount_profit",
+          "value": 8486.9
+        },
+        {
+          "name": "重庆毛肚王",
+          "type": "after_discount_profit",
+          "value": 3773.08
+        },
+        {
+          "name": "烤鸡翅",
+          "type": "after_discount_profit",
+          "value": 420.88
+        },
+        {
+          "name": "烤羊腰",
+          "type": "after_discount_profit",
+          "value": 893.53
+        },
+        {
+          "name": "烤鱼豆腐",
+          "type": "after_discount_profit",
+          "value": 175.91
+        },
+        {
+          "name": "八宝菠菜",
+          "type": "after_discount_profit",
+          "value": 1543.2
+        },
+        {
+          "name": "白玉菇",
+          "type": "after_discount_profit",
+          "value": 53.21
+        },
+        {
+          "name": "菠菜",
+          "type": "after_discount_profit",
+          "value": 297.56
+        },
+        {
+          "name": "大白菜",
+          "type": "after_discount_profit",
+          "value": 1301.08
+        },
+        {
+          "name": "地瓜片",
+          "type": "after_discount_profit",
+          "value": 64.88
+        },
+        {
+          "name": "冬瓜",
+          "type": "after_discount_profit",
+          "value": 945.9
+        },
+        {
+          "name": "冻豆腐",
+          "type": "after_discount_profit",
+          "value": 1420.06
+        },
+        {
+          "name": "海带根",
+          "type": "after_discount_profit",
+          "value": 207.81
+        },
+        {
+          "name": "金针菇",
+          "type": "after_discount_profit",
+          "value": 692.19
+        },
+        {
+          "name": "靓点快菜",
+          "type": "after_discount_profit",
+          "value": 155.67
+        },
+        {
+          "name": "苦菊",
+          "type": "after_discount_profit",
+          "value": 10.52
+        },
+        {
+          "name": "宽粉",
+          "type": "after_discount_profit",
+          "value": 138.16
+        },
+        {
+          "name": "莲藕",
+          "type": "after_discount_profit",
+          "value": 173.64
+        },
+        {
+          "name": "萝卜片",
+          "type": "after_discount_profit",
+          "value": 184.58
+        },
+        {
+          "name": "山药片",
+          "type": "after_discount_profit",
+          "value": 529.41
+        },
+        {
+          "name": "生菜",
+          "type": "after_discount_profit",
+          "value": 664.38
+        },
+        {
+          "name": "酸菜",
+          "type": "after_discount_profit",
+          "value": 240.69
+        },
+        {
+          "name": "笋尖",
+          "type": "after_discount_profit",
+          "value": 306.8
+        },
+        {
+          "name": "茼蒿",
+          "type": "after_discount_profit",
+          "value": 937.23
+        },
+        {
+          "name": "土豆片",
+          "type": "after_discount_profit",
+          "value": 189.6
+        },
+        {
+          "name": "娃娃菜",
+          "type": "after_discount_profit",
+          "value": 277.09
+        },
+        {
+          "name": "鲜豆腐",
+          "type": "after_discount_profit",
+          "value": 410.23
+        },
+        {
+          "name": "香菜",
+          "type": "after_discount_profit",
+          "value": 55.4
+        },
+        {
+          "name": "香菇",
+          "type": "after_discount_profit",
+          "value": 113.8
+        },
+        {
+          "name": "小白菜",
+          "type": "after_discount_profit",
+          "value": 255.82
+        },
+        {
+          "name": "小葱拌豆腐",
+          "type": "after_discount_profit",
+          "value": 492.97
+        },
+        {
+          "name": "鸭血",
+          "type": "after_discount_profit",
+          "value": 339.28
+        },
+        {
+          "name": "养生竹荪",
+          "type": "after_discount_profit",
+          "value": 1028.02
+        },
+        {
+          "name": "油豆皮",
+          "type": "after_discount_profit",
+          "value": 464.79
+        },
+        {
+          "name": "油麦菜",
+          "type": "after_discount_profit",
+          "value": 285.35
+        },
+        {
+          "name": "炸豆皮",
+          "type": "after_discount_profit",
+          "value": 344.4
+        }
+      ],
+      "style": null
+    }
+  ]
+}
