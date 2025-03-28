@@ -1,0 +1,102 @@
+{
+  "conv_uid": "da89c3b4-0bb7-11f0-acf4-bc2411cbc733",
+  "template_name": "report",
+  "template_introduce": null,
+  "charts": [
+    {
+      "chart_uid": "6dd1c006-0bc5-11f0-b328-bc2411cbc733",
+      "chart_name": "串类销售量与销售额占整体营业额的贡献度",
+      "chart_type": "PieChart",
+      "chart_desc": "为了评估串类销售量与销售额对整体营业额的贡献，我们需要从菜品销售数据中提取串类的销售量和销售额，并与整体营业额进行对比。通过分析串类的销售量和销售额占总销售量和总销售额的比例，可以了解串类对整体营业额的贡献度。此外，我们还可以分析串类的平均单价和单位销售额，以评估其价格和销售表现。",
+      "chart_sql": "SELECT '串类' as category, SUM(折后销售额) as 销售额, SUM(销售份数) as 销售量 FROM 档口菜品毛利分析 WHERE 菜品名称 LIKE '%串%' UNION ALL SELECT '其他' as category, SUM(折后销售额) as 销售额, SUM(销售份数) as 销售量 FROM 档口菜品毛利分析 WHERE 菜品名称 NOT LIKE '%串%'",
+      "column_name": [
+        "category",
+        "销售额",
+        "销售量"
+      ],
+      "values": [
+        {
+          "name": "串类",
+          "type": "销售额",
+          "value": 14688.39
+        },
+        {
+          "name": "其他",
+          "type": "销售额",
+          "value": 313103.06
+        },
+        {
+          "name": "串类",
+          "type": "销售量",
+          "value": 1735.0
+        },
+        {
+          "name": "其他",
+          "type": "销售量",
+          "value": 19775.0
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "6dd1ff44-0bc5-11f0-b328-bc2411cbc733",
+      "chart_name": "串类与其他菜品销售量和销售额的对比",
+      "chart_type": "BarChart",
+      "chart_desc": "通过分析串类的销售量和销售额占总销售量和总销售额的比例，可以了解串类对整体营业额的贡献度。同时，我们还可以通过对比串类与其他菜品的销售量和销售额，了解串类在整体销售中的表现。",
+      "chart_sql": "SELECT category, SUM(销售额) as 总销售额, SUM(销售量) as 总销售量 FROM (SELECT '串类' as category, SUM(折后销售额) as 销售额, SUM(销售份数) as 销售量 FROM 档口菜品毛利分析 WHERE 菜品名称 LIKE '%串%' UNION ALL SELECT '其他' as category, SUM(折后销售额) as 销售额, SUM(销售份数) as 销售量 FROM 档口菜品毛利分析 WHERE 菜品名称 NOT LIKE '%串%') GROUP BY category",
+      "column_name": [
+        "category",
+        "总销售额",
+        "总销售量"
+      ],
+      "values": [
+        {
+          "name": "串类",
+          "type": "总销售额",
+          "value": 14688.39
+        },
+        {
+          "name": "其他",
+          "type": "总销售额",
+          "value": 313103.06
+        },
+        {
+          "name": "串类",
+          "type": "总销售量",
+          "value": 1735.0
+        },
+        {
+          "name": "其他",
+          "type": "总销售量",
+          "value": 19775.0
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "6dd22348-0bc5-11f0-b328-bc2411cbc733",
+      "chart_name": "串类的平均单价和单位销售额",
+      "chart_type": "Table",
+      "chart_desc": "通过分析串类的平均单价和单位销售额，可以评估其价格和销售表现。平均单价可以反映串类的价格水平，单位销售额可以反映串类的销售效率。",
+      "chart_sql": "SELECT '串类' as category, AVG(折后销售额 / 销售份数) as 平均单价, SUM(折后销售额) / SUM(销售份数) as 单位销售额 FROM 档口菜品毛利分析 WHERE 菜品名称 LIKE '%串%'",
+      "column_name": [
+        "category",
+        "平均单价",
+        "单位销售额"
+      ],
+      "values": [
+        {
+          "name": "串类",
+          "type": "平均单价",
+          "value": 8.46422644959312
+        },
+        {
+          "name": "串类",
+          "type": "单位销售额",
+          "value": 8.46593083573487
+        }
+      ],
+      "style": null
+    }
+  ]
+}

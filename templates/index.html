@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        #result-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .report-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+        .card-footer {
+            background-color: rgba(0,0,0,0.03);
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <h1 class="mb-4 text-center">餐饮数据分析系统</h1>
+        
+        <ul class="nav nav-tabs" id="analysisTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="agent-tab" data-bs-toggle="tab" data-bs-target="#agent-analysis" type="button" role="tab" aria-controls="agent-analysis" aria-selected="true">DeepSeek分析</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="api-tab" data-bs-toggle="tab" data-bs-target="#api-analysis" type="button" role="tab" aria-controls="api-analysis" aria-selected="false">API分析</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content" id="analysisTabContent">
+            <div class="tab-pane fade show active" id="agent-analysis" role="tabpanel" aria-labelledby="agent-tab">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">选择分析角色</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="analysis-form">
+                            <div class="mb-3">
+                                <label for="prompt-select" class="form-label">选择分析角色</label>
+                                <select class="form-select" id="prompt-select" required>
+                                    <option value="" selected disabled>请选择分析角色</option>
+                                    {% for prompt in prompts %}
+                                        <option value="{{ prompt.id }}">{{ prompt.id }} - {{ prompt.Role }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="prompt-details" class="form-label">角色信息</label>
+                                <div class="card p-3" id="prompt-details">
+                                    <p><strong>Action:</strong> <span id="action-text">请先选择角色</span></p>
+                                    <p><strong>Context:</strong> <span id="context-text">请先选择角色</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer p-3 mt-4">
+                                <div class="alert alert-info mb-0">
+                                    <i class="bi bi-info-circle-fill"></i> 
+                                    <strong>自动分析流程:</strong> 
+                                    <ol class="mb-0">
+                                        <li>选择角色后，系统将自动使用该角色的Action和Context调用原始API</li>
+                                        <li>将API结果传递给DeepSeek大模型进行深度分析</li>
+                                        <li>生成详细的分析报告</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 mt-3">
+                                <button type="submit" class="btn btn-primary float-end">开始分析</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-pane fade" id="api-analysis" role="tabpanel" aria-labelledby="api-tab">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">API分析</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="api-form">
+                            <div class="mb-3">
+                                <label for="api-prompt-select" class="form-label">选择分析角色</label>
+                                <select class="form-select" id="api-prompt-select" required>
+                                    <option value="" selected disabled>请选择分析角色</option>
+                                    {% for prompt in prompts %}
+                                        <option value="{{ prompt.id }}">{{ prompt.id }} - {{ prompt.Role }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="api-prompt-details" class="form-label">角色信息</label>
+                                <div class="card p-3" id="api-prompt-details">
+                                    <p><strong>Action:</strong> <span id="api-action-text">请先选择角色</span></p>
+                                    <p><strong>Context:</strong> <span id="api-context-text">请先选择角色</span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary float-end">开始API分析</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">加载中...</span>
+            </div>
+            <p class="mt-2">数据分析中，请稍候...</p>
+            <p class="text-muted small">根据数据量大小，可能需要1-3分钟不等</p>
+        </div>
+        
+        <div id="result-container">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">分析结果</h5>
+                </div>
+                <div class="card-body">
+                    <h4 id="role-title" class="mb-3"></h4>
+                    
+                    <div class="report-section">
+                        <h5>🌟 宏观总结</h5>
+                        <div id="macro-report"></div>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h5>📊 菜品总览</h5>
+                        <div id="chunk-summary"></div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a id="report-link" href="#" target="_blank" class="btn btn-primary">查看完整报告</a>
+                        <a id="api-result-link" href="#" target="_blank" class="btn btn-outline-secondary">查看原始API结果</a>
+                        <button id="new-analysis" class="btn btn-outline-secondary float-end">开始新的分析</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="api-result-container" style="display: none;">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">API分析结果</h5>
+                </div>
+                <div class="card-body">
+                    <h4 id="api-role-title" class="mb-3"></h4>
+                    
+                    <div class="report-section">
+                        <h5>分析结果</h5>
+                        <div id="api-result"></div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a id="api-report-link" href="#" target="_blank" class="btn btn-primary">下载完整结果</a>
+                        <button id="api-new-analysis" class="btn btn-outline-secondary float-end">开始新的分析</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DeepSeek分析相关元素
+            const promptSelect = document.getElementById('prompt-select');
+            const form = document.getElementById('analysis-form');
+            const loadingElement = document.getElementById('loading');
+            const resultContainer = document.getElementById('result-container');
+            const newAnalysisButton = document.getElementById('new-analysis');
+            
+            // API分析相关元素
+            const apiPromptSelect = document.getElementById('api-prompt-select');
+            const apiForm = document.getElementById('api-form');
+            const apiResultContainer = document.getElementById('api-result-container');
+            const apiNewAnalysisButton = document.getElementById('api-new-analysis');
+            
+            // 更新角色信息 (DeepSeek分析)
+            promptSelect.addEventListener('change', function() {
+                const promptId = this.value;
+                if (!promptId) return;
+                
+                fetch(`/get_prompt_info/${promptId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('action-text').textContent = data.data.Action;
+                            document.getElementById('context-text').textContent = data.data.Context;
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('获取角色信息失败');
+                    });
+            });
+            
+            // 更新角色信息 (API分析)
+            apiPromptSelect.addEventListener('change', function() {
+                const promptId = this.value;
+                if (!promptId) return;
+                
+                fetch(`/get_prompt_info/${promptId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById('api-action-text').textContent = data.data.Action;
+                            document.getElementById('api-context-text').textContent = data.data.Context;
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('获取角色信息失败');
+                    });
+            });
+            
+            // 提交表单 (DeepSeek分析)
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const promptId = promptSelect.value;
+                
+                if (!promptId) {
+                    alert('请选择分析角色');
+                    return;
+                }
+                
+                // 显示加载中
+                form.style.display = 'none';
+                loadingElement.style.display = 'block';
+                resultContainer.style.display = 'none';
+                apiResultContainer.style.display = 'none';
+                
+                // 发送请求
+                const formData = new FormData();
+                formData.append('prompt_id', promptId);
+                
+                fetch('/analyze', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(result => {
+                    loadingElement.style.display = 'none';
+                    
+                    if (result.success) {
+                        // 显示结果
+                        resultContainer.style.display = 'block';
+                        
+                        // 更新结果内容
+                        document.getElementById('role-title').textContent = result.prompt_info.Role + ' 分析报告';
+                        document.getElementById('macro-report').innerHTML = '<pre>' + result.data.macro_report + '</pre>';
+                        document.getElementById('chunk-summary').innerHTML = '<pre>' + result.data.chunk_summary + '</pre>';
+                        
+                        // 设置报告链接
+                        const reportLink = document.getElementById('report-link');
+                        reportLink.href = '/reports/' + result.data.report_file;
+                        reportLink.download = result.data.report_file;
+                        
+                        // 设置原始API结果链接
+                        const apiResultLink = document.getElementById('api-result-link');
+                        apiResultLink.href = '/reports/' + '原始API结果_ID' + promptId + '_web_request_' + promptId + '.json';
+                        apiResultLink.download = '原始API结果_ID' + promptId + '_web_request_' + promptId + '.json';
+                    } else {
+                        // 显示错误
+                        alert('分析失败: ' + result.message);
+                        form.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    loadingElement.style.display = 'none';
+                    form.style.display = 'block';
+                    alert('请求出错: ' + error);
+                    console.error('Error:', error);
+                });
+            });
+            
+            // 提交表单 (API分析)
+            apiForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const promptId = apiPromptSelect.value;
+                
+                if (!promptId) {
+                    alert('请选择分析角色');
+                    return;
+                }
+                
+                // 显示加载中
+                apiForm.style.display = 'none';
+                loadingElement.style.display = 'block';
+                resultContainer.style.display = 'none';
+                apiResultContainer.style.display = 'none';
+                
+                // 发送请求
+                fetch(`/api_analyze/${promptId}`, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(result => {
+                    loadingElement.style.display = 'none';
+                    
+                    if (result.success) {
+                        // 获取角色信息
+                        fetch(`/get_prompt_info/${promptId}`)
+                            .then(response => response.json())
+                            .then(promptData => {
+                                if (promptData.success) {
+                                    // 显示结果
+                                    apiResultContainer.style.display = 'block';
+                                    
+                                    // 更新结果内容
+                                    document.getElementById('api-role-title').textContent = promptData.data.Role + ' API分析结果';
+                                    
+                                    // 格式化响应为可读的文本
+                                    let resultText = '';
+                                    if (result.result && result.result.response) {
+                                        resultText = result.result.response;
+                                    } else {
+                                        resultText = JSON.stringify(result.result, null, 2);
+                                    }
+                                    
+                                    document.getElementById('api-result').innerHTML = '<pre>' + resultText + '</pre>';
+                                    
+                                    // 设置报告链接
+                                    const apiReportLink = document.getElementById('api-report-link');
+                                    apiReportLink.href = '/reports/' + result.report_file;
+                                    apiReportLink.download = result.report_file;
+                                } else {
+                                    alert('获取角色信息失败');
+                                    apiForm.style.display = 'block';
+                                }
+                            });
+                    } else {
+                        // 显示错误
+                        alert('API分析失败: ' + result.message);
+                        apiForm.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    loadingElement.style.display = 'none';
+                    apiForm.style.display = 'block';
+                    alert('请求出错: ' + error);
+                    console.error('Error:', error);
+                });
+            });
+            
+            // 新的分析 (DeepSeek分析)
+            newAnalysisButton.addEventListener('click', function() {
+                resultContainer.style.display = 'none';
+                form.style.display = 'block';
+            });
+            
+            // 新的分析 (API分析)
+            apiNewAnalysisButton.addEventListener('click', function() {
+                apiResultContainer.style.display = 'none';
+                apiForm.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

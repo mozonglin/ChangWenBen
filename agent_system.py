@@ -1,9 +1,10 @@
 import json
 import asyncio
-from typing import Dict, List, TypedDict
+from typing import Dict, List, TypedDict, Optional, Union, Any
 from openai import AsyncOpenAI
 import aiofiles
 import time
+import os
 
 # 配置OpenAI客户端
 client = AsyncOpenAI(
@@ -23,9 +24,31 @@ class AgentState(TypedDict):
 # 工具函数
 async def load_json_file(file_path: str) -> Dict:
     """异步加载JSON文件"""
-    async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
-        content = await f.read()
-        return json.loads(content)
+    try:
+        async with aiofiles.open(file_path, 'r', encoding='utf-8') as f:
+            content = await f.read()
+            return json.loads(content)
+    except FileNotFoundError:
+        await log_debug(f"文件不存在: {file_path}", "system")
+        return {}
+    except json.JSONDecodeError:
+        await log_debug(f"JSON解析错误: {file_path}", "system")
+        return {}
+    except Exception as e:
+        await log_debug(f"加载文件出错 {file_path}: {str(e)}", "system")
+        return {}
+
+async def log_debug(message: str, role_id: str):
+    """记录调试日志"""
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    log_message = f"[{timestamp}] {message}\n"
+    
+    # 将日志写入文件
+    async with aiofiles.open(f"debug_log_{role_id}.txt", "a", encoding="utf-8") as f:
+        await f.write(log_message)
+    
+    # 同时在控制台打印
+    print(log_message.strip())
 
 def organize_data_by_dish(data: Dict) -> Dict:
     """将数据按菜品名称整合"""
@@ -130,8 +153,9 @@ def chunk_data(data: Dict, chunk_size: int = 5) -> List[Dict]:
     
     return chunks
 
-async def get_llm_response(messages: List[Dict], model_name: str = "Pro/deepseek-ai/DeepSeek-R1", json_format: bool = False) -> str:
+async def get_llm_response(messages: List[Dict], model_name: str = "Pro/deepseek-ai/DeepSeek-R1", json_format: bool = False, role_id: str = "system") -> str:
     """异步获取大模型响应"""
+    await log_debug(f"调用API: {model_name}, JSON格式: {json_format}", role_id)
     try:
         if json_format:
             response = await client.chat.completions.create(
@@ -144,12 +168,15 @@ async def get_llm_response(messages: List[Dict], model_name: str = "Pro/deepseek
                 model=model_name,
                 messages=messages
             )
+        await log_debug(f"API调用成功", role_id)
         return response.choices[0].message.content
     except Exception as e:
-        print(f"API调用出错: {str(e)}")
+        error_msg = f"API调用出错: {str(e)}"
+        await log_debug(error_msg, role_id)
         # 等待一会再重试
         await asyncio.sleep(3)
         try:
+            await log_debug(f"重试API调用: {model_name}", role_id)
             if json_format:
                 response = await client.chat.completions.create(
                     model=model_name,
@@ -161,9 +188,11 @@ async def get_llm_response(messages: List[Dict], model_name: str = "Pro/deepseek
                     model=model_name,
                     messages=messages
                 )
+            await log_debug(f"重试API调用成功", role_id)
             return response.choices[0].message.content
         except Exception as e:
-            print(f"第二次API调用出错: {str(e)}")
+            error_msg = f"第二次API调用出错: {str(e)}"
+            await log_debug(error_msg, role_id)
             return f"分析失败: {str(e)}"
 
 def json_to_markdown(json_str: str) -> str:
@@ -271,8 +300,12 @@ def json_to_markdown(json_str: str) -> str:
 
 async def analyze_chunk(chunk: Dict, prompt: Dict) -> Dict:
     """分析单个数据块"""
+    role_id = str(prompt.get("id", "unknown"))
+    await log_debug(f"开始分析数据块，角色ID: {role_id}", role_id)
+    
     # 检查是否是按菜品组织的数据
     if "dishes" in chunk:
+        await log_debug("数据已按菜品整合", role_id)
         messages = [
             {"role": "system", "content": "你是一个专业的数据分析师，负责分析餐饮行业的各项数据。请根据提供的数据进行深入分析，并给出详细的分析报告。"},
             {"role": "system", "content": f"""
@@ -304,6 +337,7 @@ async def analyze_chunk(chunk: Dict, prompt: Dict) -> Dict:
         ]
     else:
         # 原来的分析逻辑
+        await log_debug("使用原始数据分析逻辑", role_id)
         messages = [
             {"role": "system", "content": "你是一个专业的数据分析师，负责分析餐饮行业的各项数据。请根据提供的数据进行深入分析，并给出详细的分析报告。"},
             {"role": "system", "content": f"""
@@ -333,7 +367,8 @@ async def analyze_chunk(chunk: Dict, prompt: Dict) -> Dict:
         ]
     
     # 使用 DeepSeek-V2.5 模型进行数据块分析，返回JSON格式
-    analysis = await get_llm_response(messages, model_name="deepseek-ai/DeepSeek-V2.5", json_format=True)
+    await log_debug("调用DeepSeek-V2.5模型进行数据块分析", role_id)
+    analysis = await get_llm_response(messages, model_name="deepseek-ai/DeepSeek-V2.5", json_format=True, role_id=role_id)
     return {
         "data": chunk,
         "analysis": analysis
@@ -341,6 +376,9 @@ async def analyze_chunk(chunk: Dict, prompt: Dict) -> Dict:
 
 async def summarize_chunk_results(chunk_results: List[Dict], prompt: Dict) -> str:
     """使用V3模型对所有数据块的菜品进行总结"""
+    role_id = str(prompt.get("id", "unknown"))
+    await log_debug(f"开始总结所有数据块，角色ID: {role_id}", role_id)
+    
     # 提取所有菜品信息
     all_dish_info = []
     for result in chunk_results:
@@ -351,9 +389,11 @@ async def summarize_chunk_results(chunk_results: List[Dict], prompt: Dict) -> st
                     if isinstance(dish, dict) and "菜品名称" in dish:
                         all_dish_info.append(dish)
         except Exception as e:
-            print(f"处理菜品信息时出错: {str(e)}")
+            error_msg = f"处理菜品信息时出错: {str(e)}"
+            await log_debug(error_msg, role_id)
     
     # 为V3模型准备总结请求
+    await log_debug(f"为DeepSeek-V3-1226模型准备总结请求，菜品数量: {len(all_dish_info)}", role_id)
     summary_messages = [
         {"role": "system", "content": "你是一个专业的数据分析师，负责分析餐饮行业的各项数据。请根据提供的数据进行深入分析，并给出详细的分析报告。"},
         {"role": "system", "content": f"""
@@ -368,40 +408,60 @@ async def summarize_chunk_results(chunk_results: List[Dict], prompt: Dict) -> st
     ]
     
     # 使用DeepSeek-V3-1226模型生成总结
-    summary = await get_llm_response(summary_messages, model_name="Pro/deepseek-ai/DeepSeek-V3-1226")
+    await log_debug("调用DeepSeek-V3-1226模型生成总结", role_id)
+    summary = await get_llm_response(summary_messages, model_name="Pro/deepseek-ai/DeepSeek-V3-1226", role_id=role_id)
     return summary
 
-async def process_file(file_path: str, prompt_data: List[Dict]):
+async def process_file(file_path: str, prompt_data: List[Dict], role_id: int = None):
     """处理单个文件"""
-    print(f"开始处理文件: {file_path}")
     start_time = time.time()
     
     try:
+        # 使用传入的role_id参数
+        str_role_id = str(role_id) if role_id is not None else "unknown"
+        
+        # 查找对应的prompt
+        prompt = None
+        if role_id is not None and isinstance(prompt_data, list):
+            prompt = next((p for p in prompt_data if p.get("id") == role_id), None)
+        
+        # 如果找不到匹配的prompt或没有传入role_id，使用默认处理
+        if prompt is None:
+            if isinstance(prompt_data, list) and len(prompt_data) > 0:
+                # 如果找不到匹配的，使用第一个
+                prompt = prompt_data[0]
+                str_role_id = str(prompt.get("id", "unknown"))
+            else:
+                prompt = prompt_data
+                str_role_id = str(prompt.get("id", "unknown"))
+        
+        # 初始化日志文件
+        await log_debug(f"开始处理文件: {file_path}, 角色ID: {str_role_id}", str_role_id)
+        
         # 加载数据
+        await log_debug(f"加载数据文件: {file_path}", str_role_id)
         data = await load_json_file(file_path)
-        role_id = data.get("id")
         
-        # 获取对应的prompt
-        prompt = next((p for p in prompt_data if p["id"] == role_id), None)
-        if not prompt:
-            print(f"未找到ID {role_id} 对应的prompt")
+        if not data:
+            await log_debug(f"数据文件为空或不存在: {file_path}", str_role_id)
             return
-        
+            
         # 按菜品整合数据
-        print(f"正在整合 {file_path} 中的菜品数据")
+        await log_debug(f"正在整合 {file_path} 中的菜品数据", str_role_id)
         organized_data = organize_data_by_dish(data)
         
         # 将整合后的数据分块
         chunks = chunk_data(organized_data)
-        print(f"文件 {file_path} 已按菜品整合并分为 {len(chunks)} 个数据块")
+        await log_debug(f"文件 {file_path} 已按菜品整合并分为 {len(chunks)} 个数据块", str_role_id)
         
         # 并行分析所有数据块（使用 DeepSeek-V2.5 模型）
+        await log_debug(f"开始并行分析 {len(chunks)} 个数据块", str_role_id)
         tasks = [analyze_chunk(chunk, prompt) for chunk in chunks]
         chunk_results = await asyncio.gather(*tasks)
-        print(f"文件 {file_path} 的 {len(chunks)} 个数据块分析完成")
+        await log_debug(f"完成 {len(chunks)} 个数据块的分析", str_role_id)
         
         # 使用V3模型对所有数据块进行总结
-        print(f"使用DeepSeek-V3-1226模型对菜品数据进行总结")
+        await log_debug(f"使用DeepSeek-V3-1226模型对菜品数据进行总结", str_role_id)
         chunk_summary = await summarize_chunk_results(chunk_results, prompt)
         
         # 保存每个分块的JSON分析结果和V3总结
@@ -415,10 +475,12 @@ async def process_file(file_path: str, prompt_data: List[Dict]):
             detailed_reports.append(f"{md_content}\n\n")
         
         # 将所有分块详细分析结果保存到一个文件（原始JSON格式）
-        async with aiofiles.open(f"detailed_report_json_{role_id}.json", "w", encoding="utf-8") as f:
+        await log_debug(f"保存详细分析结果到 detailed_report_json_{str_role_id}.json", str_role_id)
+        async with aiofiles.open(f"detailed_report_json_{str_role_id}.json", "w", encoding="utf-8") as f:
             await f.write(json.dumps(json_reports, ensure_ascii=False, indent=2))
         
         # 为R1模型准备宏观摘要请求
+        await log_debug(f"为DeepSeek-R1模型准备宏观摘要请求", str_role_id)
         r1_summary_messages = [
             {"role": "system", "content": "你是一个专业的数据分析师，负责分析餐饮行业的各项数据。请根据提供的数据进行深入分析，并给出详细的分析报告。"},
             {"role": "system", "content": f"""
@@ -449,9 +511,9 @@ async def process_file(file_path: str, prompt_data: List[Dict]):
 """
         })
         
-        print(f"开始为文件 {file_path} 生成宏观总结报告（使用DeepSeek-R1模型）")
+        await log_debug(f"开始为文件 {file_path} 生成宏观总结报告（使用DeepSeek-R1模型）", str_role_id)
         # 使用 DeepSeek-R1 模型生成宏观总结报告
-        macro_report = await get_llm_response(r1_summary_messages, model_name="Pro/deepseek-ai/DeepSeek-R1")
+        macro_report = await get_llm_response(r1_summary_messages, model_name="Pro/deepseek-ai/DeepSeek-R1", role_id=str_role_id)
         
         # 合并V3总结、详细分析和宏观总结到一个Markdown文件
         final_report = f"""# {prompt['Role']}分析报告
@@ -473,14 +535,177 @@ async def process_file(file_path: str, prompt_data: List[Dict]):
 """
         
         # 保存最终Markdown报告
-        async with aiofiles.open(f"report_{role_id}.md", "w", encoding="utf-8") as f:
+        report_file = f"report_{str_role_id}.md"
+        await log_debug(f"保存最终报告到 {report_file}", str_role_id)
+        async with aiofiles.open(report_file, "w", encoding="utf-8") as f:
             await f.write(final_report)
         
         end_time = time.time()
-        print(f"完成文件 {file_path} 的分析，用时 {end_time - start_time:.2f} 秒")
+        await log_debug(f"完成文件 {file_path} 的分析，用时 {end_time - start_time:.2f} 秒", str_role_id)
         
     except Exception as e:
-        print(f"处理文件 {file_path} 时出错: {str(e)}")
+        error_msg = f"处理文件 {file_path} 时出错: {str(e)}"
+        print(error_msg)
+        # 尝试记录错误，即使我们不确定role_id
+        try:
+            await log_debug(error_msg, str(role_id) if 'role_id' in locals() else "system")
+        except:
+            print("无法记录错误日志")
+
+# 新增：处理直接传入的数据，而不是从文件加载
+async def process_data(data: Dict, prompt_data: List[Dict], role_id: int = None, file_name: str = "direct_input_data"):
+    """处理直接传入的数据
+    
+    参数:
+        data: 直接传入的数据字典
+        prompt_data: prompt模板数据
+        role_id: 要使用的prompt ID
+        file_name: 用于日志和报告文件名的标识符
+    """
+    start_time = time.time()
+    
+    try:
+        # 使用传入的role_id参数
+        str_role_id = str(role_id) if role_id is not None else "unknown"
+        
+        # 查找对应的prompt
+        prompt = None
+        if role_id is not None and isinstance(prompt_data, list):
+            prompt = next((p for p in prompt_data if p.get("id") == role_id), None)
+        
+        # 如果找不到匹配的prompt或没有传入role_id，使用默认处理
+        if prompt is None:
+            if isinstance(prompt_data, list) and len(prompt_data) > 0:
+                # 如果找不到匹配的，使用第一个
+                prompt = prompt_data[0]
+                str_role_id = str(prompt.get("id", "unknown"))
+            else:
+                prompt = prompt_data
+                str_role_id = str(prompt.get("id", "unknown"))
+        
+        # 初始化日志文件
+        await log_debug(f"开始处理直接传入的数据, 角色ID: {str_role_id}", str_role_id)
+        
+        if not data:
+            await log_debug(f"传入的数据为空", str_role_id)
+            return None
+            
+        # 按菜品整合数据
+        await log_debug(f"正在整合传入的菜品数据", str_role_id)
+        organized_data = organize_data_by_dish(data)
+        
+        # 将整合后的数据分块
+        chunks = chunk_data(organized_data)
+        await log_debug(f"数据已按菜品整合并分为 {len(chunks)} 个数据块", str_role_id)
+        
+        # 并行分析所有数据块（使用 DeepSeek-V2.5 模型）
+        await log_debug(f"开始并行分析 {len(chunks)} 个数据块", str_role_id)
+        tasks = [analyze_chunk(chunk, prompt) for chunk in chunks]
+        chunk_results = await asyncio.gather(*tasks)
+        await log_debug(f"完成 {len(chunks)} 个数据块的分析", str_role_id)
+        
+        # 使用V3模型对所有数据块进行总结
+        await log_debug(f"使用DeepSeek-V3-1226模型对菜品数据进行总结", str_role_id)
+        chunk_summary = await summarize_chunk_results(chunk_results, prompt)
+        
+        # 保存每个分块的JSON分析结果和V3总结
+        detailed_reports = []
+        json_reports = []
+        
+        for i, result in enumerate(chunk_results):
+            json_reports.append(result["analysis"])
+            # 将JSON转换为Markdown格式
+            md_content = json_to_markdown(result["analysis"])
+            detailed_reports.append(f"{md_content}\n\n")
+        
+        # 将所有分块详细分析结果保存到一个文件（原始JSON格式）
+        await log_debug(f"保存详细分析结果到 detailed_report_json_{str_role_id}.json", str_role_id)
+        async with aiofiles.open(f"detailed_report_json_{str_role_id}.json", "w", encoding="utf-8") as f:
+            await f.write(json.dumps(json_reports, ensure_ascii=False, indent=2))
+        
+        # 为R1模型准备宏观摘要请求
+        await log_debug(f"为DeepSeek-R1模型准备宏观摘要请求", str_role_id)
+        r1_summary_messages = [
+            {"role": "system", "content": "你是一个专业的数据分析师，负责分析餐饮行业的各项数据。请根据提供的数据进行深入分析，并给出详细的分析报告。"},
+            {"role": "system", "content": f"""
+你现在扮演{prompt['Role']}的角色。
+你的任务是：{prompt['Action']}
+需要考虑的上下文：{prompt['Context']}
+特殊要求：{prompt['Exception']}
+
+我们已经对每个菜品的数据块进行了详细分析，并生成了总结。现在需要你提供一份宏观的总结报告，关注整体趋势、关键发现和战略性建议。
+不需要再对每个具体菜品进行详细分析，请专注于宏观层面的结论和建议。
+"""}
+        ]
+        
+        # 为R1提供V3的总结结果而不是原始数据
+        r1_summary_messages.append({
+            "role": "user", 
+            "content": f"""
+我们已经分析了{len(chunks)}个数据块，V3模型对菜品数据的总结如下：
+
+{chunk_summary}
+
+基于这些信息和以下背景：
+1. 数据来源: 直接传入的数据 ({file_name})
+2. 分析角色: {prompt['Role']}
+3. 主要任务: {prompt['Action']}
+
+请提供一份宏观层面的总结报告，包含整体趋势分析、关键发现和战略性建议。请专注于宏观层面的结论和建议。
+"""
+        })
+        
+        await log_debug(f"开始为传入数据生成宏观总结报告（使用DeepSeek-R1模型）", str_role_id)
+        # 使用 DeepSeek-R1 模型生成宏观总结报告
+        macro_report = await get_llm_response(r1_summary_messages, model_name="Pro/deepseek-ai/DeepSeek-R1", role_id=str_role_id)
+        
+        # 合并V3总结、详细分析和宏观总结到一个Markdown文件
+        final_report = f"""# {prompt['Role']}分析报告
+
+## 🌟 宏观总结
+
+{macro_report}
+
+## 📊 菜品总览
+
+{chunk_summary}
+
+## 📝 详细分析
+
+{"".join(detailed_reports)}
+
+---
+*报告生成时间：{time.strftime("%Y-%m-%d %H:%M:%S")}*
+"""
+        
+        # 保存最终Markdown报告
+        report_file = f"report_{str_role_id}_{file_name}.md"
+        await log_debug(f"保存最终报告到 {report_file}", str_role_id)
+        async with aiofiles.open(report_file, "w", encoding="utf-8") as f:
+            await f.write(final_report)
+        
+        end_time = time.time()
+        await log_debug(f"完成数据分析，用时 {end_time - start_time:.2f} 秒", str_role_id)
+        
+        # 返回分析结果
+        result = {
+            "macro_report": macro_report,
+            "chunk_summary": chunk_summary,
+            "detailed_reports": detailed_reports,
+            "json_reports": json_reports,
+            "report_file": report_file
+        }
+        return result
+        
+    except Exception as e:
+        error_msg = f"处理数据时出错: {str(e)}"
+        print(error_msg)
+        # 尝试记录错误，即使我们不确定role_id
+        try:
+            await log_debug(error_msg, str(role_id) if 'role_id' in locals() else "system")
+        except:
+            print("无法记录错误日志")
+        return None
 
 async def main():
     """主函数"""
@@ -502,6 +727,50 @@ async def main():
             
     except Exception as e:
         print(f"程序执行失败: {str(e)}")
+        await log_debug(f"程序执行失败: {str(e)}", "system")
+
+# 公开API函数，供外部调用
+async def analyze_with_role_id(file_path: str, role_id: int):
+    """使用特定角色ID分析文件
+    
+    参数:
+        file_path: 要分析的数据文件路径
+        role_id: 要使用的prompt ID
+    """
+    try:
+        # 加载prompt模板
+        prompt_data = await load_json_file("prompt.json")
+        # 使用指定的role_id处理文件
+        await process_file(file_path, prompt_data, role_id)
+        return True
+    except Exception as e:
+        print(f"使用角色ID {role_id} 分析文件 {file_path} 失败: {str(e)}")
+        return False
+
+async def analyze_data_with_role_id(data: Union[Dict, str], role_id: int, file_name: str = "direct_input_data"):
+    """使用特定角色ID分析直接传入的数据
+    
+    参数:
+        data: 可以是数据字典或JSON字符串
+        role_id: 要使用的prompt ID
+        file_name: 用于日志和报告文件名的标识符
+    """
+    try:
+        # 如果data是字符串，尝试解析为JSON
+        if isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                print("无法解析JSON字符串")
+                return None
+        
+        # 加载prompt模板
+        prompt_data = await load_json_file("prompt.json")
+        # 使用指定的role_id处理数据
+        return await process_data(data, prompt_data, role_id, file_name)
+    except Exception as e:
+        print(f"使用角色ID {role_id} 分析数据失败: {str(e)}")
+        return None
 
 if __name__ == "__main__":
     asyncio.run(main()) 
