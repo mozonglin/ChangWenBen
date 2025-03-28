@@ -55,32 +55,247 @@ python app.py
 
 1. 用户选择prompt_id并点击"开始分析"按钮
 2. 前端发送POST请求到`/analyze`端点，传递prompt_id参数
-3. 服务器调用`async_process_user_input(None, prompt_id, f"web_request_{prompt_id}")`函数
-   - 参数1: user_data=None（表示使用原始API获取数据）
-   - 参数2: prompt_id（用户选择的角色ID）
-   - 参数3: file_name（生成的文件名前缀）
-4. 系统调用`process_request_with_prompt_id(prompt_id)`获取原始API结果
-   - 从`prompt.json`读取对应ID的prompt信息（Action和Context）
-   - 构建user_input字符串: `f"Action：{prompt_info['Action']} Context：{prompt_info['Context']}"`
-   - 发送请求到原始API并获取结果
-5. 系统将API结果保存到文件`原始API结果_ID{prompt_id}_{file_name}.json`
-6. 构建数据结构传递给agent_system
+3. Flask调用`app.py`中的`analyze`函数处理请求
    ```python
-   data = {
-       "api_result": api_result,
-       "prompt_info": prompt_info,
-       "charts": []
-   }
+   @app.route('/analyze', methods=['POST'])
+   def analyze():
+       try:
+           # 获取请求数据，现在只需要prompt_id
+           prompt_id = int(request.form.get('prompt_id'))
+           
+           # 使用安全的异步执行方式处理分析
+           result = run_async(async_process_user_input(None, prompt_id, f"web_request_{prompt_id}"))
+           
+           # 确保返回json响应
+           return jsonify(result)
+       except Exception as e:
+           import traceback
+           error_details = traceback.format_exc()
+           print(f"分析错误详情: {error_details}")
+           return jsonify({"success": False, "message": f"请求处理出错: {str(e)}"})
    ```
-7. 如果API结果中包含response，将其提取并添加到charts中
-8. 调用`analyze_data_with_role_id(data, prompt_id, file_name)`进行深度分析
-   - 进行数据整合和分块（按菜品名称整合、将数据分成多个小块）
-   - 使用DeepSeek-V2.5模型对每个数据块进行分析
-   - 使用DeepSeek-V3-1226模型生成菜品数据总结
-   - 使用DeepSeek-R1模型生成宏观总结报告
-   - 保存详细分析结果到`detailed_report_json_{prompt_id}.json`
-   - 保存最终报告到`report_{prompt_id}_{file_name}.md`
-9. 返回分析结果给前端，包括success状态、message消息、data数据和prompt_info信息
+4. `run_async`函数处理异步操作，执行`async_process_user_input`函数
+   ```python
+   def run_async(coro):
+       loop = asyncio.get_event_loop()
+       return loop.run_until_complete(coro)
+   ```
+5. 调用`process_request.py`中的`process_user_input`函数
+   ```python
+   async def process_user_input(user_data=None, prompt_id=None, file_name="user_input_data"):
+       from agent_system import analyze_data_with_role_id
+       
+       result = {
+           "success": False,
+           "message": "",
+           "data": None,
+           "prompt_info": None
+       }
+       
+       try:
+           # 加载prompt信息
+           prompt_info = await load_prompt_by_id(prompt_id)
+           if not prompt_info:
+               result["message"] = f"找不到ID为 {prompt_id} 的prompt"
+               return result
+               
+           result["prompt_info"] = prompt_info
+           
+           # 如果没有提供用户数据，先调用原始API生成结果
+           if user_data is None:
+               print(f"没有提供用户数据，使用prompt ID {prompt_id} 调用原始API...")
+               api_result = process_request_with_prompt_id(prompt_id)
+               
+               if not api_result:
+                   result["message"] = "原始API调用失败"
+                   return result
+                   
+               # 保存原始API结果到文件
+               api_result_file = f"原始API结果_ID{prompt_id}_{file_name}.json"
+               save_to_file(api_result, api_result_file)
+               print(f"原始API结果已保存到 {api_result_file}")
+               
+               # 提取API结果作为agent_system的输入数据
+               data = {
+                   "api_result": api_result,
+                   "prompt_info": prompt_info,
+                   "charts": []
+               }
+               
+               # 如果API结果中有response，提取出来添加到charts中
+               if "response" in api_result:
+                   response_text = api_result["response"]
+                   data["charts"].append({
+                       "chart_name": "API分析结果",
+                       "values": [{"name": "分析结果", "content": response_text}]
+                   })
+           else:
+               # 如果提供了用户数据，直接使用
+               try:
+                   data = json.loads(user_data) if isinstance(user_data, str) else user_data
+               except json.JSONDecodeError:
+                   data = {
+                       "user_input": user_data,
+                       "charts": [
+                           {
+                               "chart_name": "用户数据",
+                               "values": [{"name": "用户输入", "content": user_data}]
+                           }
+                       ]
+                   }
+           
+           # 使用agent_system进行分析
+           print(f"使用DeepSeek模型进行深度分析...")
+           analysis_result = await analyze_data_with_role_id(data, prompt_id, file_name)
+           
+           if analysis_result:
+               result["success"] = True
+               result["message"] = "分析成功"
+               result["data"] = analysis_result
+               print(f"分析成功，报告已生成: {analysis_result.get('report_file', '')}")
+           else:
+               result["message"] = "分析失败"
+               print("分析失败")
+               
+           return result
+       except Exception as e:
+           error_msg = f"处理失败: {str(e)}"
+           print(error_msg)
+           result["message"] = error_msg
+           return result
+   ```
+6. `process_request_with_prompt_id`函数被调用，使用prompt_id获取Action和Context
+   ```python
+   def process_request_with_prompt_id(prompt_id, data=None, conv_uid=None):
+       # 从prompt.json获取对应ID的prompt信息
+       prompt_info = asyncio.run(load_prompt_by_id(prompt_id))
+       
+       if not prompt_info:
+           print(f"找不到ID为 {prompt_id} 的prompt")
+           return None
+       
+       # 构建user_input字符串，使用Action和Context
+       user_input = f"Action：{prompt_info['Action']} Context：{prompt_info['Context']}"
+       
+       # 如果有数据要分析，添加到user_input
+       if data:
+           if isinstance(data, str):
+               user_input += f" 数据：{data}"
+           elif isinstance(data, dict):
+               user_input += f" 数据：{json.dumps(data, ensure_ascii=False)}"
+       
+       # 调用原始处理函数
+       return process_request(user_input, conv_uid)
+   ```
+7. `process_request`函数发送HTTP请求到原始API
+   ```python
+   def process_request(user_input, conv_uid=None):
+       # 构造请求参数
+       payload = {
+           "select_param": "财务报表",
+           "chat_mode": "chat_dashboard",
+           "model_name": "siliconflow_proxyllm",
+           "user_input": user_input,
+           "conv_uid": conv_uid or "da89c3b4-0bb7-11f0-acf4-bc2411cbc733"
+       }
+       
+       # 发送请求
+       headers = {
+           "Content-Type": "application/json",
+           "Accept": "text/event-stream"
+       }
+       
+       try:
+           response = requests.post(
+               "http://149.104.26.64:5670/api/v1/chat/completions",
+               json=payload,
+               headers=headers,
+               stream=True
+           )
+           
+           # 从响应中提取数据部分
+           for line in response.iter_lines():
+               if line:
+                   line = line.decode('utf-8')
+                   if line.startswith('data: '):
+                       json_data = line[6:]  # 去掉 'data: ' 前缀
+                       break
+           
+           # 解析JSON数据
+           data = json.loads(json_data)
+           
+           return data
+       
+       except Exception as e:
+           print(f"请求处理出错: {e}")
+           return None
+   ```
+8. 获取原始API结果后，调用`agent_system.py`中的`analyze_data_with_role_id`函数进行深度分析
+   ```python
+   async def analyze_data_with_role_id(data, role_id, file_name=None):
+       try:
+           # 记录开始分析
+           await log_debug(f"开始使用角色ID {role_id} 分析数据", role_id)
+           
+           # 按菜品名称整合数据
+           organized_data = organize_data_by_dish(data)
+           
+           # 分块处理数据
+           data_chunks = chunk_data(organized_data)
+           await log_debug(f"数据已分为 {len(data_chunks)} 个块进行处理", role_id)
+           
+           # 获取prompt模板
+           prompt_template = await load_prompt_by_id(role_id)
+           if not prompt_template:
+               await log_debug(f"找不到ID为 {role_id} 的角色", role_id)
+               return None
+           
+           # 初始化状态
+           state = initialize_state(data, prompt_template)
+           
+           # 第一阶段：菜品数据分析（DeepSeek-V2.5）
+           # 产生多个菜品的详细分析结果
+           detailed_analysis = await perform_detailed_analysis(data_chunks, prompt_template, role_id)
+           
+           # 保存详细分析结果
+           detailed_report_file = f"detailed_report_json_{role_id}.json"
+           await save_json_file(detailed_analysis, detailed_report_file)
+           await log_debug(f"详细分析结果已保存到 {detailed_report_file}", role_id)
+           
+           # 第二阶段：生成菜品数据总结（DeepSeek-V3-1226）
+           # 根据详细分析生成概览
+           overview = await generate_data_overview(detailed_analysis, prompt_template, role_id)
+           await log_debug("菜品数据总结已生成", role_id)
+           
+           # 第三阶段：生成宏观总结报告（DeepSeek-R1）
+           # 生成最终报告
+           report = await generate_final_report(overview, detailed_analysis, prompt_template, role_id)
+           
+           # 保存为Markdown文件
+           report_file = file_name or f"report_{role_id}.md"
+           await save_markdown_report(report, report_file)
+           await log_debug(f"最终报告已保存到 {report_file}", role_id)
+           
+           # 构建返回结果
+           return {
+               "success": True,
+               "report": report,
+               "report_file": report_file,
+               "detailed_analysis": detailed_analysis,
+               "overview": overview
+           }
+       
+       except Exception as e:
+           import traceback
+           error_details = traceback.format_exc()
+           await log_debug(f"分析出错: {str(e)}\n{error_details}", role_id)
+           return None
+   ```
+9. 分析完成后，结果被返回给前端，包括：
+   - `success`: 分析是否成功
+   - `message`: 消息说明
+   - `data`: 分析结果数据，包含report（报告内容）、report_file（报告文件路径）等
+   - `prompt_info`: 使用的prompt信息
 
 ### 2. API分析流程
 

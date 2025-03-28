@@ -1,0 +1,551 @@
+{
+  "conv_uid": "da89c3b4-0bb7-11f0-acf4-bc2411cbc733",
+  "template_name": "report",
+  "template_introduce": null,
+  "charts": [
+    {
+      "chart_uid": "051c131e-0bf1-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品销售额贡献比例分析",
+      "chart_type": "PieChart",
+      "chart_desc": "为了评估各种菜品的销售量与销售额对整体营业额的贡献，我们需要从菜品销售数据中提取菜品名称、销售份数、折前销售额和折后销售额，并计算每种菜品对总销售额的贡献比例。通过这些维度，我们可以了解哪些菜品对营业额的贡献最大，为优化菜品结构和提升营业额提供依据。",
+      "chart_sql": "SELECT 菜品名称 AS dish_name, SUM(折前销售额) AS pre_discount_sales, SUM(折后销售额) AS post_discount_sales, (SUM(折后销售额) * 100.0 / (SELECT SUM(折后销售额) FROM 档口菜品毛利分析)) AS contribution_percentage FROM 档口菜品毛利分析 GROUP BY 菜品名称 ORDER BY contribution_percentage DESC LIMIT 8;",
+      "column_name": [
+        "dish_name",
+        "pre_discount_sales",
+        "post_discount_sales",
+        "contribution_percentage"
+      ],
+      "values": [
+        {
+          "name": "清水锅底（小锅）",
+          "type": "pre_discount_sales",
+          "value": 22452.66
+        },
+        {
+          "name": "羊肉组合",
+          "type": "pre_discount_sales",
+          "value": 18048.0
+        },
+        {
+          "name": "秘制酱料",
+          "type": "pre_discount_sales",
+          "value": 13249.82
+        },
+        {
+          "name": "羊子盖",
+          "type": "pre_discount_sales",
+          "value": 12528.0
+        },
+        {
+          "name": "羊和尚头",
+          "type": "pre_discount_sales",
+          "value": 10927.0
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "pre_discount_sales",
+          "value": 10416.0
+        },
+        {
+          "name": "极品羊肉",
+          "type": "pre_discount_sales",
+          "value": 9964.14
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "pre_discount_sales",
+          "value": 8218.25
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "post_discount_sales",
+          "value": 20884.25
+        },
+        {
+          "name": "羊肉组合",
+          "type": "post_discount_sales",
+          "value": 16940.47
+        },
+        {
+          "name": "秘制酱料",
+          "type": "post_discount_sales",
+          "value": 12342.76
+        },
+        {
+          "name": "羊子盖",
+          "type": "post_discount_sales",
+          "value": 11720.22
+        },
+        {
+          "name": "羊和尚头",
+          "type": "post_discount_sales",
+          "value": 10237.93
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "post_discount_sales",
+          "value": 9913.72
+        },
+        {
+          "name": "极品羊肉",
+          "type": "post_discount_sales",
+          "value": 9249.73
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "post_discount_sales",
+          "value": 7597.78
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "contribution_percentage",
+          "value": 6.37120034704993
+        },
+        {
+          "name": "羊肉组合",
+          "type": "contribution_percentage",
+          "value": 5.168063413490498
+        },
+        {
+          "name": "秘制酱料",
+          "type": "contribution_percentage",
+          "value": 3.7654307334739814
+        },
+        {
+          "name": "羊子盖",
+          "type": "contribution_percentage",
+          "value": 3.5755111977447855
+        },
+        {
+          "name": "羊和尚头",
+          "type": "contribution_percentage",
+          "value": 3.12330599227039
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "contribution_percentage",
+          "value": 3.0243985924587107
+        },
+        {
+          "name": "极品羊肉",
+          "type": "contribution_percentage",
+          "value": 2.821833821473989
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "contribution_percentage",
+          "value": 2.317870096977819
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "051c4f28-0bf1-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品销售量与平均单价分析",
+      "chart_type": "BarChart",
+      "chart_desc": "通过分析菜品的销售份数与销售额的关系，可以了解哪些菜品的销售量较高但销售额较低，反之亦然。这有助于发现销售量大但单价低的菜品，以及销售量低但单价高的菜品，为调整菜品价格或促销策略提供参考。",
+      "chart_sql": "SELECT 菜品名称 AS dish_name, SUM(销售份数) AS sales_volume, SUM(折后销售额) AS post_discount_sales, (SUM(折后销售额) / SUM(销售份数)) AS avg_price_per_unit FROM 档口菜品毛利分析 GROUP BY 菜品名称 ORDER BY sales_volume DESC LIMIT 8;",
+      "column_name": [
+        "dish_name",
+        "sales_volume",
+        "post_discount_sales",
+        "avg_price_per_unit"
+      ],
+      "values": [
+        {
+          "name": "一次性筷子",
+          "type": "sales_volume",
+          "value": 2344.0
+        },
+        {
+          "name": "秘制酱料",
+          "type": "sales_volume",
+          "value": 2300.0
+        },
+        {
+          "name": "毛巾",
+          "type": "sales_volume",
+          "value": 1498.0
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "sales_volume",
+          "value": 1477.0
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "sales_volume",
+          "value": 1364.0
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "sales_volume",
+          "value": 868.0
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "sales_volume",
+          "value": 867.0
+        },
+        {
+          "name": "糖蒜",
+          "type": "sales_volume",
+          "value": 565.0
+        },
+        {
+          "name": "一次性筷子",
+          "type": "post_discount_sales",
+          "value": 2089.32
+        },
+        {
+          "name": "秘制酱料",
+          "type": "post_discount_sales",
+          "value": 12342.76
+        },
+        {
+          "name": "毛巾",
+          "type": "post_discount_sales",
+          "value": 2788.45
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "post_discount_sales",
+          "value": 20884.25
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "post_discount_sales",
+          "value": 2390.94
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "post_discount_sales",
+          "value": 9913.72
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "post_discount_sales",
+          "value": 4774.67
+        },
+        {
+          "name": "糖蒜",
+          "type": "post_discount_sales",
+          "value": 1062.46
+        },
+        {
+          "name": "一次性筷子",
+          "type": "avg_price_per_unit",
+          "value": 0.8913481228668942
+        },
+        {
+          "name": "秘制酱料",
+          "type": "avg_price_per_unit",
+          "value": 5.366417391304348
+        },
+        {
+          "name": "毛巾",
+          "type": "avg_price_per_unit",
+          "value": 1.861448598130841
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "avg_price_per_unit",
+          "value": 14.139641164522681
+        },
+        {
+          "name": "芝麻烧饼",
+          "type": "avg_price_per_unit",
+          "value": 1.7528885630498534
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "avg_price_per_unit",
+          "value": 11.421336405529953
+        },
+        {
+          "name": "特色羊肉串",
+          "type": "avg_price_per_unit",
+          "value": 5.507116493656286
+        },
+        {
+          "name": "糖蒜",
+          "type": "avg_price_per_unit",
+          "value": 1.8804601769911504
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "051c8b14-0bf1-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品折扣效果分析",
+      "chart_type": "Table",
+      "chart_desc": "通过对比不同菜品的折前销售额和折后销售额，可以了解折扣对销售额的影响。这有助于评估促销活动的效果，判断哪些菜品的折扣策略更有效，从而优化未来的促销策略。",
+      "chart_sql": "SELECT 菜品名称 AS dish_name, SUM(折前销售额) AS pre_discount_sales, SUM(折后销售额) AS post_discount_sales, (SUM(折前销售额) - SUM(折后销售额)) AS discount_effect FROM 档口菜品毛利分析 GROUP BY 菜品名称 ORDER BY discount_effect DESC LIMIT 8;",
+      "column_name": [
+        "dish_name",
+        "pre_discount_sales",
+        "post_discount_sales",
+        "discount_effect"
+      ],
+      "values": [
+        {
+          "name": "清水锅底（小锅）",
+          "type": "pre_discount_sales",
+          "value": 22452.66
+        },
+        {
+          "name": "羊肉组合",
+          "type": "pre_discount_sales",
+          "value": 18048.0
+        },
+        {
+          "name": "秘制酱料",
+          "type": "pre_discount_sales",
+          "value": 13249.82
+        },
+        {
+          "name": "牛小排",
+          "type": "pre_discount_sales",
+          "value": 3196.0
+        },
+        {
+          "name": "羊子盖",
+          "type": "pre_discount_sales",
+          "value": 12528.0
+        },
+        {
+          "name": "极品羊肉",
+          "type": "pre_discount_sales",
+          "value": 9964.14
+        },
+        {
+          "name": "羊和尚头",
+          "type": "pre_discount_sales",
+          "value": 10927.0
+        },
+        {
+          "name": "羊上脑",
+          "type": "pre_discount_sales",
+          "value": 7473.62
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "post_discount_sales",
+          "value": 20884.25
+        },
+        {
+          "name": "羊肉组合",
+          "type": "post_discount_sales",
+          "value": 16940.47
+        },
+        {
+          "name": "秘制酱料",
+          "type": "post_discount_sales",
+          "value": 12342.76
+        },
+        {
+          "name": "牛小排",
+          "type": "post_discount_sales",
+          "value": 2357.02
+        },
+        {
+          "name": "羊子盖",
+          "type": "post_discount_sales",
+          "value": 11720.22
+        },
+        {
+          "name": "极品羊肉",
+          "type": "post_discount_sales",
+          "value": 9249.73
+        },
+        {
+          "name": "羊和尚头",
+          "type": "post_discount_sales",
+          "value": 10237.93
+        },
+        {
+          "name": "羊上脑",
+          "type": "post_discount_sales",
+          "value": 6819.96
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "discount_effect",
+          "value": 1568.4099999999999
+        },
+        {
+          "name": "羊肉组合",
+          "type": "discount_effect",
+          "value": 1107.5299999999988
+        },
+        {
+          "name": "秘制酱料",
+          "type": "discount_effect",
+          "value": 907.0599999999995
+        },
+        {
+          "name": "牛小排",
+          "type": "discount_effect",
+          "value": 838.98
+        },
+        {
+          "name": "羊子盖",
+          "type": "discount_effect",
+          "value": 807.7800000000007
+        },
+        {
+          "name": "极品羊肉",
+          "type": "discount_effect",
+          "value": 714.4099999999999
+        },
+        {
+          "name": "羊和尚头",
+          "type": "discount_effect",
+          "value": 689.0699999999997
+        },
+        {
+          "name": "羊上脑",
+          "type": "discount_effect",
+          "value": 653.6599999999999
+        }
+      ],
+      "style": null
+    },
+    {
+      "chart_uid": "051cd164-0bf1-11f0-b328-bc2411cbc733",
+      "chart_name": "菜品盈利情况分析",
+      "chart_type": "LineChart",
+      "chart_desc": "分析菜品的理论成本额与实际销售额的关系，可以了解每种菜品的盈利情况。这有助于识别高利润和低利润菜品，为优化菜单和成本控制提供依据。",
+      "chart_sql": "SELECT 菜品名称 AS dish_name, SUM(折后销售额) AS post_discount_sales, SUM(非税理论成本额) AS theoretical_cost, (SUM(折后销售额) - SUM(非税理论成本额)) AS profit_margin FROM 档口菜品毛利分析 GROUP BY 菜品名称 ORDER BY profit_margin DESC LIMIT 8;",
+      "column_name": [
+        "dish_name",
+        "post_discount_sales",
+        "theoretical_cost",
+        "profit_margin"
+      ],
+      "values": [
+        {
+          "name": "清水锅底（小锅）",
+          "type": "post_discount_sales",
+          "value": 20884.25
+        },
+        {
+          "name": "秘制酱料",
+          "type": "post_discount_sales",
+          "value": 12342.76
+        },
+        {
+          "name": "羊肉组合",
+          "type": "post_discount_sales",
+          "value": 16940.47
+        },
+        {
+          "name": "羊子盖",
+          "type": "post_discount_sales",
+          "value": 11720.22
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "post_discount_sales",
+          "value": 7597.78
+        },
+        {
+          "name": "羊和尚头",
+          "type": "post_discount_sales",
+          "value": 10237.93
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "post_discount_sales",
+          "value": 6844.25
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "post_discount_sales",
+          "value": 9913.72
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "theoretical_cost",
+          "value": 0.0
+        },
+        {
+          "name": "秘制酱料",
+          "type": "theoretical_cost",
+          "value": 0.0
+        },
+        {
+          "name": "羊肉组合",
+          "type": "theoretical_cost",
+          "value": 4848.97
+        },
+        {
+          "name": "羊子盖",
+          "type": "theoretical_cost",
+          "value": 3233.32
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "theoretical_cost",
+          "value": 0.0
+        },
+        {
+          "name": "羊和尚头",
+          "type": "theoretical_cost",
+          "value": 2762.57
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "theoretical_cost",
+          "value": 0.0
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "theoretical_cost",
+          "value": 3072.27
+        },
+        {
+          "name": "清水锅底（小锅）",
+          "type": "profit_margin",
+          "value": 20884.25
+        },
+        {
+          "name": "秘制酱料",
+          "type": "profit_margin",
+          "value": 12342.76
+        },
+        {
+          "name": "羊肉组合",
+          "type": "profit_margin",
+          "value": 12091.5
+        },
+        {
+          "name": "羊子盖",
+          "type": "profit_margin",
+          "value": 8486.9
+        },
+        {
+          "name": "菌汤锅底（小）",
+          "type": "profit_margin",
+          "value": 7597.78
+        },
+        {
+          "name": "羊和尚头",
+          "type": "profit_margin",
+          "value": 7475.360000000001
+        },
+        {
+          "name": "有机蔬菜拼盘",
+          "type": "profit_margin",
+          "value": 6844.25
+        },
+        {
+          "name": "红柳羊肉串",
+          "type": "profit_margin",
+          "value": 6841.449999999999
+        }
+      ],
+      "style": null
+    }
+  ]
+}

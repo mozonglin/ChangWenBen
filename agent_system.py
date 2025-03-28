@@ -177,14 +177,19 @@ async def get_llm_response(messages: List[Dict], model_name: str = "Pro/deepseek
         await asyncio.sleep(3)
         try:
             await log_debug(f"重试API调用: {model_name}", role_id)
+            # 使用另一个API密钥进行第二次尝试
+            backup_client = AsyncOpenAI(
+                api_key="sk-oumvkmjztvlpjfmslwxrvpsoijqvbfkwvpappkafglivvhdf",
+                base_url="https://api.siliconflow.cn/v1"
+            )
             if json_format:
-                response = await client.chat.completions.create(
+                response = await backup_client.chat.completions.create(
                     model=model_name,
                     messages=messages,
                     response_format={"type": "json_object"}
                 )
             else:
-                response = await client.chat.completions.create(
+                response = await backup_client.chat.completions.create(
                     model=model_name,
                     messages=messages
                 )

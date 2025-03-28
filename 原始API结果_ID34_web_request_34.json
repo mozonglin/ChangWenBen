@@ -1,0 +1,36 @@
+{
+  "conv_uid": "da89c3b4-0bb7-11f0-acf4-bc2411cbc733",
+  "template_name": "report",
+  "template_introduce": null,
+  "charts": [
+    {
+      "chart_uid": "dfbcd21a-0bec-11f0-b328-bc2411cbc733",
+      "chart_name": "最受欢迎的五大品项大类",
+      "chart_type": "BarChart",
+      "chart_desc": "分析不同品项大类在各季节的销售情况，可以识别出哪些品项在特定季节更受欢迎，从而调整采购策略。这有助于优化库存管理，减少滞销风险。",
+      "chart_sql": "SELECT `品项大类名称`, SUM(入库非税金额) AS `总非税入库金额` FROM `门店品项大类金额汇总表` GROUP BY `品项大类名称` ORDER BY `总非税入库金额` DESC LIMIT 5",
+      "column_name": [
+        "品项大类名称",
+        "总非税入库金额"
+      ],
+      "values": [
+        {
+          "name": "食品",
+          "type": "总非税入库金额",
+          "value": 314722.26
+        },
+        {
+          "name": "酒水类",
+          "type": "总非税入库金额",
+          "value": 165652.82
+        },
+        {
+          "name": "非食品",
+          "type": "总非税入库金额",
+          "value": 15243.08
+        }
+      ],
+      "style": null
+    }
+  ]
+}

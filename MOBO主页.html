@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未·AI</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#A855F7',
+secondary: '#4B5563'
+},
+borderRadius: {
+'none': '0px',
+'sm': '8px',
+DEFAULT: '12px',
+'md': '16px',
+'lg': '20px',
+'xl': '24px',
+'2xl': '28px',
+'3xl': '32px',
+'full': '9999px',
+'button': '12px'
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #000000;
+min-height: 1024px;
+color: #FFFFFF;
+}
+.gradient-circle {
+border-radius: 50%;
+width: 200px;
+height: 200px;
+margin: 0 auto;
+position: relative;
+overflow: hidden;
+}
+.flow-effect-expert {
+position: absolute;
+width: 100%;
+height: 100%;
+background: url('https://ai-public.mastergo.com/ai/img_res/9504580c9bc798277b85e4eadf0e3cce.jpg');
+background-size: cover;
+animation: flow 8s infinite linear;
+}
+.flow-effect-assistant {
+position: absolute;
+width: 100%;
+height: 100%;
+background: url('https://ai-public.mastergo.com/ai/img_res/bc75ba7e9ccb37a0f08ca340f931beae.jpg');
+background-size: cover;
+animation: flow 8s infinite linear;
+}
+@keyframes flow {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body class="flex flex-col items-center">
+<nav class="w-full max-w-[1440px] flex justify-between items-center px-8 py-6">
+<div class="flex-1"></div>
+<h1 class="text-3xl font-bold flex-1 text-center">未·AI</h1>
+<div class="flex items-center gap-2 flex-1 justify-end">
+<div class="text-primary text-3xl font-['Pacifico']">MObO</div>
+<img src="https://image-resource.mastergo.com/155530297060455/155530297060457/1d7faddb3f20738303c7f8bd79b492fe.jpg" alt="logo" class="h-12 rounded-full">
+</div>
+</nav>
+<main class="w-full max-w-[1440px] flex-1 px-8 py-12">
+<div class="grid grid-cols-2 gap-8 h-full">
+<!-- 专家Burce板块 -->
+<div class="bg-[#2E2E2E] rounded-lg p-8 flex flex-col items-center">
+<div class="gradient-circle mb-8">
+<div class="flow-effect-assistant"></div>
+</div>
+<h2 class="text-2xl font-bold mb-6">专家 Specialist</h2>
+<div class="grid grid-cols-3 gap-4 w-full">
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-chart-line mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">运营策略</p>
+</div>
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-database mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">数据分析</p>
+</div>
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-coins mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">财务统筹</p>
+</div>
+</div>
+</div>
+<!-- 助理Alfred板块 -->
+<div class="bg-[#2E2E2E] rounded-lg p-8 flex flex-col items-center">
+<div class="gradient-circle mb-8">
+<div class="flow-effect-assistant"></div>
+</div>
+<h2 class="text-2xl font-bold mb-6">助理 Assistant</h2>
+<div class="grid grid-cols-3 gap-4 w-full">
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-comments mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">日常对话</p>
+</div>
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-pen-fancy mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">智能写作</p>
+</div>
+<div class="text-center py-4 px-6 bg-[#2B2B2B] rounded-lg cursor-pointer hover:border hover:border-gray-600 transition-all duration-300">
+<i class="fas fa-heart mb-3 text-xl text-gray-300"></i>
+<p class="text-gray-300">情感分析</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full max-w-[1440px] px-8 py-6 flex justify-between items-center">
+<div class="flex items-center space-x-4">
+<a href="mailto:Dgeloe4@163.com" class="text-gray-400 hover:text-white transition-colors">联系我们</a>
+<span class="text-gray-400">Dgeloe4@163.com</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-gray-400">Mobo1.0</span>
+<p class="text-gray-400">© 2024 未·AI. 保留所有权利</p>
+</div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 餐饮助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#333333',
+secondary: '#1E1E1E'
+},
+borderRadius: {
+'none': '0px',
+'sm': '8px',
+DEFAULT: '12px',
+'md': '16px',
+'lg': '20px',
+'xl': '24px',
+'2xl': '28px',
+'3xl': '32px',
+'full': '9999px',
+'button': '12px'
+}
+}
+}
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+function toggleSidebar() {
+const sidebar = document.getElementById('sidebar');
+sidebar.classList.toggle('w-1/4');
+sidebar.classList.toggle('w-auto');
+}
+</script>
+</head>
+<body class="bg-[#121212] min-h-[1024px] text-white">
+<div class="flex h-screen max-w-[1440px] mx-auto">
+<div id="sidebar" class="w-1/4 bg-secondary border-r border-gray-700 flex flex-col">
+<div class="p-4 border-b border-gray-700 flex items-center justify-between gap-2">
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button" onclick="toggleSidebar()">
+<i class="fas fa-bars text-gray-400"></i>
+</button>
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button">
+<i class="fas fa-search text-gray-400"></i>
+</button>
+<button class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
+<i class="fas fa-plus"></i>
+新对话
+</button>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="hover:bg-[#2A2A2A] p-4 cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium">餐厅营收分析</div>
+<div class="text-xs text-gray-400 mt-1">2023-12-20 14:30</div>
+<div class="text-xs text-gray-400 mt-2 line-clamp-2">分析了近期餐厅营收情况，包括各品类销售占比...</div>
+</div>
+<div class="hover:bg-[#2A2A2A] p-4 cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium">库存预警分析</div>
+<div class="text-xs text-gray-400 mt-1">2023-12-19 16:45</div>
+<div class="text-xs text-gray-400 mt-2 line-clamp-2">根据近期原材料消耗趋势，预测可能出现短缺...</div>
+</div>
+<div class="hover:bg-[#2A2A2A] p-4 cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium">员工排班优化</div>
+<div class="text-xs text-gray-400 mt-1">2023-12-18 09:15</div>
+<div class="text-xs text-gray-400 mt-2 line-clamp-2">基于客流量分析，提供最优人力资源配置方案...</div>
+</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="p-4 border-b border-gray-700">
+<div class="flex items-center gap-2 mb-2">
+<h2 class="text-xl font-semibold">专家 Specialist</h2>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4">
+<div class="flex flex-col gap-6">
+<div class="flex items-start gap-4 justify-end">
+<div class="flex-1 text-right">
+<div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
+请分析近三个月的餐厅营收情况，重点关注各品类销售占比和客单价变化。
+</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
+logo
+</div>
+<div class="flex-1">
+<div class="bg-[#2A2A2A] p-4 rounded-lg relative">
+<p class="mb-4">根据分析，近三个月的餐厅营收情况如下：</p>
+<div id="revenueChart" class="w-full h-[300px] mb-4"></div>
+<p class="mb-2">主要发现：</p>
+<ul class="list-disc pl-5 text-sm text-gray-300">
+<li>中餐类占总营收的 45%，环比增长 5%</li>
+<li>客单价从 128 元上升至 142 元</li>
+<li>晚市营收占比持续提升，已达 60%</li>
+</ul>
+<button class="absolute bottom-4 right-4 bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button text-sm flex items-center gap-2">
+<i class="fas fa-copy"></i>
+复制内容
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-gray-700">
+<div class="flex items-center gap-4 mb-4">
+<button class="bg-primary hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
+<i class="fas fa-search-plus mr-2"></i>
+深度搜索
+</button>
+<button class="bg-[#2A2A2A] hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
+<i class="fas fa-camera mr-2"></i>
+上传照片
+</button>
+</div>
+<div class="relative">
+<textarea placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
+<button class="absolute right-4 bottom-4 text-white bg-primary hover:bg-[#404040] p-2 !rounded-button">
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+const chart = echarts.init(document.getElementById('revenueChart'));
+const option = {
+animation: false,
+backgroundColor: 'transparent',
+title: {
+text: '近三个月营收分析',
+textStyle: {
+color: '#fff'
+}
+},
+tooltip: {
+trigger: 'axis'
+},
+legend: {
+data: ['营收额', '客单价'],
+textStyle: {
+color: '#fff'
+}
+},
+xAxis: {
+type: 'category',
+data: ['10月', '11月', '12月'],
+axisLine: {
+lineStyle: {
+color: '#666'
+}
+}
+},
+yAxis: [{
+type: 'value',
+name: '营收额(万元)',
+axisLine: {
+lineStyle: {
+color: '#666'
+}
+},
+splitLine: {
+lineStyle: {
+color: '#333'
+}
+}
+}, {
+type: 'value',
+name: '客单价(元)',
+axisLine: {
+lineStyle: {
+color: '#666'
+}
+},
+splitLine: {
+show: false
+}
+}],
+series: [{
+name: '营收额',
+type: 'bar',
+data: [150, 180, 200],
+itemStyle: {
+color: '#333333'
+}
+}, {
+name: '客单价',
+type: 'line',
+yAxisIndex: 1,
+data: [128, 135, 142],
+itemStyle: {
+color: '#666666'
+}
+}]
+};
+chart.setOption(option);
+</script>
+</body>
+</html>

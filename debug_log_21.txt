@@ -1,0 +1,224 @@
+[2025-03-29 00:10:39] 开始处理直接传入的数据, 角色ID: 21
+[2025-03-29 00:10:39] 正在整合传入的菜品数据
+[2025-03-29 00:10:39] 数据已按菜品整合并分为 49 个数据块
+[2025-03-29 00:10:39] 开始并行分析 49 个数据块
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 开始分析数据块，角色ID: 21
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 数据已按菜品整合
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:39] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:10:48] API调用成功
+[2025-03-29 00:12:47] 开始处理直接传入的数据, 角色ID: 21
+[2025-03-29 00:12:47] 正在整合传入的菜品数据
+[2025-03-29 00:12:47] 数据已按菜品整合并分为 6 个数据块
+[2025-03-29 00:12:47] 开始并行分析 6 个数据块
+[2025-03-29 00:12:47] 开始分析数据块，角色ID: 21
+[2025-03-29 00:12:47] 开始分析数据块，角色ID: 21
+[2025-03-29 00:12:47] 开始分析数据块，角色ID: 21
+[2025-03-29 00:12:47] 开始分析数据块，角色ID: 21
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 数据已按菜品整合
+[2025-03-29 00:12:47] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:12:47] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:12:47] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:12:47] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:12:47] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:47] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:49] API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:52] 重试API调用: deepseek-ai/DeepSeek-V2.5
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 第二次API调用出错: Error code: 429 - {'message': 'Request was rejected due to rate limiting. Details: TPM limit reached.', 'data': None}
+[2025-03-29 00:12:53] 完成 6 个数据块的分析
+[2025-03-29 00:12:53] 使用DeepSeek-V3-1226模型对菜品数据进行总结
+[2025-03-29 00:12:53] 开始总结所有数据块，角色ID: 21
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 处理菜品信息时出错: Expecting value: line 1 column 1 (char 0)
+[2025-03-29 00:12:53] 为DeepSeek-V3-1226模型准备总结请求，菜品数量: 0
+[2025-03-29 00:12:53] 调用DeepSeek-V3-1226模型生成总结
+[2025-03-29 00:12:53] 调用API: Pro/deepseek-ai/DeepSeek-V3-1226, JSON格式: False
+[2025-03-29 00:13:02] API调用成功
+[2025-03-29 00:13:02] 保存详细分析结果到 detailed_report_json_21.json
+[2025-03-29 00:13:02] 为DeepSeek-R1模型准备宏观摘要请求
+[2025-03-29 00:13:02] 开始为传入数据生成宏观总结报告（使用DeepSeek-R1模型）
+[2025-03-29 00:13:02] 调用API: Pro/deepseek-ai/DeepSeek-R1, JSON格式: False
+[2025-03-29 00:14:14] API调用成功
+[2025-03-29 00:14:14] 保存最终报告到 report_21_web_request_21.md
+[2025-03-29 00:14:14] 完成数据分析，用时 87.32 秒
+[2025-03-29 00:23:44] 开始处理直接传入的数据, 角色ID: 21
+[2025-03-29 00:23:44] 正在整合传入的菜品数据
+[2025-03-29 00:23:44] 数据已按菜品整合并分为 4 个数据块
+[2025-03-29 00:23:44] 开始并行分析 4 个数据块
+[2025-03-29 00:23:44] 开始分析数据块，角色ID: 21
+[2025-03-29 00:23:44] 开始分析数据块，角色ID: 21
+[2025-03-29 00:23:44] 开始分析数据块，角色ID: 21
+[2025-03-29 00:23:45] 开始分析数据块，角色ID: 21
+[2025-03-29 00:23:45] 数据已按菜品整合
+[2025-03-29 00:23:45] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:23:45] 数据已按菜品整合
+[2025-03-29 00:23:45] 数据已按菜品整合
+[2025-03-29 00:23:45] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:23:45] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:23:45] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:23:45] 调用DeepSeek-V2.5模型进行数据块分析
+[2025-03-29 00:23:45] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:23:45] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:23:45] 调用API: deepseek-ai/DeepSeek-V2.5, JSON格式: True
+[2025-03-29 00:23:54] API调用成功
+[2025-03-29 00:24:03] API调用成功
+[2025-03-29 00:24:26] API调用成功
+[2025-03-29 00:25:38] API调用成功
+[2025-03-29 00:25:38] 完成 4 个数据块的分析
+[2025-03-29 00:25:38] 使用DeepSeek-V3-1226模型对菜品数据进行总结
+[2025-03-29 00:25:38] 开始总结所有数据块，角色ID: 21
+[2025-03-29 00:25:38] 为DeepSeek-V3-1226模型准备总结请求，菜品数量: 12
+[2025-03-29 00:25:38] 调用DeepSeek-V3-1226模型生成总结
+[2025-03-29 00:25:39] 调用API: Pro/deepseek-ai/DeepSeek-V3-1226, JSON格式: False
+[2025-03-29 00:25:56] API调用成功
+[2025-03-29 00:25:56] 保存详细分析结果到 detailed_report_json_21.json
+[2025-03-29 00:25:56] 为DeepSeek-R1模型准备宏观摘要请求
+[2025-03-29 00:25:56] 开始为传入数据生成宏观总结报告（使用DeepSeek-R1模型）
+[2025-03-29 00:25:56] 调用API: Pro/deepseek-ai/DeepSeek-R1, JSON格式: False
+[2025-03-29 00:27:09] API调用成功
+[2025-03-29 00:27:09] 保存最终报告到 report_21_web_request_21.md
+[2025-03-29 00:27:09] 完成数据分析，用时 204.71 秒
