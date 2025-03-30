@@ -75,8 +75,8 @@ def load_all_prompts():
 
 @app.route('/')
 def index():
-    # 重定向到助理页面
-    return redirect('/助理.html')
+    # 重定向到MOBO主页
+    return redirect('/mobo/')
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -1207,6 +1207,11 @@ def api_get_conversations():
         print(f"获取对话列表错误: {error_details}")
         return jsonify({"success": False, "message": f"获取对话列表出错: {str(e)}"})
 
+@app.route('/prompt.json')
+def root_prompt_json():
+    """直接提供prompt.json文件访问"""
+    return send_from_directory('.', 'prompt.json')
+
 if __name__ == '__main__':
     print("\n" + "="*80)
     print("AI助手系统启动")
@@ -1232,7 +1237,7 @@ if __name__ == '__main__':
     
     # 设置Flask应用选项
     try:
-        app.run(host="0.0.0.0", port=8080, debug=True)
+        app.run(host="0.0.0.0", port=5000, debug=True)
     except Exception as e:
         print(f"启动服务器时出错: {str(e)}")
         import traceback

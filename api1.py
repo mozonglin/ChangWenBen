@@ -107,4 +107,4 @@ def convert_image_to_webp_base64(input_image_path):
 
 base64_image=convert_image_to_webp_base64(input_image_path)
 
-    
+

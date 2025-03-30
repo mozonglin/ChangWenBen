@@ -31,16 +31,15 @@ DEFAULT: '12px',
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
-<script>
-function toggleSidebar() {
-const sidebar = document.getElementById('sidebar');
-sidebar.classList.toggle('w-1/4');
-sidebar.classList.toggle('w-auto');
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/static/expert.css">
 </head>
 <body class="bg-[#121212] min-h-[1024px] text-white">
-<div class="flex h-screen max-w-[1440px] mx-auto">
+<div id="statusMessage" class="hidden"></div>
+<div class="flex h-screen max-w-[1440px] mx-auto overflow-hidden">
+<!-- Left Sidebar -->
 <div id="sidebar" class="w-1/4 bg-secondary border-r border-gray-700 flex flex-col">
 <div class="p-4 border-b border-gray-700 flex items-center justify-between gap-2">
 <button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button" onclick="toggleSidebar()">
@@ -49,7 +48,7 @@ sidebar.classList.toggle('w-auto');
 <button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button">
 <i class="fas fa-search text-gray-400"></i>
 </button>
-<button class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
+<button id="newChatButton" class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
 <i class="fas fa-plus"></i>
 新对话
 </button>
@@ -72,55 +71,22 @@ sidebar.classList.toggle('w-auto');
 </div>
 </div>
 </div>
+<!-- Main Chat Area -->
 <div class="flex-1 flex flex-col">
 <div class="p-4 border-b border-gray-700">
 <div class="flex items-center gap-2 mb-2">
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button mr-2" onclick="toggleSidebar()">
+<i class="fas fa-bars text-gray-400"></i>
+</button>
 <h2 class="text-xl font-semibold">专家 Specialist</h2>
 </div>
 </div>
 <div class="flex-1 overflow-y-auto p-4">
 <div class="flex flex-col gap-6">
-<div class="flex items-start gap-4 justify-end">
-<div class="flex-1 text-right">
-<div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
-请分析近三个月的餐厅营收情况，重点关注各品类销售占比和客单价变化。
-</div>
-</div>
-</div>
-<div class="flex items-start gap-4">
-<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
-logo
-</div>
-<div class="flex-1">
-<div class="bg-[#2A2A2A] p-4 rounded-lg relative">
-<p class="mb-4">根据分析，近三个月的餐厅营收情况如下：</p>
-<div id="revenueChart" class="w-full h-[300px] mb-4"></div>
-<p class="mb-2">主要发现：</p>
-<ul class="list-disc pl-5 text-sm text-gray-300">
-<li>中餐类占总营收的 45%，环比增长 5%</li>
-<li>客单价从 128 元上升至 142 元</li>
-<li>晚市营收占比持续提升，已达 60%</li>
-</ul>
-<button class="absolute bottom-4 right-4 bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button text-sm flex items-center gap-2">
-<i class="fas fa-copy"></i>
-复制内容
-</button>
-</div>
-</div>
-</div>
+<!-- 聊天内容将通过JavaScript动态加载 -->
 </div>
 </div>
 <div class="p-4 border-t border-gray-700">
-<div class="flex items-center gap-4 mb-4">
-<button class="bg-primary hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
-<i class="fas fa-search-plus mr-2"></i>
-深度搜索
-</button>
-<button class="bg-[#2A2A2A] hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
-<i class="fas fa-camera mr-2"></i>
-上传照片
-</button>
-</div>
 <div class="relative">
 <textarea placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
 <button class="absolute right-4 bottom-4 text-white bg-primary hover:bg-[#404040] p-2 !rounded-button">
@@ -129,79 +95,175 @@ logo
 </div>
 </div>
 </div>
+<!-- Prompt Examples Panel -->
+<div id="promptPanel" class="w-[320px] min-w-[60px] transition-all duration-300 ease-in-out bg-secondary border-l border-gray-700 flex flex-col overflow-hidden">
+<div class="h-[72px] px-4 border-b border-gray-700 flex items-center justify-between">
+<h3 class="font-medium transition-opacity duration-300" id="promptPanelTitle">提示词示例</h3>
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button" onclick="togglePromptPanel()">
+<i class="fas fa-chevron-right text-gray-400" id="promptPanelIcon"></i>
+</button>
+</div>
+<div class="search-container transition-opacity duration-300">
+<div class="p-4 border-b border-gray-700">
+<div class="relative">
+<input type="text" placeholder="搜索提示词..." class="w-full bg-[#2A2A2A] px-4 py-2 pr-10 !rounded-button border-none text-sm">
+<i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<div class="p-4 hover:bg-[#2A2A2A] cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium mb-2">营收分析</div>
+<p class="text-xs text-gray-400 break-words">分析餐厅近期营收情况，包括品类销售占比、客单价变化等关键指标</p>
+<button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
+<i class="fas fa-copy mr-1"></i>使用
+</button>
+</div>
+<div class="p-4 hover:bg-[#2A2A2A] cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium mb-2">库存管理</div>
+<p class="text-xs text-gray-400">分析原材料消耗趋势，预测可能短缺情况，提供采购建议</p>
+<button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
+<i class="fas fa-copy mr-1"></i>使用
+</button>
+</div>
+<div class="p-4 hover:bg-[#2A2A2A] cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium mb-2">人员排班</div>
+<p class="text-xs text-gray-400">基于历史客流量数据，生成最优化的员工排班方案</p>
+<button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
+<i class="fas fa-copy mr-1"></i>使用
+</button>
+</div>
+<div class="p-4 hover:bg-[#2A2A2A] cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium mb-2">菜品分析</div>
+<p class="text-xs text-gray-400">分析各菜品销售情况，提供菜单优化建议</p>
+<button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
+<i class="fas fa-copy mr-1"></i>使用
+</button>
+</div>
+<div class="p-4 hover:bg-[#2A2A2A] cursor-pointer border-b border-gray-700">
+<div class="text-sm font-medium mb-2">客户画像</div>
+<p class="text-xs text-gray-400">分析客户消费习惯和偏好，制定精准营销策略</p>
+<button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
+<i class="fas fa-copy mr-1"></i>使用
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <script>
-const chart = echarts.init(document.getElementById('revenueChart'));
-const option = {
-animation: false,
-backgroundColor: 'transparent',
-title: {
-text: '近三个月营收分析',
-textStyle: {
-color: '#fff'
+function toggleSidebar() {
+const sidebar = document.getElementById('sidebar');
+sidebar.classList.toggle('w-1/4');
+sidebar.classList.toggle('w-auto');
 }
-},
-tooltip: {
-trigger: 'axis'
-},
-legend: {
-data: ['营收额', '客单价'],
-textStyle: {
-color: '#fff'
-}
-},
-xAxis: {
-type: 'category',
-data: ['10月', '11月', '12月'],
-axisLine: {
-lineStyle: {
-color: '#666'
-}
-}
-},
-yAxis: [{
-type: 'value',
-name: '营收额(万元)',
-axisLine: {
-lineStyle: {
-color: '#666'
-}
-},
-splitLine: {
-lineStyle: {
-color: '#333'
+function togglePromptPanel() {
+const promptPanel = document.getElementById('promptPanel');
+const promptPanelTitle = document.getElementById('promptPanelTitle');
+const promptPanelIcon = document.getElementById('promptPanelIcon');
+const searchContainer = document.querySelector('.search-container');
+if(promptPanel.classList.contains('w-[320px]')) {
+promptPanel.classList.remove('w-[320px]');
+promptPanel.classList.add('w-[60px]');
+promptPanelTitle.classList.add('opacity-0');
+searchContainer.classList.add('opacity-0');
+promptPanelIcon.classList.remove('fa-chevron-right');
+promptPanelIcon.classList.add('fa-chevron-left');
+} else {
+promptPanel.classList.remove('w-[60px]');
+promptPanel.classList.add('w-[320px]');
+promptPanelTitle.classList.remove('opacity-0');
+searchContainer.classList.remove('opacity-0');
+promptPanelIcon.classList.remove('fa-chevron-left');
+promptPanelIcon.classList.add('fa-chevron-right');
 }
 }
-}, {
-type: 'value',
-name: '客单价(元)',
-axisLine: {
-lineStyle: {
-color: '#666'
-}
-},
-splitLine: {
-show: false
-}
-}],
-series: [{
-name: '营收额',
-type: 'bar',
-data: [150, 180, 200],
-itemStyle: {
-color: '#333333'
-}
-}, {
-name: '客单价',
-type: 'line',
-yAxisIndex: 1,
-data: [128, 135, 142],
-itemStyle: {
-color: '#666666'
-}
-}]
-};
-chart.setOption(option);
+</script>
+<script src="/static/expert.js"></script>
+<script>
+// 错误处理
+window.addEventListener('error', function(e) {
+    console.error('全局错误：', e.message);
+    
+    // 创建友好的错误提示
+    if (!document.getElementById('error-message')) {
+        const errorElement = document.createElement('div');
+        errorElement.id = 'error-message';
+        errorElement.style.position = 'fixed';
+        errorElement.style.bottom = '70px';
+        errorElement.style.left = '50%';
+        errorElement.style.transform = 'translateX(-50%)';
+        errorElement.style.backgroundColor = '#4a1c1c';
+        errorElement.style.color = '#ff8080';
+        errorElement.style.padding = '10px 20px';
+        errorElement.style.borderRadius = '8px';
+        errorElement.style.zIndex = '9999';
+        errorElement.style.maxWidth = '80%';
+        errorElement.style.textAlign = 'center';
+        errorElement.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        errorElement.innerHTML = `
+            <div style="margin-bottom:8px"><i class="fas fa-exclamation-triangle"></i> 加载错误</div>
+            <div style="font-size:12px">${e.message}</div>
+            <div style="margin-top:10px">
+                <button onclick="location.reload()" style="background:#2A2A2A;border:none;color:white;padding:5px 10px;border-radius:4px;cursor:pointer">
+                    <i class="fas fa-sync-alt"></i> 刷新页面
+                </button>
+            </div>
+        `;
+        document.body.appendChild(errorElement);
+        
+        // 5秒后自动隐藏
+        setTimeout(() => {
+            errorElement.style.opacity = '0';
+            errorElement.style.transition = 'opacity 0.5s';
+            
+            setTimeout(() => {
+                if (errorElement.parentNode) {
+                    errorElement.parentNode.removeChild(errorElement);
+                }
+            }, 500);
+        }, 5000);
+    }
+});
+
+// 脚本依赖检查
+document.addEventListener('DOMContentLoaded', function() {
+    // 检查highlight.js
+    if (typeof hljs === 'undefined') {
+        console.error('highlight.js未加载');
+        // 尝试重新加载
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/highlight.min.js';
+        script.onload = function() {
+            console.log('highlight.js加载成功');
+        };
+        script.onerror = function() {
+            console.error('highlight.js加载失败');
+        };
+        document.head.appendChild(script);
+    }
+    
+    // 检查marked.js
+    if (typeof marked === 'undefined') {
+        console.error('marked.js未加载');
+        // 尝试重新加载
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+        script.onload = function() {
+            console.log('marked.js加载成功');
+        };
+        script.onerror = function() {
+            console.error('marked.js加载失败');
+        };
+        document.head.appendChild(script);
+    }
+});
 </script>
 </body>
 </html>

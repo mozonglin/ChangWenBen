@@ -1,324 +1,168 @@
-# 餐饮数据分析系统
+# 餐饮数据分析专家系统
 
-这是一个基于Flask的餐饮数据分析系统，使用DeepSeek大语言模型进行数据分析并生成报告。系统提供两种分析模式：原始API分析和DeepSeek大模型深度分析。
+这是一个基于DeepSeek大语言模型的智能餐饮数据分析系统，支持实时对话、自动生成专业分析提示词，并提供深度分析报告。系统集成了多种模式和功能，旨在帮助餐饮企业进行数据驱动决策。
 
-## 功能特点
+## 📋 功能特点
 
-- 基于ID选择不同的分析角色(prompt)
-- 支持原始API分析和DeepSeek大模型的深度分析
-- 使用DeepSeek大语言模型进行多级分析
-- 生成包含宏观总结、菜品总览和详细分析的完整报告
-- 简洁的Web界面，支持报告在线查看和下载
+### 🔹 专家模式
+- **自动提示词生成**：直接输入需求，系统自动生成专业分析提示词
+- **实时分析流程**：通过SSE连接展示分析过程的实时日志
+- **多级AI分析**：使用DeepSeek系列模型进行多层次数据分析
+- **深度报告生成**：输出包含宏观总结和详细分析的Markdown格式报告
+- **提示词自动管理**：临时生成的提示词在分析完成后自动删除(300秒)
 
-## 系统架构
+### 🔹 助理模式
+- **智能对话**：支持自然语言交互和历史对话保存
+- **图像处理**：支持图片上传和基于图像内容的分析
+- **对话流式响应**：实时流式显示AI回复内容
 
-- `app.py`: Flask Web应用，提供用户界面和API
-- `process_request.py`: 处理用户输入并调用agent_system
-- `agent_system.py`: 数据分析引擎，包含与DeepSeek模型交互的核心逻辑
-- `prompt.json`: 不同角色的prompt配置文件
+### 🔹 界面设计
+- **自适应布局**：消息气泡宽度根据内容长度自动调整
+- **代码高亮**：自动识别并高亮显示代码块
+- **Markdown渲染**：支持富文本格式的分析报告展示
+- **实时状态反馈**：清晰展示处理状态和错误信息
 
-## 安装
+## 🔧 系统架构
+
+```
+餐饮数据分析专家系统
+├── 前端
+│   ├── static/
+│   │   ├── expert.js - 专家模式前端逻辑
+│   │   ├── expert.css - 专家模式样式
+│   │   └── ...
+│   └── templates/
+│       ├── 专家.html - 专家模式界面
+│       ├── 助理.html - 助理模式界面
+│       └── ...
+├── 后端核心
+│   ├── app.py - Flask应用主入口
+│   ├── expert_api.py - 专家模式API接口
+│   ├── routes.py - 路由配置
+│   └── app_config.py - 应用配置
+├── 数据处理
+│   ├── process_request.py - 请求处理模块
+│   ├── agent_system.py - AI分析引擎核心
+│   └── api2.py - 提示词生成和管理
+└── 数据存储
+    ├── prompt.json - 预设分析提示词库
+    └── conversations/ - 对话历史存储
+```
+
+### 主要模块说明
+
+- **app.py**：Flask应用主入口，集成各个模块和API
+- **expert_api.py**：专家模式的API接口，包含数据分析和提示词处理
+- **agent_system.py**：AI分析引擎，负责数据处理、模型调用和报告生成
+- **api2.py**：提示词生成和管理，包含自动创建和定时删除功能
+- **process_request.py**：请求处理模块，负责用户输入处理和API调用
+
+## 🚀 技术实现
+
+### DeepSeek模型集成
+- **DeepSeek-R1**：用于生成分析提示词和最终宏观报告
+- **DeepSeek-V2.5**：用于分块数据分析
+- **DeepSeek-V3-1226**：用于多维数据整合和总结
+
+### 流式处理与实时反馈
+- 使用**Server-Sent Events (SSE)**实现分析过程的实时日志展示
+- 前端通过**EventSource**接收实时更新并动态渲染
+
+### 异步处理
+- 利用**asyncio**处理并发请求和API调用
+- 使用**threading**模块创建后台任务，如定时删除提示词
+
+### 提示词自动生成流程
+1. 用户输入需求内容
+2. 系统通过DeepSeek-R1生成专业的分析提示词
+3. 生成的提示词包含Role(角色)、Action(动作)、Context(上下文)和Exception(异常处理)
+4. 提示词自动保存并用于数据分析
+5. 分析完成300秒后，临时提示词自动删除
+
+### 数据分析引擎流程
+1. 数据预处理与整合
+2. 按菜品分块并行处理
+3. 多级模型分析和结果整合
+4. 生成最终Markdown格式报告
+
+## 📦 安装部署
+
+### 环境要求
+- Python 3.8+
+- Flask 2.0+
+- OpenAI API SDK
+
+### 安装步骤
 
 1. 克隆仓库
-
 ```bash
 git clone <仓库地址>
 cd <项目目录>
 ```
 
 2. 安装依赖
-
 ```bash
 pip install -r requirements.txt
-pip install nest-asyncio  # 支持在已有事件循环中嵌套运行新的事件循环
 ```
 
-## 使用方法
-
-1. 启动Flask应用
-
+3. 启动应用
 ```bash
-python app.py
+python run.py
 ```
 
-2. 在浏览器中访问 http://localhost:5000
+4. 访问应用
+- 专家模式：http://localhost:5000/mobo/专家.html
+- 助理模式：http://localhost:5000/mobo/助理.html
 
-3. 在Web界面上：
-   - 选择分析角色
-   - 选择分析模式（DeepSeek分析或API分析）
-   - 点击"开始分析"按钮
-   - 等待分析完成后查看和下载报告
+## 🖥️ 使用说明
 
-## 详细运行流程
+### 专家模式
 
-### 1. DeepSeek分析流程
+1. **直接输入分析需求**
+   - 在对话框输入您需要分析的内容，如"分析最近三个月热销菜品"
+   - 系统会自动将其转换为专业的分析提示词
 
-1. 用户选择prompt_id并点击"开始分析"按钮
-2. 前端发送POST请求到`/analyze`端点，传递prompt_id参数
-3. Flask调用`app.py`中的`analyze`函数处理请求
-   ```python
-   @app.route('/analyze', methods=['POST'])
-   def analyze():
-       try:
-           # 获取请求数据，现在只需要prompt_id
-           prompt_id = int(request.form.get('prompt_id'))
-           
-           # 使用安全的异步执行方式处理分析
-           result = run_async(async_process_user_input(None, prompt_id, f"web_request_{prompt_id}"))
-           
-           # 确保返回json响应
-           return jsonify(result)
-       except Exception as e:
-           import traceback
-           error_details = traceback.format_exc()
-           print(f"分析错误详情: {error_details}")
-           return jsonify({"success": False, "message": f"请求处理出错: {str(e)}"})
-   ```
-4. `run_async`函数处理异步操作，执行`async_process_user_input`函数
-   ```python
-   def run_async(coro):
-       loop = asyncio.get_event_loop()
-       return loop.run_until_complete(coro)
-   ```
-5. 调用`process_request.py`中的`process_user_input`函数
-   ```python
-   async def process_user_input(user_data=None, prompt_id=None, file_name="user_input_data"):
-       from agent_system import analyze_data_with_role_id
-       
-       result = {
-           "success": False,
-           "message": "",
-           "data": None,
-           "prompt_info": None
-       }
-       
-       try:
-           # 加载prompt信息
-           prompt_info = await load_prompt_by_id(prompt_id)
-           if not prompt_info:
-               result["message"] = f"找不到ID为 {prompt_id} 的prompt"
-               return result
-               
-           result["prompt_info"] = prompt_info
-           
-           # 如果没有提供用户数据，先调用原始API生成结果
-           if user_data is None:
-               print(f"没有提供用户数据，使用prompt ID {prompt_id} 调用原始API...")
-               api_result = process_request_with_prompt_id(prompt_id)
-               
-               if not api_result:
-                   result["message"] = "原始API调用失败"
-                   return result
-                   
-               # 保存原始API结果到文件
-               api_result_file = f"原始API结果_ID{prompt_id}_{file_name}.json"
-               save_to_file(api_result, api_result_file)
-               print(f"原始API结果已保存到 {api_result_file}")
-               
-               # 提取API结果作为agent_system的输入数据
-               data = {
-                   "api_result": api_result,
-                   "prompt_info": prompt_info,
-                   "charts": []
-               }
-               
-               # 如果API结果中有response，提取出来添加到charts中
-               if "response" in api_result:
-                   response_text = api_result["response"]
-                   data["charts"].append({
-                       "chart_name": "API分析结果",
-                       "values": [{"name": "分析结果", "content": response_text}]
-                   })
-           else:
-               # 如果提供了用户数据，直接使用
-               try:
-                   data = json.loads(user_data) if isinstance(user_data, str) else user_data
-               except json.JSONDecodeError:
-                   data = {
-                       "user_input": user_data,
-                       "charts": [
-                           {
-                               "chart_name": "用户数据",
-                               "values": [{"name": "用户输入", "content": user_data}]
-                           }
-                       ]
-                   }
-           
-           # 使用agent_system进行分析
-           print(f"使用DeepSeek模型进行深度分析...")
-           analysis_result = await analyze_data_with_role_id(data, prompt_id, file_name)
-           
-           if analysis_result:
-               result["success"] = True
-               result["message"] = "分析成功"
-               result["data"] = analysis_result
-               print(f"分析成功，报告已生成: {analysis_result.get('report_file', '')}")
-           else:
-               result["message"] = "分析失败"
-               print("分析失败")
-               
-           return result
-       except Exception as e:
-           error_msg = f"处理失败: {str(e)}"
-           print(error_msg)
-           result["message"] = error_msg
-           return result
-   ```
-6. `process_request_with_prompt_id`函数被调用，使用prompt_id获取Action和Context
-   ```python
-   def process_request_with_prompt_id(prompt_id, data=None, conv_uid=None):
-       # 从prompt.json获取对应ID的prompt信息
-       prompt_info = asyncio.run(load_prompt_by_id(prompt_id))
-       
-       if not prompt_info:
-           print(f"找不到ID为 {prompt_id} 的prompt")
-           return None
-       
-       # 构建user_input字符串，使用Action和Context
-       user_input = f"Action：{prompt_info['Action']} Context：{prompt_info['Context']}"
-       
-       # 如果有数据要分析，添加到user_input
-       if data:
-           if isinstance(data, str):
-               user_input += f" 数据：{data}"
-           elif isinstance(data, dict):
-               user_input += f" 数据：{json.dumps(data, ensure_ascii=False)}"
-       
-       # 调用原始处理函数
-       return process_request(user_input, conv_uid)
-   ```
-7. `process_request`函数发送HTTP请求到原始API
-   ```python
-   def process_request(user_input, conv_uid=None):
-       # 构造请求参数
-       payload = {
-           "select_param": "财务报表",
-           "chat_mode": "chat_dashboard",
-           "model_name": "siliconflow_proxyllm",
-           "user_input": user_input,
-           "conv_uid": conv_uid or "da89c3b4-0bb7-11f0-acf4-bc2411cbc733"
-       }
-       
-       # 发送请求
-       headers = {
-           "Content-Type": "application/json",
-           "Accept": "text/event-stream"
-       }
-       
-       try:
-           response = requests.post(
-               "http://149.104.26.64:5670/api/v1/chat/completions",
-               json=payload,
-               headers=headers,
-               stream=True
-           )
-           
-           # 从响应中提取数据部分
-           for line in response.iter_lines():
-               if line:
-                   line = line.decode('utf-8')
-                   if line.startswith('data: '):
-                       json_data = line[6:]  # 去掉 'data: ' 前缀
-                       break
-           
-           # 解析JSON数据
-           data = json.loads(json_data)
-           
-           return data
-       
-       except Exception as e:
-           print(f"请求处理出错: {e}")
-           return None
-   ```
-8. 获取原始API结果后，调用`agent_system.py`中的`analyze_data_with_role_id`函数进行深度分析
-   ```python
-   async def analyze_data_with_role_id(data, role_id, file_name=None):
-       try:
-           # 记录开始分析
-           await log_debug(f"开始使用角色ID {role_id} 分析数据", role_id)
-           
-           # 按菜品名称整合数据
-           organized_data = organize_data_by_dish(data)
-           
-           # 分块处理数据
-           data_chunks = chunk_data(organized_data)
-           await log_debug(f"数据已分为 {len(data_chunks)} 个块进行处理", role_id)
-           
-           # 获取prompt模板
-           prompt_template = await load_prompt_by_id(role_id)
-           if not prompt_template:
-               await log_debug(f"找不到ID为 {role_id} 的角色", role_id)
-               return None
-           
-           # 初始化状态
-           state = initialize_state(data, prompt_template)
-           
-           # 第一阶段：菜品数据分析（DeepSeek-V2.5）
-           # 产生多个菜品的详细分析结果
-           detailed_analysis = await perform_detailed_analysis(data_chunks, prompt_template, role_id)
-           
-           # 保存详细分析结果
-           detailed_report_file = f"detailed_report_json_{role_id}.json"
-           await save_json_file(detailed_analysis, detailed_report_file)
-           await log_debug(f"详细分析结果已保存到 {detailed_report_file}", role_id)
-           
-           # 第二阶段：生成菜品数据总结（DeepSeek-V3-1226）
-           # 根据详细分析生成概览
-           overview = await generate_data_overview(detailed_analysis, prompt_template, role_id)
-           await log_debug("菜品数据总结已生成", role_id)
-           
-           # 第三阶段：生成宏观总结报告（DeepSeek-R1）
-           # 生成最终报告
-           report = await generate_final_report(overview, detailed_analysis, prompt_template, role_id)
-           
-           # 保存为Markdown文件
-           report_file = file_name or f"report_{role_id}.md"
-           await save_markdown_report(report, report_file)
-           await log_debug(f"最终报告已保存到 {report_file}", role_id)
-           
-           # 构建返回结果
-           return {
-               "success": True,
-               "report": report,
-               "report_file": report_file,
-               "detailed_analysis": detailed_analysis,
-               "overview": overview
-           }
-       
-       except Exception as e:
-           import traceback
-           error_details = traceback.format_exc()
-           await log_debug(f"分析出错: {str(e)}\n{error_details}", role_id)
-           return None
-   ```
-9. 分析完成后，结果被返回给前端，包括：
-   - `success`: 分析是否成功
-   - `message`: 消息说明
-   - `data`: 分析结果数据，包含report（报告内容）、report_file（报告文件路径）等
-   - `prompt_info`: 使用的prompt信息
+2. **查看实时分析过程**
+   - 系统会展示正在处理的提示词内容
+   - 实时显示分析日志，包括API调用、数据处理等步骤
 
-### 2. API分析流程
+3. **获取分析报告**
+   - 分析完成后，系统会生成完整的Markdown格式报告
+   - 报告包含宏观总结和详细分析结果
 
-1. 用户选择prompt_id并点击"开始API分析"按钮
-2. 前端发送POST请求到`/api_analyze/<prompt_id>`端点
-3. 服务器调用`process_request_with_prompt_id(prompt_id)`获取原始API结果
-4. 系统将API结果保存到文件`分析结果_ID{prompt_id}_api.json`
-5. 构建数据结构传递给agent_system
-   ```python
-   data = {
-       "api_result": api_result,
-       "prompt_info": run_async(async_load_prompt_by_id(prompt_id)),
-       "charts": []
-   }
-   ```
-6. 如果API结果中包含response，将其提取并添加到charts中
-7. 调用`analyze_data_with_role_id(data, prompt_id, file_name)`进行深度分析
-   - 使用与DeepSeek分析相同的流程进行深度分析
-8. 返回完整的分析结果给前端，包括：
-   - 原始API结果 (api_result)
-   - agent_system分析结果 (agent_result)
-   - 报告文件路径 (report_file)
-   - API结果文件路径 (api_file)
+### 助理模式
+
+1. **自然语言对话**
+   - 可以用自然语言提问或请求帮助
+   - 系统会保存对话历史，方便后续查阅
+
+2. **上传图片分析**
+   - 支持上传图片并基于图片内容进行分析
+   - 可以与文字描述结合使用
+
+## 🤝 贡献与开发
+
+### 代码结构
+项目遵循模块化设计，各功能模块相对独立，便于扩展和维护：
+- `app.py`：应用入口和主要API
+- `expert_api.py`：专家模式API
+- `agent_system.py`：AI分析引擎
+- `api2.py`：提示词生成与管理
+- `static/`：前端资源
+- `templates/`：HTML模板
+
+### 扩展功能
+1. 添加新的分析模型：在`agent_system.py`中集成新的模型API调用
+2. 扩展提示词功能：修改`api2.py`中的提示词生成逻辑
+3. 自定义UI：修改相应的HTML模板和CSS样式
+
+## 📄 许可证
+本项目采用 MIT 许可证，详见 LICENSE 文件。
+
+## 🔗 相关链接
+- [DeepSeek AI官网](https://www.deepseek.com/)
+- [Flask文档](https://flask.palletsprojects.com/)
+- [OpenAI API文档](https://platform.openai.com/docs/api-reference)
 
 ## 数据格式
 
