@@ -18,6 +18,7 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 
 # 设置全局编码为UTF-8
 import sys
+
 import locale
 import codecs
 

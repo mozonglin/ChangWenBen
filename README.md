@@ -393,4 +393,106 @@ async def get_llm_response(messages, model_name="Pro/deepseek-ai/DeepSeek-R1", j
     返回:
         模型响应的文本内容
     """
-``` 
+```
+
+# API空结果重试机制
+
+## 概述
+
+本文档描述当前端调用`process_user_input`函数时，遇到API返回charts为空的情况下，系统的执行流程和重试机制。
+
+## 执行流程
+
+当前端传递ID参数给`process_user_input`函数时，如果API返回的结果中charts数组为空，系统将按照以下流程进行处理：
+
+```
+前端 -> process_user_input(prompt_id=xxx) -> process_request_with_prompt_id -> process_request -> API返回空charts -> 重试机制启动
+```
+
+具体执行流程：
+
+1. **前端调用**：前端只传递prompt_id参数给`process_user_input`函数
+2. **加载Prompt**：系统异步加载对应ID的prompt信息
+3. **API调用**：系统使用`process_request_with_prompt_id`函数调用原始API
+4. **检测空结果**：
+   - 在`process_request`函数中，如果检测到返回结果中charts为空，会自动重试（默认3次）
+   - 如果`process_request`重试后仍未获得有效结果，`process_request_with_prompt_id`会再次调用`retry_until_valid_result`函数
+5. **深度重试**：`retry_until_valid_result`函数会固定重试4次，尝试获取有效数据
+6. **返回结果**：重试成功或失败后，将最终结果返回给前端
+
+## 重试机制详解
+
+系统实现了双层重试机制，确保尽可能获取到有效的API结果：
+
+### 第一层重试（process_request函数）
+
+```python
+# 检查返回的结果是否包含空的charts数组
+if not data.get('charts') or len(data.get('charts', [])) == 0:
+    print(f"API返回结果中charts为空，重试中...")
+    attempt += 1
+    if attempt < max_retries:
+        print(f"等待 {retry_delay} 秒后重试...")
+        import time
+        time.sleep(retry_delay)
+    continue
+```
+
+- 当初次调用API返回空charts时，尝试重新发送相同请求
+- 默认重试3次，每次重试间隔2秒
+
+### 第二层重试（retry_until_valid_result函数）
+
+```python
+# 检查API返回结果，如果charts为空，重试获取有效数据
+if result and (not result.get('charts') or len(result.get('charts', [])) == 0):
+    result = retry_until_valid_result(result)
+```
+
+- 当第一层重试失败后，启动第二层重试
+- 使用固定的4次重试次数
+- 使用原始会话ID，但发送更简单的请求："请生成一份报表"
+- 每次重试间隔2秒
+
+## 使用示例
+
+以下是模拟前端调用的示例代码：
+
+```python
+# 创建一个异步函数来调用API
+async def call_api(prompt_id):
+    result = await process_user_input(
+        prompt_id=prompt_id,
+        file_name=f"frontend_request_{prompt_id}"
+    )
+    return result
+
+# 使用事件循环运行异步函数
+loop = asyncio.get_event_loop()
+try:
+    result = loop.run_until_complete(call_api(123))  # 替换为实际的prompt ID
+finally:
+    # 清理任务
+    pending_tasks = asyncio.all_tasks(loop)
+    for task in pending_tasks:
+        task.cancel()
+```
+
+## 测试工具
+
+为了测试这个重试机制，我们提供了几个测试脚本：
+
+1. `frontend_simulation.py` - 模拟前端调用process_user_input的命令行工具
+2. `test_api_retry.py` - 批量测试多个ID的工具
+3. `test_empty_charts_retry.py` - 专门测试重试功能的工具
+
+使用方法：
+```bash
+# 模拟前端调用（推荐）
+python frontend_simulation.py [prompt_id]
+
+# 批量测试多个ID
+python test_api_retry.py [id1] [id2] ...
+
+# 测试重试功能
+python test_empty_charts_retry.py 
