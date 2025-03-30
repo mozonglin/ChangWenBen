@@ -2,9 +2,10 @@ import os
 import json
 import asyncio
 import nest_asyncio
-from flask import Flask, render_template, request, jsonify, send_file
+from flask import Flask, render_template, request, jsonify, send_file, redirect
 from process_request import load_prompt_by_id, process_user_input, process_request_with_prompt_id
 from agent_system import analyze_data_with_role_id
+import time
 
 # 应用nest_asyncio以允许在已有事件循环中运行asyncio.run()
 nest_asyncio.apply()
@@ -14,6 +15,8 @@ app = Flask(__name__)
 # 确保模板和静态文件目录存在
 os.makedirs('templates', exist_ok=True)
 os.makedirs('static', exist_ok=True)
+os.makedirs('static/uploads', exist_ok=True)
+os.makedirs('conversations', exist_ok=True)
 
 # 使用异步函数包装，避免直接使用asyncio.run()
 async def async_load_prompt_by_id(prompt_id):
@@ -39,8 +42,8 @@ def load_all_prompts():
 
 @app.route('/')
 def index():
-    prompts = load_all_prompts()
-    return render_template('index.html', prompts=prompts)
+    # 重定向到助理页面
+    return redirect('/助理.html')
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -136,407 +139,361 @@ def api_analyze(prompt_id):
         print(f"API分析错误详情: {error_details}")
         return jsonify({"success": False, "message": f"API请求处理出错: {str(e)}"})
 
-if __name__ == '__main__':
-    # 创建模板文件
-    with open('templates/index.html', 'w', encoding='utf-8') as f:
-        f.write('''
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据分析系统</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <style>
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
-        #result-container {
-            display: none;
-            margin-top: 20px;
-        }
-        .report-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-        }
-        pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .nav-tabs {
-            margin-bottom: 20px;
-        }
-        .card-footer {
-            background-color: rgba(0,0,0,0.03);
-        }
-    </style>
-</head>
-<body>
-    <div class="container py-4">
-        <h1 class="mb-4 text-center">餐饮数据分析系统</h1>
+@app.route('/api_chat', methods=['POST'])
+def api_chat():
+    """处理聊天消息的API端点"""
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"success": False, "message": "请求数据为空"})
+            
+        message = data.get('message')
+        conversation_id = data.get('conversation_id')
+        history = data.get('history', [])
+        mode = data.get('mode', 'deepseek-v3')  # 默认使用DeepSeek-V3
         
-        <ul class="nav nav-tabs" id="analysisTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="agent-tab" data-bs-toggle="tab" data-bs-target="#agent-analysis" type="button" role="tab" aria-controls="agent-analysis" aria-selected="true">DeepSeek分析</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="api-tab" data-bs-toggle="tab" data-bs-target="#api-analysis" type="button" role="tab" aria-controls="api-analysis" aria-selected="false">API分析</button>
-            </li>
-        </ul>
+        print(f"收到请求：消息='{message}'，模式='{mode}'")
         
-        <div class="tab-content" id="analysisTabContent">
-            <div class="tab-pane fade show active" id="agent-analysis" role="tabpanel" aria-labelledby="agent-tab">
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">选择分析角色</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="analysis-form">
-                            <div class="mb-3">
-                                <label for="prompt-select" class="form-label">选择分析角色</label>
-                                <select class="form-select" id="prompt-select" required>
-                                    <option value="" selected disabled>请选择分析角色</option>
-                                    {% for prompt in prompts %}
-                                        <option value="{{ prompt.id }}">{{ prompt.id }} - {{ prompt.Role }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="prompt-details" class="form-label">角色信息</label>
-                                <div class="card p-3" id="prompt-details">
-                                    <p><strong>Action:</strong> <span id="action-text">请先选择角色</span></p>
-                                    <p><strong>Context:</strong> <span id="context-text">请先选择角色</span></p>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer p-3 mt-4">
-                                <div class="alert alert-info mb-0">
-                                    <i class="bi bi-info-circle-fill"></i> 
-                                    <strong>自动分析流程:</strong> 
-                                    <ol class="mb-0">
-                                        <li>选择角色后，系统将自动使用该角色的Action和Context调用原始API</li>
-                                        <li>将API结果传递给DeepSeek大模型进行深度分析</li>
-                                        <li>生成详细的分析报告</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3 mt-3">
-                                <button type="submit" class="btn btn-primary float-end">开始分析</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        # 根据模式选择不同的模型
+        try:
+            # 使用API可能会失败，添加异常处理
+            from openai import OpenAI
+            client = OpenAI(
+                api_key="sk-zkgnhawsdghsmbkeqozsbrguyxblkehoxniouisfusdvgiow", 
+                base_url="https://api.siliconflow.cn/v1"
+            )
             
-            <div class="tab-pane fade" id="api-analysis" role="tabpanel" aria-labelledby="api-tab">
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">API分析</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="api-form">
-                            <div class="mb-3">
-                                <label for="api-prompt-select" class="form-label">选择分析角色</label>
-                                <select class="form-select" id="api-prompt-select" required>
-                                    <option value="" selected disabled>请选择分析角色</option>
-                                    {% for prompt in prompts %}
-                                        <option value="{{ prompt.id }}">{{ prompt.id }} - {{ prompt.Role }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="api-prompt-details" class="form-label">角色信息</label>
-                                <div class="card p-3" id="api-prompt-details">
-                                    <p><strong>Action:</strong> <span id="api-action-text">请先选择角色</span></p>
-                                    <p><strong>Context:</strong> <span id="api-context-text">请先选择角色</span></p>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary float-end">开始API分析</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+            # 根据模式选择合适的模型
+            model_name = "Pro/deepseek-ai/DeepSeek-R1" if mode == 'deepseek-r1' else "Pro/deepseek-ai/DeepSeek-V3"
+            system_prompt = "你是数据分析专家，用Markdown输出结果" if mode == 'deepseek-r1' else "你是一个助手，简洁地用Markdown回答问题"
+            max_tokens = 16384 if mode == 'deepseek-r1' else 8192
+            
+            # 处理历史消息，限制最多10条
+            history_messages = []
+            if history:
+                for msg in history[-10:]:
+                    if msg.get('role') and msg.get('content'):
+                        history_messages.append({"role": msg["role"], "content": msg["content"]})
+            
+            # 构建API请求消息
+            messages = [
+                {"role": "system", "content": system_prompt}
+            ]
+            messages.extend(history_messages)
+            messages.append({"role": "user", "content": message})
+            
+            print(f"调用API，模型={model_name}，系统提示词='{system_prompt}'")
+            
+            # 调用API
+            response = client.chat.completions.create(  
+                model=model_name,  
+                messages=messages,  
+                temperature=0.7,  
+                max_tokens=max_tokens,
+                stream=False
+            )
+            ai_response = response.choices[0].message.content
+            print(f"API返回成功，响应长度={len(ai_response)}")
+            
+            # 存储对话历史
+            save_conversation(conversation_id, message, ai_response, history)
+            
+            return jsonify({
+                "success": True,
+                "response": ai_response,
+                "conversation_id": conversation_id
+            })
+        except Exception as api_error:
+            # API调用失败，返回模拟响应
+            print(f"API调用失败: {str(api_error)}，使用模拟响应")
+            
+            # 根据不同模式返回不同模拟响应
+            if mode == 'deepseek-r1':
+                ai_response = f"""## 深度思考模式回答（模拟）
+
+这是使用**DeepSeek-R1**模型的模拟回答，因为API调用失败：{str(api_error)}
+
+### 您的问题
+{message}
+
+### 分析结果
+根据您的问题，我们可以从多个角度进行分析：
+
+1. **主要观点**
+   - 这是关键点1
+   - 这是关键点2
+   - 这是关键点3
+
+2. **数据支持**
+   ```python
+   import pandas as pd
+   
+   # 数据分析示例
+   data = {'类别': ['A', 'B', 'C'], 
+           '数值': [10, 20, 30]}
+   df = pd.DataFrame(data)
+   print(df)
+   ```
+
+3. **结论**
+   综合以上分析，我们可以得出以下结论...
+
+【注意：这是模拟响应，实际API调用失败】"""
+            else:
+                ai_response = f"""这是普通模式下的模拟回答。您问的问题是"{message}"。
+
+API调用失败：{str(api_error)}
+
+我们可以这样回答：
+- 第一点
+- 第二点
+- 第三点
+
+【注意：这是模拟响应，实际API调用失败】"""
+            
+            # 存储对话历史
+            save_conversation(conversation_id, message, ai_response, history)
+            
+            return jsonify({
+                "success": True,
+                "response": ai_response,
+                "conversation_id": conversation_id,
+                "is_mock": True
+            })
+            
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"API聊天错误详情: {error_details}")
+        return jsonify({"success": False, "message": f"处理聊天消息出错: {str(e)}"})
+
+@app.route('/api_image', methods=['POST'])
+def api_image():
+    """处理图片上传和分析的API端点"""
+    try:
+        if 'image' not in request.files:
+            return jsonify({"success": False, "message": "没有上传图片"})
+            
+        image_file = request.files['image']
+        conversation_id = request.form.get('conversation_id')
         
-        <div class="loading" id="loading">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">加载中...</span>
-            </div>
-            <p class="mt-2">数据分析中，请稍候...</p>
-            <p class="text-muted small">根据数据量大小，可能需要1-3分钟不等</p>
-        </div>
+        if not image_file.filename:
+            return jsonify({"success": False, "message": "图片文件名为空"})
+            
+        # 保存上传的图片
+        upload_dir = os.path.join('static', 'uploads')
+        os.makedirs(upload_dir, exist_ok=True)
         
-        <div id="result-container">
-            <div class="card mb-4">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">分析结果</h5>
-                </div>
-                <div class="card-body">
-                    <h4 id="role-title" class="mb-3"></h4>
-                    
-                    <div class="report-section">
-                        <h5>🌟 宏观总结</h5>
-                        <div id="macro-report"></div>
-                    </div>
-                    
-                    <div class="report-section">
-                        <h5>📊 菜品总览</h5>
-                        <div id="chunk-summary"></div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <a id="report-link" href="#" target="_blank" class="btn btn-primary">查看完整报告</a>
-                        <a id="api-result-link" href="#" target="_blank" class="btn btn-outline-secondary">查看原始API结果</a>
-                        <button id="new-analysis" class="btn btn-outline-secondary float-end">开始新的分析</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        # 生成唯一文件名
+        filename = f"{int(time.time())}_{image_file.filename}"
+        file_path = os.path.join(upload_dir, filename)
+        image_file.save(file_path)
         
-        <div id="api-result-container" style="display: none;">
-            <div class="card mb-4">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">API分析结果</h5>
-                </div>
-                <div class="card-body">
-                    <h4 id="api-role-title" class="mb-3"></h4>
-                    
-                    <div class="report-section">
-                        <h5>分析结果</h5>
-                        <div id="api-result"></div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <a id="api-report-link" href="#" target="_blank" class="btn btn-primary">下载完整结果</a>
-                        <button id="api-new-analysis" class="btn btn-outline-secondary float-end">开始新的分析</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // DeepSeek分析相关元素
-            const promptSelect = document.getElementById('prompt-select');
-            const form = document.getElementById('analysis-form');
-            const loadingElement = document.getElementById('loading');
-            const resultContainer = document.getElementById('result-container');
-            const newAnalysisButton = document.getElementById('new-analysis');
+        print(f"图片已保存: {file_path}")
+        
+        try:
+            # 使用多模态模型分析图片
+            from openai import OpenAI
+            client = OpenAI(
+                api_key="sk-zkgnhawsdghsmbkeqozsbrguyxblkehoxniouisfusdvgiow", 
+                base_url="https://api.siliconflow.cn/v1"
+            )
             
-            // API分析相关元素
-            const apiPromptSelect = document.getElementById('api-prompt-select');
-            const apiForm = document.getElementById('api-form');
-            const apiResultContainer = document.getElementById('api-result-container');
-            const apiNewAnalysisButton = document.getElementById('api-new-analysis');
+            with open(file_path, "rb") as img_file:
+                # 图片转base64
+                import base64
+                image_base64 = base64.b64encode(img_file.read()).decode('utf-8')
             
-            // 更新角色信息 (DeepSeek分析)
-            promptSelect.addEventListener('change', function() {
-                const promptId = this.value;
-                if (!promptId) return;
-                
-                fetch(`/get_prompt_info/${promptId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.getElementById('action-text').textContent = data.data.Action;
-                            document.getElementById('context-text').textContent = data.data.Context;
-                        } else {
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('获取角色信息失败');
-                    });
-            });
-            
-            // 更新角色信息 (API分析)
-            apiPromptSelect.addEventListener('change', function() {
-                const promptId = this.value;
-                if (!promptId) return;
-                
-                fetch(`/get_prompt_info/${promptId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.getElementById('api-action-text').textContent = data.data.Action;
-                            document.getElementById('api-context-text').textContent = data.data.Context;
-                        } else {
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('获取角色信息失败');
-                    });
-            });
-            
-            // 提交表单 (DeepSeek分析)
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const promptId = promptSelect.value;
-                
-                if (!promptId) {
-                    alert('请选择分析角色');
-                    return;
-                }
-                
-                // 显示加载中
-                form.style.display = 'none';
-                loadingElement.style.display = 'block';
-                resultContainer.style.display = 'none';
-                apiResultContainer.style.display = 'none';
-                
-                // 发送请求
-                const formData = new FormData();
-                formData.append('prompt_id', promptId);
-                
-                fetch('/analyze', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(result => {
-                    loadingElement.style.display = 'none';
-                    
-                    if (result.success) {
-                        // 显示结果
-                        resultContainer.style.display = 'block';
-                        
-                        // 更新结果内容
-                        document.getElementById('role-title').textContent = result.prompt_info.Role + ' 分析报告';
-                        document.getElementById('macro-report').innerHTML = '<pre>' + result.data.macro_report + '</pre>';
-                        document.getElementById('chunk-summary').innerHTML = '<pre>' + result.data.chunk_summary + '</pre>';
-                        
-                        // 设置报告链接
-                        const reportLink = document.getElementById('report-link');
-                        reportLink.href = '/reports/' + result.data.report_file;
-                        reportLink.download = result.data.report_file;
-                        
-                        // 设置原始API结果链接
-                        const apiResultLink = document.getElementById('api-result-link');
-                        apiResultLink.href = '/reports/' + '原始API结果_ID' + promptId + '_web_request_' + promptId + '.json';
-                        apiResultLink.download = '原始API结果_ID' + promptId + '_web_request_' + promptId + '.json';
-                    } else {
-                        // 显示错误
-                        alert('分析失败: ' + result.message);
-                        form.style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    loadingElement.style.display = 'none';
-                    form.style.display = 'block';
-                    alert('请求出错: ' + error);
-                    console.error('Error:', error);
-                });
-            });
-            
-            // 提交表单 (API分析)
-            apiForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                
-                const promptId = apiPromptSelect.value;
-                
-                if (!promptId) {
-                    alert('请选择分析角色');
-                    return;
-                }
-                
-                // 显示加载中
-                apiForm.style.display = 'none';
-                loadingElement.style.display = 'block';
-                resultContainer.style.display = 'none';
-                apiResultContainer.style.display = 'none';
-                
-                // 发送请求
-                fetch(`/api_analyze/${promptId}`, {
-                    method: 'POST'
-                })
-                .then(response => response.json())
-                .then(result => {
-                    loadingElement.style.display = 'none';
-                    
-                    if (result.success) {
-                        // 获取角色信息
-                        fetch(`/get_prompt_info/${promptId}`)
-                            .then(response => response.json())
-                            .then(promptData => {
-                                if (promptData.success) {
-                                    // 显示结果
-                                    apiResultContainer.style.display = 'block';
-                                    
-                                    // 更新结果内容
-                                    document.getElementById('api-role-title').textContent = promptData.data.Role + ' API分析结果';
-                                    
-                                    // 格式化响应为可读的文本
-                                    let resultText = '';
-                                    if (result.result && result.result.response) {
-                                        resultText = result.result.response;
-                                    } else {
-                                        resultText = JSON.stringify(result.result, null, 2);
+                print("调用图片分析API...")
+                response = client.chat.completions.create(
+                    model="Qwen/Qwen2-VL-72B-Instruct",
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "image_url",
+                                    "image_url": {
+                                        "url": f"data:image/jpeg;base64,{image_base64}"
                                     }
-                                    
-                                    document.getElementById('api-result').innerHTML = '<pre>' + resultText + '</pre>';
-                                    
-                                    // 设置报告链接
-                                    const apiReportLink = document.getElementById('api-report-link');
-                                    apiReportLink.href = '/reports/' + result.report_file;
-                                    apiReportLink.download = result.report_file;
-                                } else {
-                                    alert('获取角色信息失败');
-                                    apiForm.style.display = 'block';
+                                },
+                                {
+                                    "type": "text",
+                                    "text": "详细描述这张图片的内容，用中文回答，使用Markdown格式。"
                                 }
-                            });
-                    } else {
-                        // 显示错误
-                        alert('API分析失败: ' + result.message);
-                        apiForm.style.display = 'block';
-                    }
-                })
-                .catch(error => {
-                    loadingElement.style.display = 'none';
-                    apiForm.style.display = 'block';
-                    alert('请求出错: ' + error);
-                    console.error('Error:', error);
-                });
-            });
+                            ]
+                        }
+                    ],
+                    stream=False
+                )
+                
+            ai_response = response.choices[0].message.content
+            print(f"图片分析完成，响应长度={len(ai_response)}")
             
-            // 新的分析 (DeepSeek分析)
-            newAnalysisButton.addEventListener('click', function() {
-                resultContainer.style.display = 'none';
-                form.style.display = 'block';
-            });
+        except Exception as api_error:
+            # API调用失败，返回模拟响应
+            print(f"图片分析API调用失败: {str(api_error)}，使用模拟响应")
+            ai_response = f"""## 图片分析结果（模拟）
+
+这是对您上传的图片 `{os.path.basename(file_path)}` 的模拟分析结果。
+
+**注意：API调用失败，无法提供真实分析**
+错误信息: {str(api_error)}
+
+1. **图片信息**
+   - 文件名: {os.path.basename(file_path)}
+   - 上传时间: {time.strftime('%Y-%m-%d %H:%M:%S')}
+
+2. **常规分析**
+   这通常会包含对图片内容的详细描述，但由于API调用失败，无法提供。
+
+您可以稍后重试，或者直接在对话中描述图片内容，我们可以基于您的描述进行讨论。
+"""
+        
+        # 保存到对话历史
+        save_image_message(conversation_id, file_path, ai_response)
+        
+        return jsonify({
+            "success": True,
+            "response": ai_response,
+            "image_path": f"/static/uploads/{filename}",
+            "conversation_id": conversation_id
+        })
+        
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"图片处理错误详情: {error_details}")
+        return jsonify({"success": False, "message": f"处理图片出错: {str(e)}"})
+
+@app.route('/api_test', methods=['GET'])
+def api_test():
+    """用于测试API是否正常工作的简单端点"""
+    return jsonify({
+        "success": True,
+        "message": "API端点正常工作",
+        "time": time.strftime('%Y-%m-%d %H:%M:%S')
+    })
+
+@app.route('/api_test_chat', methods=['GET'])
+def api_test_chat():
+    """用于测试聊天API的简单端点"""
+    message = request.args.get('message', '你好，请介绍自己')
+    mode = request.args.get('mode', 'normal')
+    
+    try:
+        print(f"测试聊天 - 消息: '{message}', 模式: {mode}")
+        
+        # 简单的模拟响应 - 不调用真实API
+        if mode == 'deepthink':
+            response = f"""## 测试响应（深度思考模式）
+
+这是一个测试响应，用于验证API端点是否正常工作。
+
+### 您的测试消息
+{message}
+
+### 分析
+这是一个测试分析，不调用真实的AI模型。
+
+1. **测试点1**
+   - 子点A
+   - 子点B
+
+2. **测试点2**
+   ```python
+   # 这是一段测试代码
+   print("Hello, API test!")
+   ```
+
+时间戳: {time.strftime('%Y-%m-%d %H:%M:%S')}"""
+        else:
+            response = f"""## 测试响应（普通模式）
+
+这是一个测试响应，用于验证API端点是否正常工作。您的测试消息是: "{message}"
+
+- 测试回复1
+- 测试回复2
+- 测试回复3
+
+时间戳: {time.strftime('%Y-%m-%d %H:%M:%S')}"""
+        
+        return jsonify({
+            "success": True,
+            "response": response,
+            "conversation_id": "test_conversation",
+            "is_test": True
+        })
+        
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"测试聊天API错误: {error_details}")
+        return jsonify({
+            "success": False,
+            "message": f"测试聊天API出错: {str(e)}"
+        })
+
+def save_conversation(conversation_id, user_message, ai_response, history):
+    """保存对话历史"""
+    try:
+        conversations_dir = 'conversations'
+        os.makedirs(conversations_dir, exist_ok=True)
+        
+        # 构建新的历史记录
+        new_history = history.copy() if history else []
+        new_history.append({"role": "user", "content": user_message})
+        new_history.append({"role": "assistant", "content": ai_response})
+        
+        # 保存到文件
+        with open(f"{conversations_dir}/{conversation_id}.json", 'w', encoding='utf-8') as f:
+            json.dump(new_history, f, ensure_ascii=False, indent=2)
             
-            // 新的分析 (API分析)
-            apiNewAnalysisButton.addEventListener('click', function() {
-                apiResultContainer.style.display = 'none';
-                apiForm.style.display = 'block';
-            });
-        });
-    </script>
-</body>
-</html>
-''')
+    except Exception as e:
+        print(f"保存对话历史出错: {str(e)}")
+
+def save_image_message(conversation_id, image_path, ai_response):
+    """保存图片消息到对话历史"""
+    try:
+        conversations_dir = 'conversations'
+        os.makedirs(conversations_dir, exist_ok=True)
+        
+        # 读取现有历史（如果有）
+        history_file = f"{conversations_dir}/{conversation_id}.json"
+        
+        if os.path.exists(history_file):
+            with open(history_file, 'r', encoding='utf-8') as f:
+                history = json.load(f)
+        else:
+            history = []
+        
+        # 添加图片消息和AI响应
+        history.append({"role": "user", "content": f"[上传了图片: {os.path.basename(image_path)}]", "image": image_path})
+        history.append({"role": "assistant", "content": ai_response})
+        
+        # 保存到文件
+        with open(history_file, 'w', encoding='utf-8') as f:
+            json.dump(history, f, ensure_ascii=False, indent=2)
+            
+    except Exception as e:
+        print(f"保存图片消息出错: {str(e)}")
+
+@app.route('/助理.html')
+def assistant_page():
+    """助理页面路由"""
+    return render_template('助理.html')
+
+if __name__ == '__main__':
+    # 确保必要的目录存在
+    os.makedirs('templates', exist_ok=True)
+    os.makedirs('static', exist_ok=True)
+    os.makedirs('static/uploads', exist_ok=True)
+    os.makedirs('conversations', exist_ok=True)
+    
+    print("="*80)
+    print("AI助手服务已启动")
+    print("请访问: http://127.0.0.1:5000/助理.html")
+    print("="*80)
     
     # 启动Flask应用
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True) 

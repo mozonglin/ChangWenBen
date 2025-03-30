@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 餐饮助手</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#333333',
+secondary: '#1E1E1E'
+},
+borderRadius: {
+'none': '0px',
+'sm': '8px',
+DEFAULT: '12px',
+'md': '16px',
+'lg': '20px',
+'xl': '24px',
+'2xl': '28px',
+'3xl': '32px',
+'full': '9999px',
+'button': '12px'
+}
+}
+}
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.min.css">
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/highlight.min.js"></script>
+<script>
+function toggleSidebar() {
+const sidebar = document.getElementById('sidebar');
+sidebar.classList.toggle('w-1/4');
+sidebar.classList.toggle('w-auto');
+}
+
+let chatHistory = [];
+let currentConversationId = generateId();
+let isDeepThinking = false;
+let apiUrl = '/api_chat'; // API端点
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+function createNewConversation() {
+  currentConversationId = generateId();
+  chatHistory = [];
+  document.getElementById('chatMessages').innerHTML = '';
+  
+  const now = new Date();
+  const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+  
+  addConversationToHistory('新对话', timeString, '');
+}
+
+function addConversationToHistory(title, time, preview) {
+  const historyContainer = document.getElementById('historyContainer');
+  const conversationElement = document.createElement('div');
+  conversationElement.className = 'hover:bg-[#2A2A2A] p-4 cursor-pointer border-b border-gray-700';
+  conversationElement.innerHTML = `
+    <div class="text-sm font-medium">${title}</div>
+    <div class="text-xs text-gray-400 mt-1">${time}</div>
+    <div class="text-xs text-gray-400 mt-2 line-clamp-2">${preview}</div>
+  `;
+  
+  conversationElement.addEventListener('click', () => {
+    // 这里应该加载对应的会话，此处简化处理
+    // loadConversation(conversationId);
+  });
+  
+  historyContainer.prepend(conversationElement);
+}
+
+function sendMessage() {
+  const messageInput = document.getElementById('messageInput');
+  const userMessage = messageInput.value.trim();
+  
+  if (!userMessage) return;
+  
+  addUserMessage(userMessage);
+  
+  messageInput.value = '';
+  
+  if (isDeepThinking) {
+    sendToServer(userMessage, 'deepthink');
+  } else {
+    sendToServer(userMessage, 'normal');
+  }
+}
+
+function addUserMessage(message) {
+  const chatMessages = document.getElementById('chatMessages');
+  const messageElement = document.createElement('div');
+  messageElement.className = 'flex items-start gap-4 justify-end';
+  messageElement.innerHTML = `
+    <div class="flex-1 text-right">
+      <div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
+        ${message}
+      </div>
+    </div>
+  `;
+  
+  chatMessages.appendChild(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  chatHistory.push({role: 'user', content: message});
+}
+
+function addAIMessage(message) {
+  const chatMessages = document.getElementById('chatMessages');
+  const messageElement = document.createElement('div');
+  messageElement.className = 'flex items-start gap-4';
+  
+  const renderedContent = marked.parse(message);
+  
+  messageElement.innerHTML = `
+    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
+      AI
+    </div>
+    <div class="flex-1">
+      <div class="bg-[#2A2A2A] p-4 rounded-lg relative markdown-content">
+        ${renderedContent}
+        <button class="absolute bottom-4 right-4 bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button text-sm flex items-center gap-2" onclick="copyContent(this)">
+          <i class="fas fa-copy"></i>
+          复制内容
+        </button>
+      </div>
+    </div>
+  `;
+  
+  chatMessages.appendChild(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  messageElement.querySelectorAll('pre code').forEach((block) => {
+    hljs.highlightElement(block);
+  });
+  
+  chatHistory.push({role: 'assistant', content: message});
+}
+
+function copyContent(button) {
+  const content = button.parentElement.querySelector('p, pre, ul, ol, h1, h2, h3, h4, h5, h6').textContent;
+  navigator.clipboard.writeText(content).then(() => {
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i> 已复制';
+    setTimeout(() => {
+      button.innerHTML = originalText;
+    }, 2000);
+  });
+}
+
+function toggleDeepThinking() {
+  isDeepThinking = !isDeepThinking;
+  const deepThinkingButton = document.getElementById('deepThinkingButton');
+  
+  if (isDeepThinking) {
+    deepThinkingButton.classList.add('bg-blue-600');
+    deepThinkingButton.classList.remove('bg-primary');
+  } else {
+    deepThinkingButton.classList.remove('bg-blue-600');
+    deepThinkingButton.classList.add('bg-primary');
+  }
+}
+
+function uploadImage() {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.click();
+  
+  fileInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      addUserImageMessage(event.target.result);
+      
+      sendImageToServer(file);
+    };
+    reader.readAsDataURL(file);
+  };
+}
+
+function addUserImageMessage(imageUrl) {
+  const chatMessages = document.getElementById('chatMessages');
+  const messageElement = document.createElement('div');
+  messageElement.className = 'flex items-start gap-4 justify-end';
+  messageElement.innerHTML = `
+    <div class="flex-1 text-right">
+      <div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
+        <img src="${imageUrl}" alt="用户上传图片" class="max-w-full rounded">
+        <p class="mt-2 text-gray-400">已上传图片</p>
+      </div>
+    </div>
+  `;
+  
+  chatMessages.appendChild(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// 发送消息到服务器 - 实际API调用
+function sendToServer(message, mode) {
+  // 显示AI正在输入
+  const typingIndicator = document.createElement('div');
+  typingIndicator.id = 'typingIndicator';
+  typingIndicator.className = 'flex items-start gap-4';
+  typingIndicator.innerHTML = `
+    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
+      AI
+    </div>
+    <div class="flex-1">
+      <div class="bg-[#2A2A2A] p-4 rounded-lg">
+        <div class="flex space-x-2">
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce"></div>
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.appendChild(typingIndicator);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  // 准备请求数据
+  const requestData = {
+    message: message,
+    conversation_id: currentConversationId,
+    history: chatHistory,
+    mode: mode === 'deepthink' ? 'deepseek-r1' : 'deepseek-v3' // 根据mode选择模型
+  };
+
+  console.log('发送请求:', JSON.stringify(requestData));
+  
+  // 添加调试提示
+  addAIMessage(`正在处理您的消息: "${message}"...\n请稍候...`);
+  
+  // 是否使用测试API (如果遇到问题可以切换到测试模式)
+  const useTestApi = false;
+  
+  if (useTestApi) {
+    // 使用测试API
+    const testUrl = `/api_test_chat?message=${encodeURIComponent(message)}&mode=${mode === 'deepthink' ? 'deepthink' : 'normal'}`;
+    
+    fetch(testUrl)
+      .then(response => {
+        console.log('收到测试API响应状态:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('测试API响应数据:', data);
+        handleApiResponse(data, message);
+      })
+      .catch(error => {
+        handleApiError(error);
+      });
+  } else {
+    // 发送实际API请求
+    fetch('/api_chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(requestData)
+    })
+    .then(response => {
+      console.log('收到响应状态:', response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log('响应数据:', data);
+      handleApiResponse(data, message);
+    })
+    .catch(error => {
+      handleApiError(error);
+    });
+  }
+}
+
+// 处理API响应
+function handleApiResponse(data, message) {
+  // 移除打字指示器和临时消息
+  if (document.getElementById('typingIndicator')) {
+    document.getElementById('typingIndicator').remove();
+  }
+  
+  // 移除最后一条AI消息（调试提示）
+  const allMessages = document.querySelectorAll('#chatMessages > div');
+  if (allMessages.length > 0) {
+    const lastMessage = allMessages[allMessages.length - 1];
+    if (lastMessage.querySelector('.w-8.h-8.rounded-full')) {
+      lastMessage.remove();
+      // 同时从历史中移除
+      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'assistant') {
+        chatHistory.pop();
+      }
+    }
+  }
+  
+  if (data.success) {
+    addAIMessage(data.response || '收到空响应');
+    
+    // 更新最近对话的预览
+    if (document.querySelector('#historyContainer > div')) {
+      const preview = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+      document.querySelector('#historyContainer > div .line-clamp-2').textContent = preview;
+    }
+  } else {
+    addAIMessage(`出错了：${data.message || '未知错误'}`);
+  }
+}
+
+// 处理API错误
+function handleApiError(error) {
+  console.error('API请求错误:', error);
+  
+  // 移除打字指示器和临时消息
+  if (document.getElementById('typingIndicator')) {
+    document.getElementById('typingIndicator').remove();
+  }
+  
+  // 移除最后一条AI消息（调试提示）
+  const allMessages = document.querySelectorAll('#chatMessages > div');
+  if (allMessages.length > 0) {
+    const lastMessage = allMessages[allMessages.length - 1];
+    if (lastMessage.querySelector('.w-8.h-8.rounded-full')) {
+      lastMessage.remove();
+      // 同时从历史中移除
+      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'assistant') {
+        chatHistory.pop();
+      }
+    }
+  }
+  
+  addAIMessage(`请求出错: ${error.message || '网络错误'}\n\n请稍后再试或检查网络连接`);
+}
+
+// 发送图片到服务器
+function sendImageToServer(file) {
+  // 显示AI正在处理
+  const typingIndicator = document.createElement('div');
+  typingIndicator.id = 'typingIndicator';
+  typingIndicator.className = 'flex items-start gap-4';
+  typingIndicator.innerHTML = `
+    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
+      AI
+    </div>
+    <div class="flex-1">
+      <div class="bg-[#2A2A2A] p-4 rounded-lg">
+        <div class="flex space-x-2">
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce"></div>
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+        <p class="text-gray-400 text-sm mt-2">正在分析图片...</p>
+      </div>
+    </div>
+  `;
+  
+  const chatMessages = document.getElementById('chatMessages');
+  chatMessages.appendChild(typingIndicator);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+  // 实际API调用
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('conversation_id', currentConversationId);
+  
+  fetch('/api_image', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    // 移除打字指示器
+    if (document.getElementById('typingIndicator')) {
+      document.getElementById('typingIndicator').remove();
+    }
+    
+    if (data.success) {
+      addAIMessage(data.response);
+    } else {
+      addAIMessage(`图片分析出错：${data.message || '未知错误'}`);
+    }
+  })
+  .catch(error => {
+    // 移除打字指示器
+    if (document.getElementById('typingIndicator')) {
+      document.getElementById('typingIndicator').remove();
+    }
+    
+    console.error('图片上传错误:', error);
+    addAIMessage('抱歉，图片上传出错了。请稍后再试。');
+  });
+}
+
+// 页面加载完成后执行
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('页面加载完成');
+  
+  try {
+    // 先测试API连接
+    console.log('测试API连接...');
+    fetch('/api_test')
+      .then(response => {
+        console.log('API测试状态码:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('API测试结果:', data);
+        if (data.success) {
+          console.log('API连接成功');
+          // API连接成功，继续初始化
+          initializeChat();
+        } else {
+          console.error('API连接测试失败:', data.message);
+          showError('API连接测试失败', data.message || '未知错误');
+        }
+      })
+      .catch(error => {
+        console.error('API连接测试出错:', error);
+        showError('API连接测试出错', error.message || '无法连接到服务器');
+      });
+  } catch (error) {
+    console.error('初始化出错:', error);
+    showError('初始化错误', error.message || '未知错误');
+  }
+});
+
+// 显示错误信息
+function showError(title, message) {
+  const chatMessages = document.getElementById('chatMessages');
+  if (chatMessages) {
+    chatMessages.innerHTML = `
+      <div class="p-4 bg-red-600 text-white rounded-lg mb-4">
+        <h3 class="font-bold mb-2">${title}</h3>
+        <p>${message}</p>
+        <p class="mt-2 text-sm">请刷新页面重试或联系管理员</p>
+        <button onclick="location.reload()" class="mt-3 bg-white text-red-600 px-4 py-2 rounded-lg font-bold">
+          刷新页面
+        </button>
+      </div>
+    `;
+  }
+}
+
+// 初始化聊天功能
+function initializeChat() {
+  // 绑定发送按钮点击事件
+  const sendButton = document.getElementById('sendButton');
+  if (!sendButton) {
+    console.error('找不到发送按钮元素');
+  } else {
+    console.log('发送按钮已找到，添加事件监听器');
+    sendButton.addEventListener('click', sendMessage);
+  }
+  
+  // 绑定输入框回车事件
+  const messageInput = document.getElementById('messageInput');
+  if (!messageInput) {
+    console.error('找不到消息输入框元素');
+  } else {
+    console.log('消息输入框已找到，添加事件监听器');
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+  
+  // 绑定新对话按钮
+  const newConversationButton = document.getElementById('newConversationButton');
+  if (newConversationButton) {
+    console.log('新对话按钮已找到，添加事件监听器');
+    newConversationButton.addEventListener('click', createNewConversation);
+  }
+  
+  // 绑定深度思考按钮
+  const deepThinkingButton = document.getElementById('deepThinkingButton');
+  if (deepThinkingButton) {
+    console.log('深度思考按钮已找到，添加事件监听器');
+    deepThinkingButton.addEventListener('click', toggleDeepThinking);
+  }
+  
+  // 绑定上传图片按钮
+  const uploadImageButton = document.getElementById('uploadImageButton');
+  if (uploadImageButton) {
+    console.log('上传图片按钮已找到，添加事件监听器');
+    uploadImageButton.addEventListener('click', uploadImage);
+  }
+  
+  // 创建初始对话
+  console.log('创建初始对话');
+  createNewConversation();
+  
+  // 添加欢迎消息
+  console.log('添加欢迎消息');
+  setTimeout(() => {
+    addAIMessage(`## 👋 欢迎使用AI助理
+
+我可以帮您完成以下任务：
+
+- 💬 **日常对话**：回答问题、提供信息、闲聊交流
+- ✍️ **智能写作**：帮助撰写文章、邮件、报告等各类文档
+- 💌 **情感分析**：理解并分析文本中的情感倾向
+
+您可以直接输入问题开始对话，也可以：
+- 点击**深度思考**按钮，获得更深入的分析（使用DeepSeek-R1模型）
+- 点击**上传图片**按钮，分析图片内容
+
+请问有什么可以帮您？`);
+  }, 500);
+}
+
+const markdownStyle = `
+.markdown-content h1, .markdown-content h2, .markdown-content h3, 
+.markdown-content h4, .markdown-content h5, .markdown-content h6 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.markdown-content h1 { font-size: 1.5rem; }
+.markdown-content h2 { font-size: 1.3rem; }
+.markdown-content h3 { font-size: 1.17rem; }
+.markdown-content p, .markdown-content ul, .markdown-content ol {
+  margin-bottom: 1rem;
+}
+.markdown-content ul, .markdown-content ol {
+  padding-left: 1.5rem;
+}
+.markdown-content ul { list-style-type: disc; }
+.markdown-content ol { list-style-type: decimal; }
+.markdown-content pre {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #1E1E1E;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+}
+.markdown-content code {
+  font-family: monospace;
+  background-color: #1E1E1E;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+.markdown-content pre code {
+  padding: 0;
+  background-color: transparent;
+}
+.markdown-content blockquote {
+  border-left: 4px solid #333;
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  color: #9CA3AF;
+}
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+.markdown-content th, .markdown-content td {
+  border: 1px solid #333;
+  padding: 0.5rem;
+}
+.markdown-content th {
+  background-color: #1E1E1E;
+}
+`;
+
+const styleElement = document.createElement('style');
+styleElement.textContent = markdownStyle;
+document.head.appendChild(styleElement);
+</script>
+</head>
+<body class="bg-[#121212] min-h-[1024px] text-white">
+<div class="flex h-screen max-w-[1440px] mx-auto">
+<div id="sidebar" class="w-1/4 bg-secondary border-r border-gray-700 flex flex-col">
+<div class="p-4 border-b border-gray-700 flex items-center justify-between gap-2">
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button" onclick="toggleSidebar()">
+<i class="fas fa-bars text-gray-400"></i>
+</button>
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button">
+<i class="fas fa-search text-gray-400"></i>
+</button>
+<button id="newConversationButton" class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
+<i class="fas fa-plus"></i>
+新对话
+</button>
+</div>
+<div id="historyContainer" class="flex-1 overflow-y-auto">
+<!-- 历史会话将被动态添加到这里 -->
+</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="p-4 border-b border-gray-700">
+<div class="flex items-center gap-2 mb-2">
+<h2 class="text-xl font-semibold">助理 Assistant</h2>
+</div>
+</div>
+<div id="chatMessages" class="flex-1 overflow-y-auto p-4">
+<!-- 消息内容将动态添加到这里 -->
+</div>
+<div class="p-4 border-t border-gray-700">
+<div class="flex items-center gap-4 mb-4">
+<button id="deepThinkingButton" class="bg-primary hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
+<i class="fas fa-search-plus mr-2"></i>
+深度思考
+</button>
+<button id="uploadImageButton" class="bg-[#2A2A2A] hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
+<i class="fas fa-camera mr-2"></i>
+上传图片
+</button>
+</div>
+<div class="relative">
+<textarea id="messageInput" placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
+<button id="sendButton" class="absolute right-4 bottom-4 text-white bg-primary hover:bg-[#404040] p-2 !rounded-button">
+<i class="fas fa-paper-plane"></i>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+// 移除旧的图表初始化代码，因为我们将动态生成图表
+</script>
+</body>
+</html>
