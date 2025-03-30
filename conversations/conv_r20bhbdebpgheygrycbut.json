@@ -1,0 +1,16 @@
+{
+  "id": "conv_r20bhbdebpgheygrycbut",
+  "title": "你好",
+  "preview": "你好",
+  "messages": [
+    {
+      "role": "user",
+      "content": "你好"
+    },
+    {
+      "role": "assistant",
+      "content": "你好！😊 有什么可以帮你的？"
+    }
+  ],
+  "last_updated": "2025-03-29T21:47:41.450466"
+}

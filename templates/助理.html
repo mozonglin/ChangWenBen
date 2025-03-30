@@ -34,139 +34,761 @@ DEFAULT: '12px',
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/github-dark.min.css">
 <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/highlight.min.js"></script>
-<script>
-function toggleSidebar() {
-const sidebar = document.getElementById('sidebar');
-sidebar.classList.toggle('w-1/4');
-sidebar.classList.toggle('w-auto');
+<style>
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
+
+::-webkit-scrollbar-track {
+  background: #1E1E1E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4A4A4A;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 消息动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.typing-message, .user-message {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* 打字机光标 */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 16px;
+  background-color: white;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 对话气泡美化 */
+.user-bubble {
+  background: linear-gradient(135deg, #9333EA 0%, #6366F1 100%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.ai-bubble {
+  background: linear-gradient(135deg, #1E1E1E 0%, #2A2A2A 100%);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 历史对话项目悬停效果 */
+.conversation-item {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.conversation-item:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to bottom, #9333EA, #6366F1);
+  border-radius: 2px;
+}
+
+/* 深度思考按钮激活样式 */
+.deep-thinking-active {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+/* 图片上传预览 */
+.image-preview {
+  transition: transform 0.2s ease;
+}
+
+.image-preview:hover {
+  transform: scale(1.05);
+}
+
+/* 可点击元素悬停效果 */
+.hover-effect {
+  transition: all 0.2s ease;
+}
+
+.hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 消息发送按钮动画 */
+.send-button {
+  transition: all 0.2s ease;
+}
+
+.send-button:hover {
+  transform: scale(1.1);
+  background-color: #6366F1;
+}
+
+/* 输入框样式 */
+.message-input:focus {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+  outline: none;
+}
+
+/* 状态消息样式 */
+#statusMessage {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    max-width: 80%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+    white-space: pre-line;
+}
+
+.status-error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border-left: 4px solid #d32f2f;
+}
+
+.status-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+}
+
+.status-processing, .status-uploading {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border-left: 4px solid #1976d2;
+}
+
+/* 打字指示器样式 */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #999;
+    animation: bounce 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 复制按钮样式 */
+.copy-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: #ddd;
+    border: 1px solid #444;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 8px;
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    background-color: #3a3a3a;
+    color: #fff;
+}
+
+.copy-button i {
+    font-size: 14px;
+}
+
+/* 消息样式 */
+.message {
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.message-content {
+    max-width: 85%;
+    border-radius: 8px;
+    padding: 12px;
+    word-break: break-word;
+}
+
+.user-message {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-message .message-content {
+    background: linear-gradient(135deg, #9333EA 0%, #6366F1 100%);
+    color: white;
+}
+
+.ai-message {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.ai-avatar {
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+
+.ai-message .message-content {
+    background-color: #2A2A2A;
+}
+
+.message-timestamp {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.text-content {
+    line-height: 1.5;
+}
+
+.uploaded-image {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 4px;
+    margin-top: 8px;
+    object-fit: contain;
+}
+
+/* 高亮代码 */
+.markdown-content pre {
+    background-color: #1E1E1E;
+    border-radius: 4px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.markdown-content code {
+    font-family: monospace;
+}
+
+/* markdown内容样式 */
+.markdown-content {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3, 
+.markdown-content h4, 
+.markdown-content h5, 
+.markdown-content h6 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.markdown-content h1 { font-size: 1.8em; }
+.markdown-content h2 { font-size: 1.5em; }
+.markdown-content h3 { font-size: 1.3em; }
+.markdown-content h4 { font-size: 1.2em; }
+
+.markdown-content p {
+    margin-bottom: 12px;
+}
+
+.markdown-content ul, 
+.markdown-content ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+
+.markdown-content li {
+    margin-bottom: 4px;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #666;
+    padding-left: 12px;
+    color: #aaa;
+    margin: 12px 0;
+}
+
+.markdown-content pre {
+    margin: 12px 0;
+}
+
+.markdown-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+    border: 1px solid #444;
+    padding: 8px;
+}
+
+.markdown-content th {
+    background-color: #333;
+}
+</style>
+<script>
+// 在这里定义全局变量和函数
 
 let chatHistory = [];
 let currentConversationId = generateId();
 let isDeepThinking = false;
+let currentMode = 'chat'; // 默认使用普通聊天模式
 let apiUrl = '/api_chat'; // API端点
+let conversationsMap = {}; // 存储所有对话历史
+let typingSpeed = 20; // 打字速度：每个字符的毫秒数
+let isTyping = false; // 是否正在打字中
+let isMenuOpen = false;
+let lastMessageWasUser = false;
+let chatMessagesContainer = null;
 
 function generateId() {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  return 'conv_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
 function createNewConversation() {
-  currentConversationId = generateId();
+  console.log('创建新对话');
+  
+  // 清空聊天区域
+  chatMessagesContainer.innerHTML = '';
+  
+  // 清空聊天历史
   chatHistory = [];
-  document.getElementById('chatMessages').innerHTML = '';
   
-  const now = new Date();
-  const timeString = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+  // 重置当前对话ID
+  currentConversationId = generateId();
+  console.log(`新对话已创建，ID: ${currentConversationId}`);
   
-  addConversationToHistory('新对话', timeString, '');
-}
-
-function addConversationToHistory(title, time, preview) {
-  const historyContainer = document.getElementById('historyContainer');
-  const conversationElement = document.createElement('div');
-  conversationElement.className = 'hover:bg-[#2A2A2A] p-4 cursor-pointer border-b border-gray-700';
-  conversationElement.innerHTML = `
-    <div class="text-sm font-medium">${title}</div>
-    <div class="text-xs text-gray-400 mt-1">${time}</div>
-    <div class="text-xs text-gray-400 mt-2 line-clamp-2">${preview}</div>
-  `;
-  
-  conversationElement.addEventListener('click', () => {
-    // 这里应该加载对应的会话，此处简化处理
-    // loadConversation(conversationId);
+  // 更新历史列表中的选中状态
+  document.querySelectorAll('.history-item').forEach(item => {
+    item.classList.remove('bg-gray-200', 'dark:bg-gray-700');
   });
   
-  historyContainer.prepend(conversationElement);
+  // 添加新对话到历史列表
+  addConversationToHistory(
+    '新对话',
+    new Date().toLocaleString(),
+    '无内容',
+    currentConversationId
+  );
+  
+  // 显示欢迎消息
+  showWelcomeMessage();
+}
+
+function addConversationToHistory(title, time, preview, conversationId) {
+  const historyContainer = document.getElementById('historyContainer');
+  if (!historyContainer) {
+    console.error('未找到历史容器元素');
+    return;
+  }
+  
+  // 检查对话是否已在列表中
+  const existingItem = document.querySelector(`.history-item[data-id="${conversationId}"]`);
+  if (existingItem) {
+    console.log(`对话 ${conversationId} 已存在于历史列表中，更新其内容`);
+    existingItem.querySelector('.history-title').textContent = title;
+    existingItem.querySelector('.history-time').textContent = time;
+    existingItem.querySelector('.history-preview').textContent = preview;
+    return;
+  }
+  
+  console.log(`添加对话到历史：${title}, ID: ${conversationId}`);
+  
+  // 检查是否为当前对话，添加选中状态
+  const isCurrentConversation = currentConversationId === conversationId;
+  const selectedClass = isCurrentConversation ? 'bg-gray-200 dark:bg-gray-700' : '';
+  
+  const historyItem = document.createElement('div');
+  historyItem.className = `history-item p-3 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition duration-200 ${selectedClass}`;
+  historyItem.setAttribute('data-id', conversationId);
+  
+  historyItem.innerHTML = `
+    <div class="flex justify-between items-start">
+      <div class="history-title font-medium text-gray-800 dark:text-gray-200 truncate max-w-[70%]">${escapeHTML(title)}</div>
+      <div class="flex">
+        <div class="history-time text-xs text-gray-500 dark:text-gray-400">${time}</div>
+        <button class="delete-conversation-btn ml-2 text-white bg-gray-600 hover:bg-red-600 p-1 rounded-full transition-colors duration-200 focus:outline-none" title="删除对话">
+          <i class="fas fa-trash-alt text-xs"></i>
+        </button>
+      </div>
+    </div>
+    <div class="history-preview text-sm text-gray-600 dark:text-gray-400 mt-1 truncate">${escapeHTML(preview || '无预览')}</div>
+  `;
+  
+  // 添加点击事件
+  historyItem.addEventListener('click', function(e) {
+    // 如果点击的是删除按钮，不执行加载对话操作
+    if (e.target.closest('.delete-conversation-btn')) {
+      return;
+    }
+    loadConversation(conversationId);
+  });
+  
+  // 添加删除按钮点击事件
+  const deleteBtn = historyItem.querySelector('.delete-conversation-btn');
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', function(e) {
+      e.stopPropagation(); // 阻止冒泡，避免触发对话加载
+      deleteConversation(conversationId);
+    });
+  }
+  
+  // 将对话项添加到历史容器顶部
+  if (historyContainer.firstChild) {
+    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
+  } else {
+    historyContainer.appendChild(historyItem);
+  }
+  
+  // 存储对话信息到内存中
+  conversationsMap[conversationId] = {
+    id: conversationId,
+    title: title,
+    time: time,
+    preview: preview
+  };
 }
 
 function sendMessage() {
-  const messageInput = document.getElementById('messageInput');
-  const userMessage = messageInput.value.trim();
+  const userInput = document.getElementById('userInput');
+  const message = userInput.value.trim();
   
-  if (!userMessage) return;
-  
-  addUserMessage(userMessage);
-  
-  messageInput.value = '';
-  
-  if (isDeepThinking) {
-    sendToServer(userMessage, 'deepthink');
-  } else {
-    sendToServer(userMessage, 'normal');
+  if (message === '') {
+    showToast('警告', '请输入消息后再发送', 'warning');
+    return;
   }
+  
+  // 清空输入框
+  userInput.value = '';
+  
+  // 创建用户消息元素并添加到聊天区域
+  createUserMessage(message, false);
+  
+  // 添加到聊天历史
+  const userMessage = {
+    role: 'user',
+    content: message,
+    timestamp: Date.now()
+  };
+  chatHistory.push(userMessage);
+  
+  // 滚动到底部
+  scrollToBottom();
+  
+  // 显示AI正在输入指示器
+  showTypingIndicator();
+  
+  // 发送消息到服务器
+  fetch('/api_chat', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: message,
+      conversation_id: currentConversationId,
+      mode: currentMode || 'chat'
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`服务器响应错误: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('聊天响应:', data);
+    hideTypingIndicator();
+    
+    if (data.success) {
+      // 构建AI回复对象
+      const aiResponse = {
+        role: 'assistant',
+        content: data.response,
+        timestamp: Date.now()
+      };
+      
+      // 添加到聊天历史
+      chatHistory.push(aiResponse);
+      
+      // 显示AI回复
+      createAiMessage(data.response);
+      
+      // 如果是新对话，更新对话ID和对话历史列表
+      if (data.conversation_id && data.conversation_id !== currentConversationId) {
+        currentConversationId = data.conversation_id;
+      }
+      
+      // 从用户消息中提取对话标题
+      let title = message.length > 30 ? message.substring(0, 30) + '...' : message;
+      
+      // 更新或添加到历史列表
+      addConversationToHistory(
+        title,
+        new Date().toLocaleString(),
+        message,
+        currentConversationId
+      );
+      
+      // 保存到内存
+      conversationsMap[currentConversationId] = {
+        id: currentConversationId,
+        title: title,
+        time: new Date().toLocaleString(),
+        preview: message,
+        messages: [...chatHistory]
+      };
+      
+      // 滚动到底部
+      scrollToBottom();
+    } else {
+      console.error('服务器返回错误:', data.error);
+      showToast('错误', `对话出错: ${data.error || '未知错误'}`, 'error');
+      
+      // 显示错误消息
+      const errorMessage = `发生错误: ${data.error || '服务器处理请求时出错'}`;
+      createAiMessage(errorMessage);
+    }
+  })
+  .catch(error => {
+    console.error('发送消息请求出错:', error);
+    hideTypingIndicator();
+    
+    // 显示错误消息
+    const errorMessage = `请求失败: ${error.message}。请检查您的网络连接或稍后重试。`;
+    createAiMessage(errorMessage);
+    
+    showToast('错误', `发送消息失败: ${error.message}`, 'error');
+  });
 }
 
-function addUserMessage(message) {
+function addUserMessage(message, skipHistory = false) {
   const chatMessages = document.getElementById('chatMessages');
   const messageElement = document.createElement('div');
-  messageElement.className = 'flex items-start gap-4 justify-end';
+  messageElement.className = 'flex items-start gap-4 justify-end mb-6 user-message';
   messageElement.innerHTML = `
     <div class="flex-1 text-right">
-      <div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
+      <div class="user-bubble p-4 rounded-lg max-w-[80%] ml-auto">
         ${message}
       </div>
+      <div class="text-xs text-gray-500 mt-1">${new Date().toLocaleTimeString()}</div>
     </div>
   `;
   
   chatMessages.appendChild(messageElement);
   chatMessages.scrollTop = chatMessages.scrollHeight;
   
-  chatHistory.push({role: 'user', content: message});
+  // 更新历史
+  if (!skipHistory) {
+    chatHistory.push({role: 'user', content: message});
+  }
 }
 
-function addAIMessage(message) {
+function addAIMessage(message, instant = false) {
+  if (isTyping) {
+    // 如果正在打字，先清除当前打字
+    const typingElement = document.querySelector('.typing-message');
+    if (typingElement) {
+      typingElement.remove();
+    }
+  }
+  
   const chatMessages = document.getElementById('chatMessages');
   const messageElement = document.createElement('div');
-  messageElement.className = 'flex items-start gap-4';
+  messageElement.className = 'flex items-start gap-4 typing-message mb-6';
   
-  const renderedContent = marked.parse(message);
-  
+  // 创建初始内容
   messageElement.innerHTML = `
-    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
+    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center font-bold shadow-lg">
       AI
     </div>
     <div class="flex-1">
-      <div class="bg-[#2A2A2A] p-4 rounded-lg relative markdown-content">
-        ${renderedContent}
-        <button class="absolute bottom-4 right-4 bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button text-sm flex items-center gap-2" onclick="copyContent(this)">
+      <div class="ai-bubble p-4 rounded-lg relative markdown-content">
+        <div id="typing-content"></div>
+        <button class="absolute bottom-4 right-4 bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button text-sm flex items-center gap-2 copy-button hover-effect" style="display:none" onclick="copyContent(this)">
           <i class="fas fa-copy"></i>
           复制内容
         </button>
       </div>
+      <div class="text-xs text-gray-500 mt-1">${new Date().toLocaleTimeString()}</div>
     </div>
   `;
   
   chatMessages.appendChild(messageElement);
   chatMessages.scrollTop = chatMessages.scrollHeight;
   
-  messageElement.querySelectorAll('pre code').forEach((block) => {
-    hljs.highlightElement(block);
-  });
+  const typingContent = messageElement.querySelector('#typing-content');
+  const copyButton = messageElement.querySelector('.copy-button');
   
-  chatHistory.push({role: 'assistant', content: message});
+  // 如果需要立即显示（不需要打字效果）
+  if (instant) {
+    const renderedContent = marked.parse(message);
+    typingContent.innerHTML = renderedContent;
+    copyButton.style.display = 'flex';
+    
+    // 应用代码高亮
+    messageElement.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+    
+    // 更新历史
+    chatHistory.push({role: 'assistant', content: message});
+    return;
+  }
+  
+  // 打字效果
+  isTyping = true;
+  let i = 0;
+  const typeNextChar = () => {
+    if (i < message.length) {
+      // 每100个字符渲染一次Markdown，减少卡顿
+      if (i % 100 === 0 || i === message.length - 1) {
+        const currentText = message.substring(0, i + 1);
+        const renderedContent = marked.parse(currentText);
+        typingContent.innerHTML = renderedContent + '<span class="typing-cursor"></span>';
+        
+        // 尝试应用代码高亮
+        messageElement.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightElement(block);
+        });
+      }
+      
+      i++;
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      
+      // 根据内容长度动态调整速度
+      const currentSpeed = message.length > 500 ? 5 : typingSpeed;
+      setTimeout(typeNextChar, currentSpeed);
+    } else {
+      // 打字完成
+      isTyping = false;
+      copyButton.style.display = 'flex';
+      
+      // 最后一次完整渲染
+      const renderedContent = marked.parse(message);
+      typingContent.innerHTML = renderedContent;
+      
+      // 应用代码高亮
+      messageElement.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+      
+      // 更新历史
+      chatHistory.push({role: 'assistant', content: message});
+    }
+  };
+  
+  typeNextChar();
 }
 
 function copyContent(button) {
-  const content = button.parentElement.querySelector('p, pre, ul, ol, h1, h2, h3, h4, h5, h6').textContent;
-  navigator.clipboard.writeText(content).then(() => {
-    const originalText = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check"></i> 已复制';
-    setTimeout(() => {
-      button.innerHTML = originalText;
-    }, 2000);
-  });
+  const contentElement = button.closest('.ai-bubble').querySelector('#typing-content');
+  const textToCopy = contentElement.innerText;
+  
+  navigator.clipboard.writeText(textToCopy)
+    .then(() => {
+      const originalText = button.innerHTML;
+      button.innerHTML = '<i class="fas fa-check"></i> 已复制';
+      
+      setTimeout(() => {
+        button.innerHTML = originalText;
+      }, 2000);
+    })
+    .catch(err => {
+      console.error('复制失败:', err);
+      showToast('复制失败', 'error');
+    });
 }
 
+// 切换深度思考模式
 function toggleDeepThinking() {
+  console.log('切换深度思考模式');
   isDeepThinking = !isDeepThinking;
-  const deepThinkingButton = document.getElementById('deepThinkingButton');
   
+  // 更新按钮样式
+  const deepThinkingButton = document.getElementById('deepThinkingButton');
   if (isDeepThinking) {
-    deepThinkingButton.classList.add('bg-blue-600');
+    deepThinkingButton.classList.add('deep-thinking-active');
     deepThinkingButton.classList.remove('bg-primary');
+    showToast('提示', '已开启深度思考模式', 'info');
+    
+    // 更新全局变量
+    currentMode = 'deepseek-r1';
+    console.log('已切换到深度思考模式: deepseek-r1');
   } else {
-    deepThinkingButton.classList.remove('bg-blue-600');
+    deepThinkingButton.classList.remove('deep-thinking-active');
     deepThinkingButton.classList.add('bg-primary');
+    showToast('提示', '已关闭深度思考模式', 'info');
+    
+    // 恢复默认模式
+    currentMode = 'chat';
+    console.log('已恢复默认模式: chat');
   }
 }
 
@@ -193,334 +815,245 @@ function uploadImage() {
 function addUserImageMessage(imageUrl) {
   const chatMessages = document.getElementById('chatMessages');
   const messageElement = document.createElement('div');
-  messageElement.className = 'flex items-start gap-4 justify-end';
+  messageElement.className = 'flex items-start gap-4 justify-end mb-6 user-message';
+  
+  // 限制图片高度为200px
+  const img = new Image();
+  img.onload = function() {
+    console.log(`原始图片尺寸: ${img.width}x${img.height}`);
+    
+    // 如果图片高度超过200px，按比例缩小
+    let maxHeight = 200;
+    let width = img.width;
+    let height = img.height;
+    
+    if (height > maxHeight) {
+      width = Math.floor(width * (maxHeight / height));
+      height = maxHeight;
+    }
+    
+    console.log(`调整后图片尺寸: ${width}x${height}`);
+  };
+  img.src = imageUrl;
+  
   messageElement.innerHTML = `
     <div class="flex-1 text-right">
-      <div class="bg-[#2A2A2A] p-4 rounded-lg max-w-[80%] ml-auto">
-        <img src="${imageUrl}" alt="用户上传图片" class="max-w-full rounded">
-        <p class="mt-2 text-gray-400">已上传图片</p>
+      <div class="user-bubble p-4 rounded-lg max-w-[80%] ml-auto">
+        <img src="${imageUrl}" alt="用户上传图片" class="max-w-full max-h-[200px] rounded object-contain image-preview">
+        <p class="mt-2 text-gray-300">已上传图片</p>
       </div>
+      <div class="text-xs text-gray-500 mt-1">${new Date().toLocaleTimeString()}</div>
     </div>
   `;
   
   chatMessages.appendChild(messageElement);
   chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// 发送消息到服务器 - 实际API调用
-function sendToServer(message, mode) {
-  // 显示AI正在输入
-  const typingIndicator = document.createElement('div');
-  typingIndicator.id = 'typingIndicator';
-  typingIndicator.className = 'flex items-start gap-4';
-  typingIndicator.innerHTML = `
-    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
-      AI
-    </div>
-    <div class="flex-1">
-      <div class="bg-[#2A2A2A] p-4 rounded-lg">
-        <div class="flex space-x-2">
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce"></div>
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-        </div>
-      </div>
-    </div>
-  `;
   
-  const chatMessages = document.getElementById('chatMessages');
-  chatMessages.appendChild(typingIndicator);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-  
-  // 准备请求数据
-  const requestData = {
-    message: message,
-    conversation_id: currentConversationId,
-    history: chatHistory,
-    mode: mode === 'deepthink' ? 'deepseek-r1' : 'deepseek-v3' // 根据mode选择模型
-  };
-
-  console.log('发送请求:', JSON.stringify(requestData));
-  
-  // 添加调试提示
-  addAIMessage(`正在处理您的消息: "${message}"...\n请稍候...`);
-  
-  // 是否使用测试API (如果遇到问题可以切换到测试模式)
-  const useTestApi = false;
-  
-  if (useTestApi) {
-    // 使用测试API
-    const testUrl = `/api_test_chat?message=${encodeURIComponent(message)}&mode=${mode === 'deepthink' ? 'deepthink' : 'normal'}`;
-    
-    fetch(testUrl)
-      .then(response => {
-        console.log('收到测试API响应状态:', response.status);
-        return response.json();
-      })
-      .then(data => {
-        console.log('测试API响应数据:', data);
-        handleApiResponse(data, message);
-      })
-      .catch(error => {
-        handleApiError(error);
-      });
-  } else {
-    // 发送实际API请求
-    fetch('/api_chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestData)
-    })
-    .then(response => {
-      console.log('收到响应状态:', response.status);
-      return response.json();
-    })
-    .then(data => {
-      console.log('响应数据:', data);
-      handleApiResponse(data, message);
-    })
-    .catch(error => {
-      handleApiError(error);
-    });
-  }
-}
-
-// 处理API响应
-function handleApiResponse(data, message) {
-  // 移除打字指示器和临时消息
-  if (document.getElementById('typingIndicator')) {
-    document.getElementById('typingIndicator').remove();
-  }
-  
-  // 移除最后一条AI消息（调试提示）
-  const allMessages = document.querySelectorAll('#chatMessages > div');
-  if (allMessages.length > 0) {
-    const lastMessage = allMessages[allMessages.length - 1];
-    if (lastMessage.querySelector('.w-8.h-8.rounded-full')) {
-      lastMessage.remove();
-      // 同时从历史中移除
-      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'assistant') {
-        chatHistory.pop();
-      }
-    }
-  }
-  
-  if (data.success) {
-    addAIMessage(data.response || '收到空响应');
-    
-    // 更新最近对话的预览
-    if (document.querySelector('#historyContainer > div')) {
-      const preview = message.substring(0, 30) + (message.length > 30 ? '...' : '');
-      document.querySelector('#historyContainer > div .line-clamp-2').textContent = preview;
-    }
-  } else {
-    addAIMessage(`出错了：${data.message || '未知错误'}`);
-  }
-}
-
-// 处理API错误
-function handleApiError(error) {
-  console.error('API请求错误:', error);
-  
-  // 移除打字指示器和临时消息
-  if (document.getElementById('typingIndicator')) {
-    document.getElementById('typingIndicator').remove();
-  }
-  
-  // 移除最后一条AI消息（调试提示）
-  const allMessages = document.querySelectorAll('#chatMessages > div');
-  if (allMessages.length > 0) {
-    const lastMessage = allMessages[allMessages.length - 1];
-    if (lastMessage.querySelector('.w-8.h-8.rounded-full')) {
-      lastMessage.remove();
-      // 同时从历史中移除
-      if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'assistant') {
-        chatHistory.pop();
-      }
-    }
-  }
-  
-  addAIMessage(`请求出错: ${error.message || '网络错误'}\n\n请稍后再试或检查网络连接`);
+  // 将图片消息添加到历史记录
+  chatHistory.push({
+    role: 'user', 
+    content: '[上传图片]',
+    image: imageUrl,
+    timestamp: new Date().toISOString()
+  });
 }
 
 // 发送图片到服务器
 function sendImageToServer(file) {
-  // 显示AI正在处理
-  const typingIndicator = document.createElement('div');
-  typingIndicator.id = 'typingIndicator';
-  typingIndicator.className = 'flex items-start gap-4';
-  typingIndicator.innerHTML = `
-    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-['Pacifico']">
-      AI
-    </div>
-    <div class="flex-1">
-      <div class="bg-[#2A2A2A] p-4 rounded-lg">
-        <div class="flex space-x-2">
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce"></div>
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-          <div class="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-        </div>
-        <p class="text-gray-400 text-sm mt-2">正在分析图片...</p>
-      </div>
-    </div>
-  `;
+  if (!file) {
+    showToast('错误', '未选择图片文件', 'error');
+    return;
+  }
   
-  const chatMessages = document.getElementById('chatMessages');
-  chatMessages.appendChild(typingIndicator);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  // 检查文件类型
+  const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+  if (!validImageTypes.includes(file.type)) {
+    console.error('不支持的图片格式:', file.type);
+    showToast('错误', '不支持的图片格式。请使用JPG、JPEG、PNG或GIF格式的图片。', 'error');
+    return;
+  }
   
-  // 实际API调用
+  // 检查文件大小 (最大4MB)
+  const maxSize = 4 * 1024 * 1024; // 4MB
+  if (file.size > maxSize) {
+    console.error('图片太大:', (file.size / 1024 / 1024).toFixed(2) + 'MB');
+    showToast('错误', `图片太大 (${(file.size / 1024 / 1024).toFixed(2)}MB)。最大允许4MB。`, 'error');
+    return;
+  }
+  
+  console.log('准备上传图片:', file.name, file.type, `${(file.size / 1024).toFixed(2)}KB`);
+  
+  // 在聊天区域添加用户图片消息占位符
+  createUserMessage('[上传图片]', true, URL.createObjectURL(file));
+  
+  // 显示AI正在输入提示
+  showTypingIndicator();
+  
+  // 创建FormData对象
   const formData = new FormData();
   formData.append('image', file);
-  formData.append('conversation_id', currentConversationId);
+  formData.append('conversation_id', currentConversationId || '');
   
+  // 显示上传中提示
+  showToast('信息', '正在上传图片并分析...', 'info');
+  
+  // 发送图片到服务器
   fetch('/api_image', {
     method: 'POST',
-    body: formData
+    body: formData,
+    timeout: 60000 // 60秒超时
   })
-  .then(response => response.json())
-  .then(data => {
-    // 移除打字指示器
-    if (document.getElementById('typingIndicator')) {
-      document.getElementById('typingIndicator').remove();
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`服务器响应错误: ${response.status}`);
     }
+    return response.json();
+  })
+  .then(data => {
+    console.log('图片上传响应:', data);
+    hideTypingIndicator();
     
     if (data.success) {
-      addAIMessage(data.response);
+      // 播放通知声音
+      try {
+        const audio = new Audio('/static/notification.mp3');
+        audio.play().catch(e => console.log('无法播放通知声音:', e));
+      } catch (e) {
+        console.log('播放通知声音出错:', e);
+      }
+      
+      // 构建用户图片消息对象
+      const userImageMessage = {
+        role: 'user',
+        content: '[上传图片]',
+        image: data.image_url,
+        timestamp: Date.now()
+      };
+      
+      // 构建AI回复对象
+      const aiResponse = {
+        role: 'assistant',
+        content: data.response,
+        timestamp: Date.now()
+      };
+      
+      // 添加到聊天历史
+      chatHistory.push(userImageMessage);
+      chatHistory.push(aiResponse);
+      
+      // 显示AI回复
+      createAiMessage(data.response);
+      
+      // 如果是新对话，更新对话ID
+      if (data.conversation_id && data.conversation_id !== currentConversationId) {
+        currentConversationId = data.conversation_id;
+      }
+      
+      // 更新或添加到历史列表
+      addConversationToHistory(
+        '图片分析',
+        new Date().toLocaleString(),
+        '[图片分析]',
+        currentConversationId
+      );
+      
+      // 保存到内存
+      conversationsMap[currentConversationId] = {
+        id: currentConversationId,
+        title: '图片分析',
+        time: new Date().toLocaleString(),
+        preview: '[图片分析]',
+        messages: [...chatHistory]
+      };
+      
+      // 滚动到底部
+      scrollToBottom();
     } else {
-      addAIMessage(`图片分析出错：${data.message || '未知错误'}`);
+      console.error('图片处理失败:', data.error);
+      showToast('错误', `图片处理失败: ${data.error || '未知错误'}`, 'error');
+      
+      // 显示错误消息
+      const errorMessage = `图片处理失败: ${data.error || '服务器处理请求时出错'}。请尝试使用不同的图片或稍后重试。`;
+      createAiMessage(errorMessage);
     }
   })
   .catch(error => {
-    // 移除打字指示器
-    if (document.getElementById('typingIndicator')) {
-      document.getElementById('typingIndicator').remove();
-    }
+    console.error('图片上传请求出错:', error);
+    hideTypingIndicator();
     
-    console.error('图片上传错误:', error);
-    addAIMessage('抱歉，图片上传出错了。请稍后再试。');
+    // 显示错误消息
+    const errorMessage = `图片上传失败: ${error.message}。请检查您的网络连接，确保图片格式正确，或稍后重试。如果问题持续存在，请尝试使用较小的图片或不同的图片格式。`;
+    createAiMessage(errorMessage);
+    
+    showToast('错误', `图片上传失败: ${error.message}`, 'error');
   });
 }
 
-// 页面加载完成后执行
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('页面加载完成');
-  
-  try {
-    // 先测试API连接
-    console.log('测试API连接...');
-    fetch('/api_test')
-      .then(response => {
-        console.log('API测试状态码:', response.status);
-        return response.json();
-      })
-      .then(data => {
-        console.log('API测试结果:', data);
-        if (data.success) {
-          console.log('API连接成功');
-          // API连接成功，继续初始化
-          initializeChat();
-        } else {
-          console.error('API连接测试失败:', data.message);
-          showError('API连接测试失败', data.message || '未知错误');
-        }
-      })
-      .catch(error => {
-        console.error('API连接测试出错:', error);
-        showError('API连接测试出错', error.message || '无法连接到服务器');
-      });
-  } catch (error) {
-    console.error('初始化出错:', error);
-    showError('初始化错误', error.message || '未知错误');
-  }
-});
-
-// 显示错误信息
-function showError(title, message) {
-  const chatMessages = document.getElementById('chatMessages');
-  if (chatMessages) {
-    chatMessages.innerHTML = `
-      <div class="p-4 bg-red-600 text-white rounded-lg mb-4">
-        <h3 class="font-bold mb-2">${title}</h3>
-        <p>${message}</p>
-        <p class="mt-2 text-sm">请刷新页面重试或联系管理员</p>
-        <button onclick="location.reload()" class="mt-3 bg-white text-red-600 px-4 py-2 rounded-lg font-bold">
-          刷新页面
-        </button>
-      </div>
-    `;
-  }
+// 测试API连接
+function testAPIConnection() {
+  console.log('测试API连接中...');
+  fetch('/api_test')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('API连接失败');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('API连接成功:', data);
+      // 可以在界面上添加一个小图标表示连接状态
+    })
+    .catch(error => {
+      console.error('API连接测试失败:', error);
+      // 显示一个API连接失败的提示
+      showAPIConnectionError();
+    });
 }
 
-// 初始化聊天功能
-function initializeChat() {
-  // 绑定发送按钮点击事件
-  const sendButton = document.getElementById('sendButton');
-  if (!sendButton) {
-    console.error('找不到发送按钮元素');
-  } else {
-    console.log('发送按钮已找到，添加事件监听器');
-    sendButton.addEventListener('click', sendMessage);
-  }
-  
-  // 绑定输入框回车事件
-  const messageInput = document.getElementById('messageInput');
-  if (!messageInput) {
-    console.error('找不到消息输入框元素');
-  } else {
-    console.log('消息输入框已找到，添加事件监听器');
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-  }
-  
-  // 绑定新对话按钮
-  const newConversationButton = document.getElementById('newConversationButton');
-  if (newConversationButton) {
-    console.log('新对话按钮已找到，添加事件监听器');
-    newConversationButton.addEventListener('click', createNewConversation);
-  }
-  
-  // 绑定深度思考按钮
-  const deepThinkingButton = document.getElementById('deepThinkingButton');
-  if (deepThinkingButton) {
-    console.log('深度思考按钮已找到，添加事件监听器');
-    deepThinkingButton.addEventListener('click', toggleDeepThinking);
-  }
-  
-  // 绑定上传图片按钮
-  const uploadImageButton = document.getElementById('uploadImageButton');
-  if (uploadImageButton) {
-    console.log('上传图片按钮已找到，添加事件监听器');
-    uploadImageButton.addEventListener('click', uploadImage);
-  }
-  
-  // 创建初始对话
-  console.log('创建初始对话');
-  createNewConversation();
-  
-  // 添加欢迎消息
-  console.log('添加欢迎消息');
-  setTimeout(() => {
-    addAIMessage(`## 👋 欢迎使用AI助理
+// 显示API连接错误
+function showAPIConnectionError() {
+  const chatMessages = document.getElementById('chatMessages');
+  const messageElement = document.createElement('div');
+  messageElement.className = 'p-4 mb-4 text-center';
+  messageElement.innerHTML = `
+    <div class="bg-red-600 text-white p-4 rounded-lg inline-block">
+      <i class="fas fa-exclamation-triangle mr-2"></i>
+      无法连接到API服务器，请检查后端服务是否正常运行
+    </div>
+  `;
+  chatMessages.appendChild(messageElement);
+}
 
-我可以帮您完成以下任务：
+// 显示欢迎消息
+function showWelcomeMessage() {
+  const welcomeMessage = 
+`# 🌟 欢迎使用AI助理系统
+我是您的AI助手，可以帮助您回答问题、分析图片、提供信息和进行对话。
 
-- 💬 **日常对话**：回答问题、提供信息、闲聊交流
-- ✍️ **智能写作**：帮助撰写文章、邮件、报告等各类文档
-- 💌 **情感分析**：理解并分析文本中的情感倾向
+## 主要功能
+- 💬 智能对话：与我进行自然语言交流
+- 🖼️ 图片分析：上传图片获取详细分析
+- 📚 知识检索：获取各领域的专业信息
+- 🔄 对话历史：查看和恢复之前的对话
 
-您可以直接输入问题开始对话，也可以：
-- 点击**深度思考**按钮，获得更深入的分析（使用DeepSeek-R1模型）
-- 点击**上传图片**按钮，分析图片内容
+## 使用技巧
+- 使用"新对话"按钮开始新的交流
+- 上传图片后，我将为您提供详细分析
+- 点击侧边栏按钮可以查看历史对话
+- 点击消息右侧的复制按钮可复制内容
 
-请问有什么可以帮您？`);
-  }, 500);
+准备好了吗？请输入您的问题或上传图片，我将立即为您提供帮助！`;
+
+  // 添加欢迎消息到聊天历史
+  const aiResponse = {
+    role: 'assistant',
+    content: welcomeMessage,
+    timestamp: Date.now()
+  };
+  chatHistory.push(aiResponse);
+  
+  // 显示欢迎消息
+  createAiMessage(welcomeMessage);
 }
 
 const markdownStyle = `
@@ -586,15 +1119,12 @@ document.head.appendChild(styleElement);
 </head>
 <body class="bg-[#121212] min-h-[1024px] text-white">
 <div class="flex h-screen max-w-[1440px] mx-auto">
-<div id="sidebar" class="w-1/4 bg-secondary border-r border-gray-700 flex flex-col">
+<div id="sidebar" class="w-1/4 bg-secondary border-r border-gray-700 flex flex-col fixed h-full z-10 left-0" style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);">
 <div class="p-4 border-b border-gray-700 flex items-center justify-between gap-2">
-<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button" onclick="toggleSidebar()">
-<i class="fas fa-bars text-gray-400"></i>
-</button>
 <button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button">
 <i class="fas fa-search text-gray-400"></i>
 </button>
-<button id="newConversationButton" class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
+<button id="newChatButton" class="bg-primary hover:bg-[#404040] flex-1 py-2 !rounded-button whitespace-nowrap flex items-center justify-center gap-2">
 <i class="fas fa-plus"></i>
 新对话
 </button>
@@ -603,13 +1133,17 @@ document.head.appendChild(styleElement);
 <!-- 历史会话将被动态添加到这里 -->
 </div>
 </div>
-<div class="flex-1 flex flex-col">
+<div class="w-1/4 flex-shrink-0 sidebar-placeholder"></div>
+<div class="flex-1 flex flex-col overflow-hidden relative z-20">
 <div class="p-4 border-b border-gray-700">
 <div class="flex items-center gap-2 mb-2">
+<button class="bg-[#2A2A2A] hover:bg-[#333333] p-2 !rounded-button mr-2" onclick="toggleSidebar()">
+<i class="fas fa-bars text-gray-400"></i>
+</button>
 <h2 class="text-xl font-semibold">助理 Assistant</h2>
 </div>
 </div>
-<div id="chatMessages" class="flex-1 overflow-y-auto p-4">
+<div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
 <!-- 消息内容将动态添加到这里 -->
 </div>
 <div class="p-4 border-t border-gray-700">
@@ -618,22 +1152,610 @@ document.head.appendChild(styleElement);
 <i class="fas fa-search-plus mr-2"></i>
 深度思考
 </button>
-<button id="uploadImageButton" class="bg-[#2A2A2A] hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
+<button id="uploadButton" class="image-button bg-[#2A2A2A] hover:bg-[#404040] px-6 py-2 !rounded-button flex items-center whitespace-nowrap">
 <i class="fas fa-camera mr-2"></i>
 上传图片
 </button>
 </div>
 <div class="relative">
-<textarea id="messageInput" placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
+<textarea id="userInput" placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
 <button id="sendButton" class="absolute right-4 bottom-4 text-white bg-primary hover:bg-[#404040] p-2 !rounded-button">
 <i class="fas fa-paper-plane"></i>
 </button>
+</div>
+
+<!-- 添加隐藏的图片上传输入元素 -->
+<input type="file" id="imageInput" accept="image/*" style="display: none;" />
 </div>
 </div>
 </div>
 </div>
 <script>
-// 移除旧的图表初始化代码，因为我们将动态生成图表
+// 加载对话历史列表
+function loadConversationHistory() {
+  const historyContainer = document.getElementById('historyContainer');
+  if (!historyContainer) {
+    console.error('未找到历史容器元素');
+    return;
+  }
+  
+  console.log('加载对话历史列表...');
+  
+  // 显示加载状态
+  historyContainer.innerHTML = '<div class="p-4 text-center text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>正在加载对话历史...</div>';
+  
+  // 从服务器加载对话历史列表
+  fetch('/api_get_conversations')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`服务器响应错误: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('获取对话历史响应:', data);
+      
+      // 清空历史容器
+      historyContainer.innerHTML = '';
+      
+      if (data.success && data.conversations && data.conversations.length > 0) {
+        console.log('加载到', data.conversations.length, '个对话');
+        
+        // 按时间倒序排列
+        data.conversations.sort((a, b) => {
+          // 尝试解析日期，如果失败则使用字符串比较
+          const dateA = a.last_updated || a.time || '';
+          const dateB = b.last_updated || b.time || '';
+          try {
+            return new Date(dateB) - new Date(dateA);
+          } catch (e) {
+            return dateB.localeCompare(dateA);
+          }
+        });
+        
+        // 显示对话列表
+        data.conversations.forEach(conv => {
+          addConversationToHistory(
+            conv.title || '新对话', 
+            conv.last_updated || conv.time || new Date().toLocaleString(),
+            conv.preview || '',
+            conv.id
+          );
+        });
+      } else {
+        console.log('没有历史对话或加载失败');
+        historyContainer.innerHTML = '<div class="p-4 text-center text-gray-400">没有历史对话</div>';
+      }
+    })
+    .catch(error => {
+      console.error('加载对话历史出错:', error);
+      historyContainer.innerHTML = `<div class="p-4 text-center text-red-400">加载失败: ${error.message}</div>`;
+    });
+}
+
+// 滚动到底部
+function scrollToBottom() {
+  if (chatMessagesContainer) {
+    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+  }
+}
+
+// 显示AI正在输入指示器
+function showTypingIndicator() {
+  const typingIndicator = document.createElement('div');
+  typingIndicator.id = 'typingIndicator';
+  typingIndicator.className = 'message ai-message';
+  typingIndicator.innerHTML = `
+    <div class="ai-avatar">
+      <img src="/static/LOGO.jpg" alt="AI" class="w-8 h-8 rounded-full object-cover shadow-lg">
+    </div>
+    <div class="message-content">
+      <div class="markdown-content">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="message-timestamp">${new Date().toLocaleTimeString()}</div>
+  `;
+  chatMessagesContainer.appendChild(typingIndicator);
+  scrollToBottom();
+}
+
+// 隐藏AI正在输入指示器
+function hideTypingIndicator() {
+  const typingIndicator = document.getElementById('typingIndicator');
+  if (typingIndicator) {
+    typingIndicator.remove();
+  }
+}
+
+// 显示提示消息
+function showToast(title, message, type = 'info') {
+  const toast = document.createElement('div');
+  toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg ${type === 'error' ? 'bg-red-600' : type === 'warning' ? 'bg-yellow-600' : type === 'success' ? 'bg-green-600' : 'bg-blue-600'} text-white z-50 animate-fadeIn transform transition-transform duration-300`;
+  toast.innerHTML = `
+    <div class="flex items-center">
+      <div class="mr-3">
+        ${type === 'error' ? '<i class="fas fa-exclamation-circle"></i>' : 
+          type === 'warning' ? '<i class="fas fa-exclamation-triangle"></i>' : 
+          type === 'success' ? '<i class="fas fa-check-circle"></i>' : 
+          '<i class="fas fa-info-circle"></i>'}
+      </div>
+      <div>
+        <p class="font-bold">${title}</p>
+        <p class="text-sm">${message}</p>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(toast);
+  
+  // 动画效果
+  setTimeout(() => {
+    toast.classList.add('translate-y-2');
+    setTimeout(() => {
+      toast.classList.remove('translate-y-2');
+      toast.classList.add('opacity-0', 'translate-y-[-8px]');
+      setTimeout(() => {
+        toast.remove();
+      }, 300);
+    }, 3000);
+  }, 50);
+}
+
+// 复制消息内容
+function copyMessageContent(button) {
+  const messageContent = button.closest('.message-content').querySelector('.markdown-content');
+  if (!messageContent) return;
+  
+  // 创建临时文本区域
+  const textarea = document.createElement('textarea');
+  textarea.value = messageContent.innerText;
+  document.body.appendChild(textarea);
+  
+  // 选择并复制
+  textarea.select();
+  document.execCommand('copy');
+  
+  // 移除临时元素
+  document.body.removeChild(textarea);
+  
+  // 显示提示
+  showToast('成功', '内容已复制到剪贴板', 'success');
+  
+  // 修改按钮文本并还原
+  const originalText = button.innerHTML;
+  button.innerHTML = '<i class="fas fa-check"></i> 已复制';
+  setTimeout(() => {
+    button.innerHTML = originalText;
+  }, 2000);
+}
+
+// 切换侧边栏
+function toggleSidebar() {
+  console.log('切换侧边栏');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarPlaceholder = document.querySelector('.sidebar-placeholder');
+  const mainContent = document.querySelector('.flex-1');
+  
+  if (!sidebar) {
+    console.error('未找到侧边栏元素');
+    return;
+  }
+  
+  if (sidebar.style.display !== 'none') {
+    // 隐藏侧边栏
+    sidebar.style.display = 'none';
+    
+    // 隐藏占位区
+    if (sidebarPlaceholder) {
+      sidebarPlaceholder.classList.add('hidden');
+    }
+    
+    // 调整主内容区域
+    if (mainContent) {
+      mainContent.style.marginLeft = '0';
+      mainContent.style.width = '100%';
+    }
+  } else {
+    // 显示侧边栏
+    sidebar.style.display = 'flex';
+    
+    // 显示占位区
+    if (sidebarPlaceholder) {
+      sidebarPlaceholder.classList.remove('hidden');
+    }
+    
+    // 调整主内容区域，防止内容被遮挡
+    if (mainContent) {
+      mainContent.style.marginLeft = '25%';
+      mainContent.style.width = '75%';
+    }
+    
+    // 加载对话历史
+    loadConversationHistory();
+  }
+}
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('页面已加载，正在初始化...');
+  
+  // 初始化全局变量
+  chatMessagesContainer = document.getElementById('chatMessages');
+  
+  // 初始隐藏侧边栏
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.querySelector('.flex-1');
+  
+  if (sidebar) {
+    sidebar.style.display = 'none';
+  }
+  
+  const sidebarPlaceholder = document.querySelector('.sidebar-placeholder');
+  if (sidebarPlaceholder) {
+    sidebarPlaceholder.classList.add('hidden');
+  }
+  
+  // 设置主内容区域初始位置
+  if (mainContent) {
+    mainContent.style.marginLeft = '0';
+    mainContent.style.width = '100%';
+  }
+  
+  // 初始化事件监听器
+  // 发送按钮点击事件
+  document.getElementById('sendButton').addEventListener('click', function() {
+    sendMessage();
+  });
+  
+  // 输入框回车事件
+  document.getElementById('userInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  
+  // 新对话按钮点击事件
+  document.getElementById('newChatButton').addEventListener('click', function() {
+    createNewConversation();
+  });
+  
+  // 深度思考按钮点击事件
+  document.getElementById('deepThinkingButton').addEventListener('click', function() {
+    toggleDeepThinking();
+  });
+  
+  // 上传图片按钮事件
+  document.getElementById('uploadButton').addEventListener('click', function() {
+    console.log('上传图片按钮被点击');
+    document.getElementById('imageInput').click();
+  });
+  
+  // 图片选择事件
+  document.getElementById('imageInput').addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      sendImageToServer(this.files[0]);
+    }
+  });
+  
+  // 加载历史对话列表
+  loadConversationHistory();
+  
+  // 创建新对话
+  createNewConversation();
+});
+
+// 创建用户消息
+function createUserMessage(content, hasImage = false, imageUrl = null, timestamp = null) {
+  const userMessage = document.createElement('div');
+  userMessage.className = 'message user-message';
+  
+  let messageContent = '';
+  if (hasImage && imageUrl) {
+    messageContent = `
+      <div class="message-content">
+        <div class="text-content">
+          <p>${content}</p>
+          <img src="${imageUrl}" alt="用户上传的图片" class="uploaded-image" 
+               style="max-width: 300px; max-height: 300px; border-radius: 8px; margin-top: 8px;" />
+        </div>
+      </div>
+    `;
+  } else {
+    messageContent = `
+      <div class="message-content">
+        <div class="text-content">
+          <p>${escapeHTML(content)}</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  userMessage.innerHTML = `
+    ${messageContent}
+    <div class="message-timestamp">${new Date(timestamp || Date.now()).toLocaleTimeString()}</div>
+  `;
+  
+  chatMessagesContainer.appendChild(userMessage);
+  scrollToBottom();
+}
+
+// 创建AI消息
+function createAiMessage(content, timestamp = null) {
+  try {
+    // 使用marked解析markdown
+    const formattedContent = marked.parse(content);
+    
+    const aiMessage = document.createElement('div');
+    aiMessage.className = 'message ai-message';
+    aiMessage.innerHTML = `
+      <div class="ai-avatar">
+        <img src="/static/LOGO.jpg" alt="AI" class="w-8 h-8 rounded-full object-cover shadow-lg">
+      </div>
+      <div class="message-content">
+        <div class="markdown-content">${formattedContent}</div>
+        <button class="copy-button" onclick="copyMessageContent(this)">
+          <i class="fas fa-copy"></i> 复制
+        </button>
+      </div>
+      <div class="message-timestamp">${new Date(timestamp || Date.now()).toLocaleTimeString()}</div>
+    `;
+    
+    chatMessagesContainer.appendChild(aiMessage);
+    
+    // 应用代码高亮
+    aiMessage.querySelectorAll('pre code').forEach((block) => {
+      if (window.hljs) {
+        hljs.highlightElement(block);
+      }
+    });
+    
+    // 滚动到底部
+    scrollToBottom();
+  } catch (error) {
+    console.error("渲染AI消息时出错:", error);
+    
+    // 如果解析失败，显示原始文本
+    const aiMessage = document.createElement('div');
+    aiMessage.className = 'message ai-message';
+    aiMessage.innerHTML = `
+      <div class="ai-avatar">
+        <img src="/static/LOGO.jpg" alt="AI" class="w-8 h-8 rounded-full object-cover shadow-lg">
+      </div>
+      <div class="message-content">
+        <div class="markdown-content">
+          <p>无法渲染消息内容</p>
+          <pre>${escapeHTML(content)}</pre>
+        </div>
+        <button class="copy-button" onclick="copyMessageContent(this)">
+          <i class="fas fa-copy"></i> 复制
+        </button>
+      </div>
+      <div class="message-timestamp">${new Date(timestamp || Date.now()).toLocaleTimeString()}</div>
+    `;
+    
+    chatMessagesContainer.appendChild(aiMessage);
+    scrollToBottom();
+  }
+}
+
+// HTML转义函数
+function escapeHTML(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// 加载对话
+function loadConversation(conversationId) {
+  if (!conversationId) {
+    console.error('未提供对话ID');
+    showToast('错误', '无法加载对话：未提供对话ID', 'error');
+    return;
+  }
+  
+  console.log(`尝试加载对话: ${conversationId}`);
+  
+  // 高亮当前选中的对话
+  document.querySelectorAll('.history-item').forEach(item => {
+    item.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+    if (item.dataset.id === conversationId) {
+      item.classList.add('bg-gray-200', 'dark:bg-gray-700');
+    }
+  });
+  
+  // 显示加载状态
+  chatMessagesContainer.innerHTML = '<div class="p-4 text-center text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>正在加载对话...</div>';
+  
+  // 如果对话已在内存中
+  if (conversationsMap[conversationId] && conversationsMap[conversationId].messages) {
+    console.log('从内存中加载对话:', conversationId);
+    
+    // 设置当前对话ID
+    currentConversationId = conversationId;
+    
+    // 恢复对话历史
+    chatHistory = [...conversationsMap[conversationId].messages];
+    
+    // 更新显示
+    updateChatDisplay();
+    
+    return;
+  }
+  
+  // 从服务器加载对话
+  console.log('从服务器加载对话:', conversationId);
+  fetch(`/api_load_conversation?id=${encodeURIComponent(conversationId)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`服务器响应错误: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('对话加载响应:', data);
+      
+      if (data.success) {
+        // 设置当前对话ID
+        currentConversationId = conversationId;
+        
+        // 处理不同格式的对话数据
+        if (Array.isArray(data.conversation)) {
+          chatHistory = [...data.conversation];
+        } else if (data.conversation && data.conversation.messages && Array.isArray(data.conversation.messages)) {
+          chatHistory = [...data.conversation.messages];
+        } else if (data.messages && Array.isArray(data.messages)) {
+          chatHistory = [...data.messages];
+        } else {
+          console.error('无法识别的对话数据格式:', data);
+          chatHistory = [];
+          showToast('错误', '对话数据格式不正确', 'error');
+        }
+        
+        // 保存到内存中
+        conversationsMap[conversationId] = {
+          id: conversationId,
+          title: data.title || '对话',
+          time: data.last_updated || new Date().toLocaleString(),
+          preview: data.preview || '',
+          messages: [...chatHistory]
+        };
+        
+        // 更新显示
+        updateChatDisplay();
+        
+        showToast('成功', '对话加载成功', 'success');
+      } else {
+        console.error('加载对话失败:', data.error || '未知错误');
+        chatMessagesContainer.innerHTML = '<div class="p-4 text-center text-red-400">加载对话失败</div>';
+        showToast('错误', `加载对话失败: ${data.error || '未知错误'}`, 'error');
+      }
+    })
+    .catch(error => {
+      console.error('加载对话请求出错:', error);
+      chatMessagesContainer.innerHTML = `<div class="p-4 text-center text-red-400">加载失败: ${error.message}</div>`;
+      showToast('错误', `加载对话请求出错: ${error.message}`, 'error');
+    });
+}
+
+// 更新聊天显示
+function updateChatDisplay() {
+  console.log('更新聊天显示，历史消息数量:', chatHistory.length);
+  
+  // 清空聊天区域
+  chatMessagesContainer.innerHTML = '';
+  
+  if (chatHistory.length === 0) {
+    chatMessagesContainer.innerHTML = '<div class="p-4 text-center text-gray-400">没有聊天记录</div>';
+    return;
+  }
+  
+  // 遍历消息并显示
+  chatHistory.forEach(msg => {
+    if (msg.role === 'user') {
+      if (msg.image) {
+        createUserMessage(msg.content || '[上传图片]', true, msg.image, msg.timestamp);
+      } else {
+        createUserMessage(msg.content, false, null, msg.timestamp);
+      }
+    } else if (msg.role === 'assistant') {
+      createAiMessage(msg.content, msg.timestamp);
+    }
+  });
+  
+  // 滚动到底部
+  scrollToBottom();
+}
+
+// 删除对话
+function deleteConversation(conversationId) {
+  if (!conversationId) {
+    showToast('错误', '无法删除对话：未提供对话ID', 'error');
+    return;
+  }
+  
+  console.log(`尝试删除对话: ${conversationId}`);
+  
+  // 确认删除
+  if (!confirm('确定要删除此对话吗？此操作不可恢复。')) {
+    return;
+  }
+  
+  // 显示正在删除的提示
+  showToast('提示', '正在删除对话...', 'info');
+  
+  // 发送删除请求到服务器
+  fetch(`/api_delete_conversation?id=${encodeURIComponent(conversationId)}`, {
+    method: 'DELETE'
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`服务器响应错误: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('删除对话响应:', data);
+    
+    if (data.success) {
+      // 从DOM中移除对话项
+      const historyItem = document.querySelector(`.history-item[data-id="${conversationId}"]`);
+      if (historyItem) {
+        historyItem.remove();
+      } else {
+        console.warn(`未找到要删除的对话项: ${conversationId}`);
+      }
+      
+      // 从内存中移除
+      if (conversationsMap[conversationId]) {
+        delete conversationsMap[conversationId];
+      }
+      
+      showToast('成功', '对话已删除', 'success');
+      
+      // 如果删除的是当前对话，创建新对话
+      if (conversationId === currentConversationId) {
+        createNewConversation();
+      }
+    } else {
+      console.error('服务器删除对话失败:', data.error || '未知错误');
+      showToast('错误', `删除对话失败: ${data.error || '未知错误'}`, 'error');
+    }
+  })
+  .catch(error => {
+    console.error('删除对话请求出错:', error);
+    showToast('错误', `删除对话请求出错: ${error.message}`, 'error');
+    
+    // 尝试在前端删除（如果后端失败但我们仍希望UI保持一致）
+    try {
+      // 从DOM中移除对话项
+      const historyItem = document.querySelector(`.history-item[data-id="${conversationId}"]`);
+      if (historyItem) {
+        historyItem.remove();
+      }
+      
+      // 从内存中移除
+      if (conversationsMap[conversationId]) {
+        delete conversationsMap[conversationId];
+      }
+      
+      // 如果删除的是当前对话，创建新对话
+      if (conversationId === currentConversationId) {
+        createNewConversation();
+      }
+    } catch (e) {
+      console.error('前端删除对话失败:', e);
+    }
+  });
+}
 </script>
 </body>
 </html>
