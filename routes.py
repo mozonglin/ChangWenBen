@@ -5,7 +5,22 @@ mobo_routes = Blueprint('mobo_routes', __name__, template_folder='templates', ur
 
 @mobo_routes.route('/')
 def index():
-    """主页路由，显示MOBO主页"""
+    """主页路由，重定向到登录页面"""
+    return redirect(url_for('mobo_routes.login_page'))
+
+@mobo_routes.route('/login')
+def login_page():
+    """登录页面路由"""
+    return render_template('mobo/mobo登录页面.html')
+
+@mobo_routes.route('/MOBO主页.html')
+def mobo_home_page():
+    """MOBO主页路由"""
+    return render_template('MOBO主页.html')
+
+@mobo_routes.route('/home')
+def home():
+    """MOBO主页路由 - 登录成功后跳转到这里"""
     return render_template('MOBO主页.html')
 
 @mobo_routes.route('/助理.html')

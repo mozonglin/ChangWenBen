@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>MOBO Login</title>
+  <style>
+    /* ========== 全局基础样式 ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #000;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #fff;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden; /* 防止滚动条 */
+      position: relative; /* 让后面可以使用绝对定位 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ========== 顶部居中：MOBO ========== */
+    .header {
+      width: 100%;
+      text-align: center;
+      padding-top: 3vh; /* 减少顶部距离，给MOBO图片更多空间 */
+    }
+    .header img {
+      width: 35vw; /* 增大MOBO图片尺寸 */
+      min-width: 300px;
+      max-width: 600px;
+    }
+
+    /* ========== 主内容区域：左右分栏 ========== */
+    .content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      flex: 1;
+      justify-content: space-between; /* 左右分散 */
+      align-items: center; /* 垂直居中对齐 */
+      padding: 0 6vw; /* 减少左右内边距，给图片更多空间 */
+      margin-top: 2vh; /* 减少与顶部的间距 */
+    }
+
+    /* ========== 左侧：漩涡图 + 文字标语 ========== */
+    .left-block {
+      display: flex;
+      flex-direction: column; 
+      align-items: center; /* 居中对齐 */
+      margin-bottom: 5vh; /* 向上移动一些 */
+    }
+    .left-block img {
+      width: 35vw; /* 增大漩涡图尺寸 */
+      min-width: 350px;
+      max-width: 700px;
+      margin-bottom: 0; /* 去除漩涡图和文字之间的间距 */
+    }
+    .tagline {
+      text-align: center; /* 文字居中 */
+      margin-top: -100px; /* 负边距使文字向上移动，更靠近漩涡图 */
+    }
+    .tagline p {
+      font-size: calc(18px + 1vw); /* 增大文字尺寸 */
+      line-height: 1.3;
+      font-weight: 400; /* 标准字重 */
+    }
+    
+
+    /* ========== 右侧：输入框 + 按钮 ========== */
+    .right-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end; /* 右对齐 */
+      margin-bottom: 5vh;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .login-form input[type="password"] {
+      width: 20vw; /* 增大输入框宽度 */
+      min-width: 200px;
+      padding: 28px 40px; /* 增大内边距 */
+      border: none;
+      outline: none;
+      border-radius: 4px 0 0 4px;
+      background-color: #333;
+      color: #fff;
+      font-size: 18px; /* 增大字体 */
+    }
+    .login-form input::placeholder {
+      color: #999;
+    }
+    .login-form button {
+      padding: 14px 20px; /* 增大内边距 */
+      background-color: #333;
+      color: #fff;
+      border: none;
+      outline: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .login-form button img {
+      width: 50px; /* 减小箭头图标尺寸 */
+      height: 50px;
+      vertical-align: middle;
+    }
+
+    /* 错误消息样式 */
+    .error-message {
+      color: #ff4d4d;
+      margin-top: 12px;
+      font-size: 16px; /* 增大错误信息文字 */
+      display: none;
+    }
+
+    /* 响应式设计 */
+    @media (max-height: 700px) {
+      .header {
+        padding-top: 2vh;
+      }
+      .header img {
+        width: 30vw;
+      }
+      .left-block img {
+        margin-bottom: 0;
+        width: 30vw;
+      }
+      .tagline {
+        margin-top: -15px;
+      }
+      .tagline p {
+        font-size: calc(16px + 0.8vw);
+        line-height: 1.2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 5vw;
+      }
+      .left-block, .right-block {
+        align-items: center;
+        margin-bottom: 3vh;
+      }
+      .left-block img {
+        width: 50vw; /* 增大在手机上的显示比例 */
+        min-width: 280px;
+      }
+      .tagline {
+        margin-top: -15px;
+      }
+      .login-form input[type="password"] {
+        width: 50vw; /* 增大在手机上的输入框宽度 */
+      }
+      .login-form button img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  </style>
+  <script>
+    // 登录验证函数
+    function validateLogin() {
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-message');
+      
+      // 验证密码是否为123456
+      if(password === '123456') {
+        // 登录成功，跳转到MOBO主页
+        window.location.href = '/mobo/home'; // 替换为实际的MOBO主页路径
+        return false; // 阻止表单默认提交
+      } else {
+        // 显示错误信息
+        errorMsg.style.display = 'block';
+        return false; // 阻止表单默认提交
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- 顶部居中的 MOBO -->
+  <div class="header">
+    <img src="{{ url_for('static', filename='mobo/images/mobo.png') }}" alt="MOBO" />
+  </div>
+
+  <!-- 主内容区域：左右分栏 -->
+  <div class="content">
+    <!-- 左侧：漩涡图 + 文字标语 -->
+    <div class="left-block">
+      <img src="{{ url_for('static', filename='mobo/images/logo.png') }}" alt="Swirl Logo" />
+      <div class="tagline">
+        <p>Nothing</p>
+        <p>old</p>
+        <p>Everything</p>
+        <p>bold</p>
+      </div>
+    </div>
+
+    <!-- 右侧：输入框 + 箭头按钮 -->
+    <div class="right-block">
+      <form class="login-form" onsubmit="return validateLogin()">
+        <input type="password" id="password" placeholder="code" />
+        <button type="submit">
+          <img src="{{ url_for('static', filename='mobo/images/arrow.png') }}" alt="Arrow" />
+        </button>
+      </form>
+      <div id="error-message" class="error-message">密码错误，请重试</div>
+    </div>
+  </div>
+</body>
+</html>

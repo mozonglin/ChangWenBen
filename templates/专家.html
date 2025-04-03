@@ -87,7 +87,14 @@ DEFAULT: '12px',
 </div>
 </div>
 <div class="p-4 border-t border-gray-700">
-<div class="relative">
+    <div class="flex items-center justify-between mb-2">
+        <button id="multiTurnChatButton" class="bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button flex items-center gap-1">
+            <i class="fas fa-comments"></i>
+            <span>开启多轮对话</span>
+        </button>
+        <div id="multiTurnStatus" class="text-sm text-gray-400 hidden">多轮对话已开启</div>
+    </div>
+    <div class="relative">
 <textarea placeholder="输入您的问题..." class="w-full bg-[#2A2A2A] px-4 py-3 pr-12 resize-none min-h-[60px] !rounded-button border-none" oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"></textarea>
 <button class="absolute right-4 bottom-4 text-white bg-primary hover:bg-[#404040] p-2 !rounded-button">
 <i class="fas fa-paper-plane"></i>
@@ -146,6 +153,10 @@ DEFAULT: '12px',
 <button class="mt-2 text-xs bg-[#404040] hover:bg-[#505050] px-3 py-1.5 !rounded-button">
 <i class="fas fa-copy mr-1"></i>使用
 </button>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>

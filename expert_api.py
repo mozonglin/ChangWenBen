@@ -11,7 +11,8 @@ from functools import wraps
 # 将当前目录添加到系统路径，确保可以导入其他模块
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from app import process_user_input, load_prompt_by_id, run_async
+# 解决循环导入：移除对app模块的直接导入
+# from app import process_user_input, load_prompt_by_id, run_async
 from api2 import generate_prompt_from_user_input, save_prompt_to_json
 
 # 使用Blueprint创建路由组
@@ -316,6 +317,9 @@ def process_with_logs(prompt_id):
     print("正在加载提示词信息...")
     sys.stdout.flush()  # 确保立即刷新
     
+    # 动态导入需要的函数，避免循环导入
+    from app import run_async, load_prompt_by_id, process_user_input
+    
     # 加载提示词信息
     prompt_info = run_async(load_prompt_by_id(prompt_id))
     
@@ -495,7 +499,7 @@ def auto_generate_prompt():
         return jsonify({
             "success": True,
             "prompt": generated_prompt,
-            "message": "提示词生成成功，将在分析完成后自动删除"
+            "message": "提示词生成成功"
         })
         
     except Exception as e:
@@ -541,6 +545,252 @@ def get_prompt_by_id(prompt_id):
             "details": error_details
         }), 500
 
+@expert_api.route('/multi_turn_chat', methods=['POST'])
+def multi_turn_chat():
+    """处理多轮对话请求"""
+    try:
+        data = request.json
+        user_message = data.get('message', '')
+        prompt_id = data.get('prompt_id')
+        
+        print(f"收到多轮对话请求: prompt_id={prompt_id}, 消息={user_message}")
+        
+        if not user_message:
+            return jsonify({
+                "success": False,
+                "message": "消息内容不能为空"
+            })
+            
+        if not prompt_id:
+            return jsonify({
+                "success": False,
+                "message": "prompt_id不能为空"
+            })
+            
+        # 查找对应的detailed_report_json文件
+        detailed_report_path = f'detailed_report_json_{prompt_id}.json'
+        if not os.path.exists(detailed_report_path):
+            print(f"找不到数据文件: {detailed_report_path}")
+            return jsonify({
+                "success": False,
+                "message": f"找不到对应的数据文件: {detailed_report_path}"
+            })
+            
+        print(f"找到数据文件: {detailed_report_path}")
+            
+        # 加载detailed_report_json文件
+        with open(detailed_report_path, 'r', encoding='utf-8') as f:
+            detailed_report_raw = json.load(f)
+            
+        print(f"加载的原始数据: {json.dumps(detailed_report_raw, ensure_ascii=False)[:200]}...")  # 打印前200个字符
+            
+        # 处理双重JSON编码的情况
+        if isinstance(detailed_report_raw, list) and len(detailed_report_raw) > 0:
+            try:
+                print(f"数据是列表格式，尝试解析第一个元素")
+                detailed_report = json.loads(detailed_report_raw[0])
+            except json.JSONDecodeError:
+                print(f"解析列表元素失败，使用原始数据")
+                detailed_report = detailed_report_raw
+        elif isinstance(detailed_report_raw, str):
+            try:
+                print(f"数据是字符串格式，尝试解析为JSON")
+                detailed_report = json.loads(detailed_report_raw)
+            except json.JSONDecodeError:
+                print(f"解析字符串格式的JSON失败，使用原始数据")
+                detailed_report = detailed_report_raw
+        else:
+            detailed_report = detailed_report_raw
+            
+        print(f"详细报告类型: {type(detailed_report)}")
+        if isinstance(detailed_report, dict):
+            print(f"详细报告键: {list(detailed_report.keys())}")
+            if "菜品分析" in detailed_report:
+                print(f"菜品分析字段类型: {type(detailed_report['菜品分析'])}")
+                print(f"菜品分析字段长度: {len(detailed_report['菜品分析']) if isinstance(detailed_report['菜品分析'], list) else '非列表'}")
+        
+        # 准备数据块进行匹配
+        matched_data = []
+        
+        # 将detailed_report按每10个数据块分组进行处理
+        data_blocks = []
+        
+        # 检查是否有菜品分析字段（新格式）
+        if isinstance(detailed_report, dict) and "菜品分析" in detailed_report:
+            print(f"使用新格式处理数据")
+            for item in detailed_report["菜品分析"]:
+                if isinstance(item, dict):
+                    # 处理字段名中的空格问题
+                    dish_name = item.get("菜品名称") or item.get("菜品名 称") or item.get("菜品名") or ""
+                    data_summary = item.get("数据指标汇总") or item.get("数据指标") or ""
+                    
+                    if dish_name and data_summary:
+                        data_blocks.append({
+                            "菜品名称": dish_name,
+                            "数据指标汇总": data_summary
+                        })
+        # 兼容旧格式处理
+        else:
+            print(f"使用旧格式处理数据")
+            for item in detailed_report:
+                if isinstance(item, dict) and 'data' in item and isinstance(item['data'], list):
+                    for block in item['data']:
+                        if isinstance(block, dict):
+                            dish_name = block.get("菜品名称") or block.get("菜品名 称") or block.get("菜品名") or ""
+                            data_summary = block.get("数据指标汇总") or block.get("数据指标") or ""
+                            
+                            if dish_name and data_summary:
+                                data_blocks.append({
+                                    "菜品名称": dish_name,
+                                    "数据指标汇总": data_summary
+                                })
+        
+        print(f"找到 {len(data_blocks)} 个数据块")
+        
+        # 输出所有菜品名称，帮助调试
+        if len(data_blocks) > 0:
+            dish_names_list = [block.get("菜品名称", "未知") for block in data_blocks]
+            print(f"所有菜品: {', '.join(dish_names_list)}")
+        
+        # 使用大模型提取用户问题中的菜品名称
+        from openai import OpenAI
+        client = OpenAI(api_key="sk-zkgnhawsdghsmbkeqozsbrguyxblkehoxniouisfusdvgiow", base_url="https://api.siliconflow.cn/v1")
+        extract_prompt = f"""
+        从以下用户问题中提取菜品名称，以JSON数组格式返回：
+        用户问题：{user_message}
+        
+        例如：
+        输入："针对娃娃菜和小白菜给点建议"
+        输出：["娃娃菜", "小白菜"]
+        
+        输入："红烧肉卖得怎么样"
+        输出：["红烧肉"]
+        """
+        
+        print(f"调用大模型提取菜品名称")
+        extract_response = client.chat.completions.create(
+            model="Pro/deepseek-ai/DeepSeek-V3",
+            messages=[
+                {"role": "system", "content": "你是一个数据提取专家，擅长从文本中提取菜品名称"},
+                {"role": "user", "content": extract_prompt}
+            ],
+            temperature=0.1,
+            max_tokens=256
+        )
+        
+        dish_names_content = extract_response.choices[0].message.content
+        print(f"提取的菜品名称: {dish_names_content}")
+        
+        try:
+            # 尝试解析JSON格式的菜品名称
+            dish_names = json.loads(dish_names_content)
+            if not isinstance(dish_names, list):
+                dish_names = []
+            print(f"成功解析为JSON格式: {dish_names}")
+        except:
+            # 如果解析失败，尝试从文本中提取
+            import re
+            dish_names = re.findall(r'["\'](.*?)["\']', dish_names_content)
+            if not dish_names:
+                dish_names = []
+            print(f"使用正则表达式提取: {dish_names}")
+        
+        # 使用大模型进行菜品匹配
+        match_prompt = f"""
+        用户问题: {user_message}
+        
+        需要匹配的菜品名称: {', '.join(dish_names if isinstance(dish_names, list) else [dish_names])}
+        
+        以下是所有可用的菜品数据:
+        {json.dumps(data_blocks, ensure_ascii=False, indent=2)}
+        
+        请根据用户问题和需要匹配的菜品名称，从可用菜品数据中找出最相关的菜品。
+        匹配时请考虑:
+        1. 完全匹配：菜品名称完全相同
+        2. 部分匹配：菜品名称包含关键词
+        3. 语义匹配：考虑同义词或相似表达（如"牛肉"与"牛肉片"）
+        4. 忽略标点符号和空格，不区分大小写
+        
+        请返回匹配的菜品数据，格式为JSON数组。如果没有匹配项，返回空数组。
+        """
+        
+        # 调用大模型进行匹配
+        match_response = client.chat.completions.create(
+            model="Pro/deepseek-ai/DeepSeek-V3",
+            messages=[
+                {"role": "system", "content": "你是一个数据匹配专家，擅长语义匹配"},
+                {"role": "user", "content": match_prompt}
+            ],
+            temperature=0.1,
+            max_tokens=2048
+        )
+        
+        match_result = match_response.choices[0].message.content
+        print(f"匹配结果: {match_result[:100]}...") # 仅打印前100个字符
+        
+        try:
+            # 尝试解析匹配结果
+            matched_data = json.loads(match_result)
+            if not isinstance(matched_data, list):
+                matched_data = []
+            print(f"成功匹配到 {len(matched_data)} 个菜品")
+        except Exception as e:
+            print(f"解析匹配结果失败: {str(e)}")
+            matched_data = []
+        
+        # 使用DeepSeek-R1生成最终回复
+        final_prompt = f"""
+        用户问题: {user_message}
+        
+        提取的菜品名称: {json.dumps(dish_names, ensure_ascii=False)}
+        
+        匹配的数据:
+        {json.dumps(matched_data, ensure_ascii=False, indent=2) if matched_data else "未找到匹配的数据"}
+        
+        请根据用户问题和匹配的数据生成专业的分析回复。
+        如果没有找到匹配的数据，请告知用户未找到相关菜品的数据，并建议尝试其他菜品名称。
+        请以直观易懂的方式回答，不要过度使用专业术语。
+        """
+        
+        print(f"调用DeepSeek-R1生成最终回复")
+        
+        final_response = client.chat.completions.create(
+            model="Pro/deepseek-ai/DeepSeek-R1",
+            messages=[
+                {"role": "system", "content": "你是餐饮数据分析专家，擅长分析菜品销售数据并给出专业建议"},
+                {"role": "user", "content": final_prompt}
+            ],
+            temperature=0.7,
+            max_tokens=4096
+        )
+        
+        final_result = final_response.choices[0].message.content
+        print(f"DeepSeek-R1返回结果: {final_result[:100]}...") # 仅打印前100个字符
+        
+        return jsonify({
+            "success": True,
+            "response": final_result,
+            "matched_dish_names": dish_names,
+            "matched_data_count": len(matched_data)
+        })
+        
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"多轮对话处理出错: {str(e)}")
+        print(error_details)
+        
+        return jsonify({
+            "success": False,
+            "message": f"处理出错: {str(e)}",
+            "details": error_details
+        }), 500
+
 def register_expert_api(app):
     """注册专家API蓝图到应用"""
-    app.register_blueprint(expert_api) 
+    # 检查蓝图是否已注册，避免重复注册
+    if 'expert_api' not in app.blueprints:
+        app.register_blueprint(expert_api)
+        print("已注册expert_api蓝图")
+    else:
+        print("expert_api蓝图已经注册，跳过重复注册") 

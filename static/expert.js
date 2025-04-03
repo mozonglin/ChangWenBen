@@ -3,6 +3,8 @@ let allPrompts = [];
 let filteredPrompts = [];
 let currentConversationId = null;
 let isProcessing = false;
+let isMultiTurnEnabled = false; // 是否启用多轮对话
+let lastUsedPromptId = null; // 最近一次使用的prompt ID
 
 // 历史对话相关变量
 let conversations = [];
@@ -320,55 +322,153 @@ function renderPromptList(prompts) {
 
 // 绑定事件处理
 function bindEvents() {
-    // 搜索框输入事件
+    // 绑定搜索框事件
     const searchInput = document.querySelector('.search-container input');
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
             filterPrompts(searchTerm);
         });
     }
     
-    // 发送按钮事件
-    const sendButton = document.querySelector('.absolute.right-4.bottom-4');
-    const textarea = document.querySelector('textarea');
+    // 绑定新对话按钮
+    const newChatButton = document.getElementById('newChatButton');
+    if (newChatButton) {
+        newChatButton.addEventListener('click', createNewConversation);
+    }
     
-    if (sendButton && textarea) {
-        sendButton.addEventListener('click', () => {
-            const message = textarea.value.trim();
-            if (message && !isProcessing) {
-                sendMessage(message);
-            }
-        });
-        
-        // 输入框回车发送
-        textarea.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey && !isProcessing) {
-                e.preventDefault();
-                const message = textarea.value.trim();
-                if (message) {
+    // 绑定发送消息按钮
+    const sendButton = document.querySelector('.absolute.right-4.bottom-4');
+    if (sendButton) {
+        sendButton.addEventListener('click', function() {
+            const textArea = document.querySelector('textarea');
+            if (textArea && textArea.value.trim()) {
+                const message = textArea.value.trim();
+                textArea.value = '';
+                textArea.style.height = 'auto';
+                
+                if (isMultiTurnEnabled && lastUsedPromptId) {
+                    // 多轮对话模式
+                    sendMultiTurnMessage(message, lastUsedPromptId);
+                } else {
+                    // 普通模式
                     sendMessage(message);
                 }
             }
         });
     }
     
-    // 侧边栏和提示词面板切换
-    const sidebarToggle = document.querySelector('button[onclick="toggleSidebar()"]');
-    const promptPanelToggle = document.querySelector('button[onclick="togglePromptPanel()"]');
-    
-    if (sidebarToggle) {
-        sidebarToggle.onclick = toggleSidebar;
+    // 绑定输入框回车发送
+    const textArea = document.querySelector('textarea');
+    if (textArea) {
+        textArea.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const sendButton = document.querySelector('.absolute.right-4.bottom-4');
+                if (sendButton) {
+                    sendButton.click();
+                }
+            }
+        });
     }
     
-    if (promptPanelToggle) {
-        promptPanelToggle.onclick = togglePromptPanel;
+    // 绑定多轮对话按钮
+    const multiTurnButton = document.getElementById('multiTurnChatButton');
+    if (multiTurnButton) {
+        multiTurnButton.addEventListener('click', toggleMultiTurnChat);
     }
+}
+
+// 切换多轮对话模式
+function toggleMultiTurnChat() {
+    isMultiTurnEnabled = !isMultiTurnEnabled;
+    const multiTurnButton = document.getElementById('multiTurnChatButton');
+    const multiTurnStatus = document.getElementById('multiTurnStatus');
     
-    // 新对话按钮
-    const newChatButton = document.querySelector('#newChatButton');
-    if (newChatButton) {
-        newChatButton.addEventListener('click', createNewConversation);
+    // 添加调试输出，检查lastUsedPromptId
+    console.log(`切换多轮对话，当前lastUsedPromptId: ${lastUsedPromptId}`);
+    console.log(`isMultiTurnEnabled: ${isMultiTurnEnabled}`);
+    
+    if (isMultiTurnEnabled) {
+        // 检查是否有最近使用的prompt ID
+        if (!lastUsedPromptId) {
+            showStatusMessage('请先使用一个提示词进行分析，然后再开启多轮对话', 'warning');
+            isMultiTurnEnabled = false;
+            return;
+        }
+        
+        // 更新UI状态
+        multiTurnButton.classList.add('bg-green-700');
+        multiTurnButton.classList.remove('bg-[#404040]');
+        multiTurnStatus.classList.remove('hidden');
+        showStatusMessage('多轮对话已开启，使用的是ID为 ' + lastUsedPromptId + ' 的提示词', 'success');
+    } else {
+        // 更新UI状态
+        multiTurnButton.classList.remove('bg-green-700');
+        multiTurnButton.classList.add('bg-[#404040]');
+        multiTurnStatus.classList.add('hidden');
+        showStatusMessage('多轮对话已关闭', 'info');
+    }
+}
+
+// 发送多轮对话消息
+async function sendMultiTurnMessage(message, promptId) {
+    try {
+        // 添加用户消息
+        addUserMessage(message, true);
+        
+        // 添加思考中提示
+        const processingMessageId = addProcessingMessage('正在处理...');
+        
+        console.log(`发送多轮对话请求: promptId=${promptId}, message=${message}`);
+        
+        // 发送请求
+        const response = await fetch('/expert_api/multi_turn_chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: message,
+                prompt_id: promptId
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('网络请求失败');
+        }
+        
+        const result = await response.json();
+        
+        // 移除处理中提示
+        removeProcessingMessage(processingMessageId);
+        
+        if (result.success) {
+            // 添加AI回复
+            addAIMessage(result.response);
+            
+            // 保存对话记录
+            if (currentConversation) {
+                currentConversation.messages.push({
+                    role: 'ai',
+                    content: result.response
+                });
+                
+                // 如果是第一条消息，更新对话标题
+                if (currentConversation.messages.length === 2) {
+                    currentConversation.title = message.length > 20 ? message.substring(0, 20) + '...' : message;
+                    updateSidebar();
+                }
+                
+                saveConversations();
+            }
+        } else {
+            // 添加错误提示
+            addAIMessage(`处理失败: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('多轮对话处理出错:', error);
+        showStatusMessage('处理失败: ' + error.message, 'error');
     }
 }
 
@@ -393,22 +493,22 @@ function filterPrompts(searchTerm) {
 
 // 使用提示词
 async function usePrompt(promptId) {
-    if (isProcessing) {
-        showStatusMessage('正在处理中，请稍候...', 'processing');
-        return;
-    }
-    
     try {
-        isProcessing = true;
-        
-        // 显示正在处理的状态
-        showStatusMessage('正在分析数据，请稍候...', 'processing');
-        
-        // 找到对应的提示词
-        const selectedPrompt = allPrompts.find(p => p.id === promptId);
-        if (!selectedPrompt) {
-            throw new Error(`未找到ID为 ${promptId} 的提示词`);
+        // 查找提示词
+        const prompt = allPrompts.find(p => p.id === promptId);
+        if (!prompt) {
+            showStatusMessage('未找到提示词', 'error');
+            return;
         }
+        
+        // 记录最后使用的提示词ID
+        lastUsedPromptId = promptId;
+        
+        // 内容显示
+        const promptSummary = `### 分析提示：${prompt.Task || ''}`;
+        
+        // 添加用户消息和AI思考状态
+        addUserMessage(promptSummary, true);
         
         // 确保有当前对话，如果没有则创建一个
         if (!currentConversation) {
@@ -417,13 +517,13 @@ async function usePrompt(promptId) {
         
         // 更新对话标题为提示词名称
         if (currentConversation.messages.length === 0) {
-            currentConversation.title = selectedPrompt.Role || '无标题对话';
+            currentConversation.title = prompt.Role || '无标题对话';
             saveConversations();
             updateSidebar();
         }
         
         // 在聊天区域添加用户消息
-        const userMessage = `Role:${selectedPrompt.Role} - Action:${selectedPrompt.Action}-Context:${selectedPrompt.Context}-Exception:${selectedPrompt.Exception}`;
+        const userMessage = `Role:${prompt.Role} - Action:${prompt.Action}-Context:${prompt.Context}-Exception:${prompt.Exception}`;
         addUserMessage(userMessage, true);
         
         // 将用户消息添加到当前对话
@@ -557,6 +657,10 @@ async function usePrompt(promptId) {
                         
                         addAIMessage(aiContent);
                         
+                        // 记录最后使用的promptId，用于多轮对话
+                        lastUsedPromptId = promptId;
+                        console.log(`成功记录lastUsedPromptId: ${promptId}`);
+                        
                         // 将AI回复添加到当前对话
                         currentConversation.messages.push({
                             role: 'ai',
@@ -569,7 +673,7 @@ async function usePrompt(promptId) {
                         showStatusMessage('分析完成', 'success');
                     } else {
                         // 处理失败
-                        const errorMessage = data.result.message || '未知错误';
+                        const errorMessage = data.result && data.result.message ? data.result.message : '未知错误';
                         const aiContent = `处理失败: ${errorMessage}`;
                         addAIMessage(aiContent);
                         
@@ -776,13 +880,13 @@ async function sendMessage(message) {
         
         // 显示一条消息，表示正在处理
         removeThinkingMessage(thinkingMessageId);
-        const processingMessageId = addProcessingMessage(`正在使用自动生成的专业提示词进行分析...\n\n角色: ${generatedPrompt.Role}\n\n动作: ${generatedPrompt.Action}\n\n上下文: ${generatedPrompt.Context}\n\n异常情况: ${generatedPrompt.Exception}\n\n(提示词将在分析完成后300秒自动删除)`);
+        const processingMessageId = addProcessingMessage(`正在使用自动生成的专业提示词进行分析...\n\n角色: ${generatedPrompt.Role}\n\n动作: ${generatedPrompt.Action}\n\n上下文: ${generatedPrompt.Context}\n\n异常情况: ${generatedPrompt.Exception}`);
         
         // 使用生成的提示词ID调用分析流程
         await usePromptWithId(generatedPrompt.id, processingMessageId);
         
-        // 不再需要手动删除提示词，因为会自动删除
-        console.log('分析已完成，提示词将在5分钟后自动删除');
+        // 分析已完成
+        console.log('分析已完成');
         
     } catch (error) {
         console.error('处理消息出错:', error);
@@ -814,6 +918,10 @@ async function usePromptWithId(promptId, processingMessageId = null) {
         showStatusMessage('正在处理中，请稍候...', 'processing');
         return;
     }
+    
+    // 立即记录最后使用的promptId，用于多轮对话
+    lastUsedPromptId = promptId;
+    console.log(`在usePromptWithId开始时设置lastUsedPromptId: ${promptId}`);
     
     try {
         if (!processingMessageId) {
@@ -944,6 +1052,10 @@ async function usePromptWithId(promptId, processingMessageId = null) {
                         
                         addAIMessage(aiContent);
                         
+                        // 记录最后使用的promptId，用于多轮对话
+                        lastUsedPromptId = promptId;
+                        console.log(`成功记录lastUsedPromptId: ${promptId}`);
+                        
                         // 将AI回复添加到当前对话
                         currentConversation.messages.push({
                             role: 'ai',
@@ -959,6 +1071,10 @@ async function usePromptWithId(promptId, processingMessageId = null) {
                         const errorMessage = data.result && data.result.message ? data.result.message : '未知错误';
                         const aiContent = `处理失败: ${errorMessage}`;
                         addAIMessage(aiContent);
+                        
+                        // 记录最后使用的promptId，用于多轮对话
+                        lastUsedPromptId = promptId;
+                        console.log(`成功记录lastUsedPromptId: ${promptId}`);
                         
                         // 将错误消息添加到当前对话
                         currentConversation.messages.push({

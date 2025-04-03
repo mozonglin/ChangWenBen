@@ -5,6 +5,8 @@ import nest_asyncio
 from flask import Flask, render_template, request, jsonify, send_file, redirect, Response, stream_with_context, send_from_directory
 from process_request import load_prompt_by_id, process_user_input, process_request_with_prompt_id
 from agent_system import analyze_data_with_role_id
+# 避免循环导入问题
+# from expert_api import register_expert_api
 import time
 import uuid
 from datetime import datetime
@@ -15,6 +17,10 @@ from openai import OpenAI
 nest_asyncio.apply()
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+
+# 这里不再注册蓝图，统一在文件末尾注册
+# 注册专家API蓝图 - 移到最后注册，避免循环导入
+# register_expert_api(app)
 
 # 设置全局编码为UTF-8
 import sys
@@ -75,8 +81,8 @@ def load_all_prompts():
 
 @app.route('/')
 def index():
-    # 重定向到MOBO主页
-    return redirect('/mobo/')
+    # 重定向到MOBO登录页面
+    return redirect('/mobo/login')  # 确保这个路径与routes.py中注册的路径一致
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
@@ -1242,3 +1248,17 @@ if __name__ == '__main__':
         print(f"启动服务器时出错: {str(e)}")
         import traceback
         traceback.print_exc() 
+
+# 在程序结束前注册所有蓝图，避免循环导入
+if __name__ != '__main__':  # 当作为模块导入时才执行
+    # 延迟导入，避免循环导入问题
+    from routes import mobo_routes
+    from expert_api import register_expert_api
+    
+    # 确保蓝图只注册一次
+    if 'mobo_routes' not in app.blueprints:
+        app.register_blueprint(mobo_routes)
+        print("已在app.py中注册mobo_routes蓝图")
+    
+    # 注册专家API蓝图
+    register_expert_api(app) 

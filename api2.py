@@ -179,8 +179,8 @@ def save_prompt_to_json(prompt_data):
         
         print(f"成功保存提示词: ID={prompt_data.get('id')}")
         
-        # 添加到待删除列表，设置300秒后删除
-        schedule_prompt_deletion(prompt_data.get('id'), 300)
+        # 不再添加到待删除列表
+        # schedule_prompt_deletion(prompt_data.get('id'), 300)
         
         return True
     
@@ -201,8 +201,8 @@ def save_prompt_to_json(prompt_data):
                 json.dump(prompts, f, ensure_ascii=False, indent=2)
             print("通过创建新文件方式保存成功")
             
-            # 添加到待删除列表，设置300秒后删除
-            schedule_prompt_deletion(prompt_data.get('id'), 300)
+            # 不再添加到待删除列表
+            # schedule_prompt_deletion(prompt_data.get('id'), 300)
             
             return True
         except Exception as backup_error:
