@@ -578,74 +578,31 @@ def multi_turn_chat():
             
         print(f"找到数据文件: {detailed_report_path}")
             
-        # 加载detailed_report_json文件
-        with open(detailed_report_path, 'r', encoding='utf-8') as f:
-            detailed_report_raw = json.load(f)
-            
-        print(f"加载的原始数据: {json.dumps(detailed_report_raw, ensure_ascii=False)[:200]}...")  # 打印前200个字符
-            
-        # 处理双重JSON编码的情况
-        if isinstance(detailed_report_raw, list) and len(detailed_report_raw) > 0:
-            try:
-                print(f"数据是列表格式，尝试解析第一个元素")
-                detailed_report = json.loads(detailed_report_raw[0])
-            except json.JSONDecodeError:
-                print(f"解析列表元素失败，使用原始数据")
-                detailed_report = detailed_report_raw
-        elif isinstance(detailed_report_raw, str):
-            try:
-                print(f"数据是字符串格式，尝试解析为JSON")
-                detailed_report = json.loads(detailed_report_raw)
-            except json.JSONDecodeError:
-                print(f"解析字符串格式的JSON失败，使用原始数据")
-                detailed_report = detailed_report_raw
-        else:
-            detailed_report = detailed_report_raw
-            
-        print(f"详细报告类型: {type(detailed_report)}")
-        if isinstance(detailed_report, dict):
-            print(f"详细报告键: {list(detailed_report.keys())}")
-            if "菜品分析" in detailed_report:
-                print(f"菜品分析字段类型: {type(detailed_report['菜品分析'])}")
-                print(f"菜品分析字段长度: {len(detailed_report['菜品分析']) if isinstance(detailed_report['菜品分析'], list) else '非列表'}")
-        
-        # 准备数据块进行匹配
-        matched_data = []
-        
-        # 将detailed_report按每10个数据块分组进行处理
         data_blocks = []
-        
-        # 检查是否有菜品分析字段（新格式）
-        if isinstance(detailed_report, dict) and "菜品分析" in detailed_report:
-            print(f"使用新格式处理数据")
-            for item in detailed_report["菜品分析"]:
-                if isinstance(item, dict):
-                    # 处理字段名中的空格问题
-                    dish_name = item.get("菜品名称") or item.get("菜品名 称") or item.get("菜品名") or ""
-                    data_summary = item.get("数据指标汇总") or item.get("数据指标") or ""
-                    
-                    if dish_name and data_summary:
-                        data_blocks.append({
-                            "菜品名称": dish_name,
-                            "数据指标汇总": data_summary
-                        })
-        # 兼容旧格式处理
-        else:
-            print(f"使用旧格式处理数据")
-            for item in detailed_report:
-                if isinstance(item, dict) and 'data' in item and isinstance(item['data'], list):
-                    for block in item['data']:
-                        if isinstance(block, dict):
-                            dish_name = block.get("菜品名称") or block.get("菜品名 称") or block.get("菜品名") or ""
-                            data_summary = block.get("数据指标汇总") or block.get("数据指标") or ""
-                            
+
+        with open(detailed_report_path, 'r', encoding='utf-8') as f:
+            raw_list = json.load(f)
+
+        for i, item_str in enumerate(raw_list, 1):
+            try:
+                detailed_report = json.loads(item_str)
+                print(f"[第{i}段] 解析成功")
+
+                if isinstance(detailed_report, dict) and "菜品分析" in detailed_report:
+                    for item in detailed_report["菜品分析"]:
+                        if isinstance(item, dict):
+                            dish_name = item.get("菜品名称") or item.get("菜品名 称") or item.get("菜品名") or ""
+                            data_summary = item.get("数据指标汇总") or item.get("数据指标") or ""
+
                             if dish_name and data_summary:
-                                data_blocks.append({
-                                    "菜品名称": dish_name,
-                                    "数据指标汇总": data_summary
-                                })
-        
-        print(f"找到 {len(data_blocks)} 个数据块")
+                                 data_blocks.append({
+                                "菜品名称": dish_name,
+                                "数据指标汇总": data_summary
+                            })
+                            print(f"添加数据块: {dish_name} - {data_summary}")
+            except json.JSONDecodeError as e:
+                    print(f"[第{i}段] JSON解析失败: {e}")
+
         
         # 输出所有菜品名称，帮助调试
         if len(data_blocks) > 0:
@@ -726,11 +683,15 @@ def multi_turn_chat():
         )
         
         match_result = match_response.choices[0].message.content
-        print(f"匹配结果: {match_result[:100]}...") # 仅打印前100个字符
+        print(f"匹配结果: {match_result}...") 
         
         try:
             # 尝试解析匹配结果
-            matched_data = json.loads(match_result)
+            json_str = match_result.split('```json')[1]  # 分割掉开头的标记
+            json_str = json_str.split('```')[0]     # 分割掉结尾的标记
+            json_str = json_str.strip()             # 去除首尾空白
+            matched_data = json.loads(json_str)
+            print(f"匹配结果: {matched_data}")
             if not isinstance(matched_data, list):
                 matched_data = []
             print(f"成功匹配到 {len(matched_data)} 个菜品")
