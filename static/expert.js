@@ -72,6 +72,13 @@ function loadConversations() {
     if (savedConversations) {
         try {
             conversations = JSON.parse(savedConversations);
+            
+            // 如果有对话历史，获取最近一次使用的promptId
+            if (conversations.length > 0 && conversations[0].lastUsedPromptId) {
+                lastUsedPromptId = conversations[0].lastUsedPromptId;
+                console.log(`从历史对话中恢复lastUsedPromptId: ${lastUsedPromptId}`);
+            }
+            
             updateSidebar();
         } catch (e) {
             console.error('解析历史对话失败:', e);
@@ -110,7 +117,8 @@ function createNewConversation() {
         id: Date.now().toString(),
         title: '新对话',
         timestamp: new Date().toISOString(),
-        messages: []
+        messages: [],
+        lastUsedPromptId: null
     };
     
     // 添加到对话列表
@@ -135,6 +143,12 @@ function selectConversation(conversationId) {
     
     // 更新当前对话
     currentConversation = conversation;
+    
+    // 恢复该对话的lastUsedPromptId
+    if (conversation.lastUsedPromptId) {
+        lastUsedPromptId = conversation.lastUsedPromptId;
+        console.log(`从选择的对话中恢复lastUsedPromptId: ${lastUsedPromptId}`);
+    }
     
     // 清空并重建对话内容
     const chatArea = document.querySelector('.flex-1.overflow-y-auto.p-4 .flex.flex-col.gap-6');
@@ -417,6 +431,12 @@ async function sendMultiTurnMessage(message, promptId) {
         // 添加用户消息
         addUserMessage(message, true);
         
+        // 更新当前对话的lastUsedPromptId
+        if (currentConversation) {
+            currentConversation.lastUsedPromptId = promptId;
+            saveConversations();
+        }
+        
         // 添加思考中提示
         const processingMessageId = addProcessingMessage('正在处理...');
         
@@ -504,16 +524,19 @@ async function usePrompt(promptId) {
         // 记录最后使用的提示词ID
         lastUsedPromptId = promptId;
         
+        // 确保有当前对话，如果没有则创建一个
+        if (!currentConversation) {
+            createNewConversation();
+        }
+        
+        // 更新当前对话的lastUsedPromptId
+        currentConversation.lastUsedPromptId = promptId;
+        
         // 内容显示
         const promptSummary = `### 分析提示：${prompt.Task || ''}`;
         
         // 添加用户消息和AI思考状态
         addUserMessage(promptSummary, true);
-        
-        // 确保有当前对话，如果没有则创建一个
-        if (!currentConversation) {
-            createNewConversation();
-        }
         
         // 更新对话标题为提示词名称
         if (currentConversation.messages.length === 0) {
@@ -667,6 +690,10 @@ async function usePrompt(promptId) {
                             content: aiContent,
                             timestamp: new Date().toISOString()
                         });
+                        
+                        // 确保当前对话的lastUsedPromptId被更新
+                        currentConversation.lastUsedPromptId = promptId;
+                        
                         saveConversations();
                         updateSidebar();
                         
@@ -683,6 +710,10 @@ async function usePrompt(promptId) {
                             content: aiContent,
                             timestamp: new Date().toISOString()
                         });
+                        
+                        // 确保当前对话的lastUsedPromptId被更新
+                        currentConversation.lastUsedPromptId = promptId;
+                        
                         saveConversations();
                         updateSidebar();
                         
@@ -733,9 +764,6 @@ async function usePrompt(promptId) {
                 // 达到最大重试次数后放弃
                 eventSource.close();
                 
-                // 移除思考中状态
-                removeThinkingMessage(thinkingMessageId);
-                
                 // 移除处理中消息
                 removeProcessingMessage(processingMessageId);
                 
@@ -749,6 +777,10 @@ async function usePrompt(promptId) {
                     content: errorContent,
                     timestamp: new Date().toISOString()
                 });
+                
+                // 确保当前对话的lastUsedPromptId被更新
+                currentConversation.lastUsedPromptId = promptId;
+                
                 saveConversations();
                 updateSidebar();
                 
@@ -923,6 +955,12 @@ async function usePromptWithId(promptId, processingMessageId = null) {
     lastUsedPromptId = promptId;
     console.log(`在usePromptWithId开始时设置lastUsedPromptId: ${promptId}`);
     
+    // 更新当前对话的lastUsedPromptId
+    if (currentConversation) {
+        currentConversation.lastUsedPromptId = promptId;
+        saveConversations();
+    }
+    
     try {
         if (!processingMessageId) {
             isProcessing = true;
@@ -1062,6 +1100,10 @@ async function usePromptWithId(promptId, processingMessageId = null) {
                             content: aiContent,
                             timestamp: new Date().toISOString()
                         });
+                        
+                        // 确保当前对话的lastUsedPromptId被更新
+                        currentConversation.lastUsedPromptId = promptId;
+                        
                         saveConversations();
                         updateSidebar();
                         
@@ -1072,16 +1114,16 @@ async function usePromptWithId(promptId, processingMessageId = null) {
                         const aiContent = `处理失败: ${errorMessage}`;
                         addAIMessage(aiContent);
                         
-                        // 记录最后使用的promptId，用于多轮对话
-                        lastUsedPromptId = promptId;
-                        console.log(`成功记录lastUsedPromptId: ${promptId}`);
-                        
                         // 将错误消息添加到当前对话
                         currentConversation.messages.push({
                             role: 'ai',
                             content: aiContent,
                             timestamp: new Date().toISOString()
                         });
+                        
+                        // 确保当前对话的lastUsedPromptId被更新
+                        currentConversation.lastUsedPromptId = promptId;
+                        
                         saveConversations();
                         updateSidebar();
                         
@@ -1145,6 +1187,10 @@ async function usePromptWithId(promptId, processingMessageId = null) {
                     content: errorContent,
                     timestamp: new Date().toISOString()
                 });
+                
+                // 确保当前对话的lastUsedPromptId被更新
+                currentConversation.lastUsedPromptId = promptId;
+                
                 saveConversations();
                 updateSidebar();
                 
